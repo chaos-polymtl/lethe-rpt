@@ -16,7 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: chaos-polymtl/lethe
+  IMAGE_NAME: chaos-polymtl/lethe-rpt
   CACHE_IMAGE_TAG: main
 
 jobs:
