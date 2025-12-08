@@ -45,4 +45,4 @@ RUN sudo chmod +x /usr/local/bin/lethe
 # Copy built executables from builder stage
 COPY --from=builder ${LETHE_INSTALL_DIR} ${LETHE_INSTALL_DIR}
 
-ENTRYPOINT ["/usr/local/bin/lethe"]
+ENTRYPOINT ["/usr/local/bin/lethe-rpt/"]
