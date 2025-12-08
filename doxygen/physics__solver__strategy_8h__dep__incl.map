@@ -1,0 +1,17 @@
+<map id="/home/runner/work/lethe&#45;rpt/lethe&#45;rpt/include/core/physics_solver_strategy.h" name="/home/runner/work/lethe&#45;rpt/lethe&#45;rpt/include/core/physics_solver_strategy.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,5,477,60"/>
+<area shape="rect" id="Node000002" href="$inexact__newton__non__linear__solver__strategy_8h.html" title=" " alt="" coords="5,108,197,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,68,184,110,182,105,286,63"/>
+<area shape="rect" id="Node000003" href="$physics__solver_8h.html" title=" " alt="" coords="273,225,455,280"/>
+<area shape="poly" id="edge9_Node000001_Node000003" title=" " alt="" coords="298,70,278,88,262,109,255,127,252,143,255,158,262,176,283,202,309,223,306,227,279,206,258,179,249,160,247,143,249,126,258,107,274,84,295,66"/>
+<area shape="rect" id="Node000004" href="$kinsol__newton__non__linear__solver__strategy_8h.html" title=" " alt="" coords="272,108,456,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="367,74,367,108,361,108,361,74"/>
+<area shape="rect" id="Node000005" href="$linear__solver__strategy_8h.html" title=" " alt="" coords="480,115,693,170"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="432,64,534,113,531,118,429,69"/>
+<area shape="rect" id="Node000006" href="$newton__non__linear__solver__strategy_8h.html" title=" " alt="" coords="718,108,901,177"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="491,56,706,105,718,109,717,114,705,111,489,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="197,180,301,223,299,228,195,185"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="367,191,367,225,361,225,361,191"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="521,179,419,228,417,223,519,174"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="705,180,571,212,456,237,455,231,570,207,704,175"/>
+</map>

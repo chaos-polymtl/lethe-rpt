@@ -1,0 +1,28 @@
+<map id="/home/runner/work/lethe&#45;rpt/lethe&#45;rpt/include/rpt/detector.h" name="/home/runner/work/lethe&#45;rpt/lethe&#45;rpt/include/rpt/detector.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="418,5,601,60"/>
+<area shape="rect" id="Node000002" href="$particle__detector__interactions_8h.html" title=" " alt="" coords="238,108,421,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="455,70,387,110,385,106,453,65"/>
+<area shape="rect" id="Node000003" href="$rpt_8h.html" title=" " alt="" coords="238,233,421,287"/>
+<area shape="poly" id="edge9_Node000001_Node000003" title=" " alt="" coords="497,74,471,126,435,179,404,209,372,235,368,231,400,205,430,176,466,123,492,71"/>
+<area shape="rect" id="Node000005" href="$rpt__fem__reconstruction_8h.html" title=" " alt="" coords="446,233,656,287"/>
+<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="519,73,538,177,548,232,543,233,533,178,514,74"/>
+<area shape="rect" id="Node000009" href="$rpt__cell__reconstruction_8h.html" title=" " alt="" coords="755,115,963,170"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="609,62,775,113,774,118,607,67"/>
+<area shape="rect" id="Node000010" href="$rpt__utilities_8h.html" title=" " alt="" coords="548,115,730,170"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="554,67,609,113,606,117,550,71"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="332,191,332,232,327,232,327,191"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="408,181,502,230,500,235,405,186"/>
+<area shape="rect" id="Node000006" href="$rpt__fem__reconstruction_8cc.html" title=" " alt="" coords="122,343,340,397"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="225,160,163,172,102,187,52,205,34,216,21,227,11,244,8,260,11,276,21,293,42,315,66,332,94,345,123,354,121,359,92,350,64,337,38,319,17,296,6,278,3,260,6,242,17,224,30,211,50,200,101,181,162,166,224,155"/>
+<area shape="rect" id="Node000007" href="$particle__detector__interactions_8cc.html" title=" " alt="" coords="32,225,214,295"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="259,186,185,227,182,223,257,182"/>
+<area shape="rect" id="Node000008" href="$rpt__cell__reconstruction_8cc.html" title=" " alt="" coords="732,233,946,287"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="435,165,732,232,731,237,434,170"/>
+<area shape="rect" id="Node000004" href="$rpt_8cc.html" title=" " alt="" coords="420,343,602,397"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="387,292,468,340,465,345,384,297"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="461,294,310,345,308,340,459,289"/>
+<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="855,184,846,233,841,232,850,183"/>
+<area shape="poly" id="edge15_Node000010_Node000004" title=" " alt="" coords="663,181,674,208,681,237,681,268,671,296,657,313,641,327,604,348,601,344,638,323,653,309,666,293,676,267,676,238,669,209,658,183"/>
+<area shape="poly" id="edge14_Node000010_Node000005" title=" " alt="" coords="613,182,573,234,569,231,609,179"/>
+<area shape="poly" id="edge16_Node000010_Node000008" title=" " alt="" coords="698,175,795,230,792,235,695,179"/>
+</map>
