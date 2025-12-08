@@ -2,13 +2,13 @@
 
 ![Lethe](logo/lethe-logo-with-bkgd.png?raw=true)
 
-[![Debug](https://github.com/chaos-polymtl/lethe/actions/workflows/debug.yml/badge.svg)](https://github.com/chaos-polymtl/lethe/actions/workflows/debug.yml)
-[![Release](https://github.com/chaos-polymtl/lethe/actions/workflows/release.yml/badge.svg)](https://github.com/chaos-polymtl/lethe/actions/workflows/release.yml)
-[![Warnings](https://github.com/chaos-polymtl/lethe/actions/workflows/warnings-gcc.yml/badge.svg)](https://github.com/chaos-polymtl/lethe/actions/workflows/warnings-gcc.yml)
-[![Tidy](https://github.com/chaos-polymtl/lethe/actions/workflows/clang-tidy-v20.yml/badge.svg)](https://github.com/chaos-polymtl/lethe/actions/workflows/clang-tidy-v20.yml)
-[![Examples](https://github.com/chaos-polymtl/lethe/actions/workflows/examples-parameter-files.yml/badge.svg)](https://github.com/chaos-polymtl/lethe/actions/workflows/examples-parameter-files.yml)
-[![Documentation](https://github.com/chaos-polymtl/lethe/actions/workflows/doc-github-pages.yml/badge.svg)](https://github.com/chaos-polymtl/lethe/actions/workflows/doc-github-pages.yml)
-[![Docker Image](https://github.com/chaos-polymtl/lethe/actions/workflows/docker.yml/badge.svg)](https://github.com/chaos-polymtl/lethe/actions/workflows/docker.yml)
+[![Debug](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/debug.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/debug.yml)
+[![Release](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/release.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/release.yml)
+[![Warnings](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/warnings-gcc.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/warnings-gcc.yml)
+[![Tidy](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/clang-tidy-v20.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/clang-tidy-v20.yml)
+[![Examples](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/examples-parameter-files.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/examples-parameter-files.yml)
+[![Documentation](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/doc-github-pages.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/doc-github-pages.yml)
+[![Docker Image](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/docker.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/docker.yml)
 
 This repository contains the Radioactive Particle Tracking (RPT) solvers
 of Lethe which were originally located in the main 
