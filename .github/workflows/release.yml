@@ -1,0 +1,95 @@
+name: CI-Release
+
+on:
+  push:
+    # Runs on every push on main branch
+    branches:
+      - main
+  # Runs on every push on main branch. If a push contains multiple commits, it will be ran on the latest one.
+  pull_request:
+    paths-ignore:
+      - 'doc/**'
+      - 'contrib/**'
+      - 'examples/**'
+
+# Cancels running instances when a pull request is updated by a commit
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: ${{github.event_name == 'pull_request'}}
+
+env:
+  COMPILE_JOBS: 4
+  MULTI_CORE_TESTS_REGEX: "mpirun=[2-9][0-9]*"
+
+jobs:
+  build:
+    name: Build (deal.ii:${{ matrix.dealii_version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        dealii_version: ["master-noble", "v9.7.1-noble"]
+    
+    # Run steps in container of dealii's master branch
+    container:
+      image: dealii/dealii:${{ matrix.dealii_version }}
+      options: --user root
+
+    steps:
+      - name: Setup
+        run: |
+          # Since dealii image doesn't include Node.js, we'll install it
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends nodejs
+
+
+
+          echo "Github actions is sane!"
+          echo "Running build with deal.ii version ${{ matrix.dealii_version }} on branch ${GITHUB_REF#refs/heads/}"
+
+      # Checks-out Lethe with branch of triggering commit
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      #
+      # Release
+      #
+      - name: Compile Lethe (Release-deal.ii:${{ matrix.dealii_version }})
+        run: |
+          mkdir build-release
+          cd build-release
+          git config --global --add safe.directory /__w/lethe/lethe
+          cmake ../ -DCMAKE_BUILD_TYPE=Release -G Ninja
+          ninja -j${{ env.COMPILE_JOBS }}
+
+      # These tests require a single core each so we will run them in parallel
+      # Only run tests on deal.ii master version
+      # Restart files are not compatible with deal.ii v9.5.0
+      - name: Run Lethe tests (Release-deal.ii:${{ matrix.dealii_version }})
+#        if: ${{ matrix.dealii_version == 'master-focal'}}
+        run: |
+          #Allow OMPI to run as root
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+          cd build-release
+          # Print the tests to be executed
+          ctest -N --exclude-regex ${{ env.MULTI_CORE_TESTS_REGEX }}
+          # Run in parallel
+          ctest --output-on-failure -j${{ env.COMPILE_JOBS }} --exclude-regex ${{ env.MULTI_CORE_TESTS_REGEX }}
+
+
+      # These tests require two cores each so we will run them sequencially
+      # Only run tests on deal.ii master version
+      # Restart files are not compatible with deal.ii v9.5.0
+      - name: Run multi-core Lethe tests (Release-deal.ii:${{ matrix.dealii_version }})
+#        if: ${{ matrix.dealii_version == 'master-focal'}}
+        run: |
+          #Allow OMPI to run as root
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+          cd build-release
+          # Print the tests to be executed
+          ctest -N --tests-regex ${{ env.MULTI_CORE_TESTS_REGEX }}
+          # Run sequencially
+          ctest --output-on-failure --tests-regex ${{ env.MULTI_CORE_TESTS_REGEX }}

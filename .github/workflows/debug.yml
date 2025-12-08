@@ -1,0 +1,75 @@
+name: CI-Debug
+
+on: 
+# Runs on every push on main branch. If a push contains multiple commits, it will be ran on the latest one.
+  push:
+    # Runs on every push on main branch
+    branches:
+      - main
+  pull_request:
+    paths-ignore:
+      - 'doc/**'
+      - 'contrib/**'
+      - 'examples/**'
+    
+# Cancels running instances when a pull request is updated by a commit
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: ${{github.event_name == 'pull_request'}}
+
+
+env:
+  COMPILE_JOBS: 18
+  TEST_JOBS: 12
+
+
+jobs:
+  build:
+    name: Build (deal.ii:${{ matrix.dealii_version }})
+    runs-on: self-hosted
+
+    strategy:
+      fail-fast: false
+      matrix:
+        dealii_version: ["master-noble"]
+    
+    # Run steps in container of dealii's main branch
+    container:
+      image: dealii/dealii:${{ matrix.dealii_version }}
+      options: --user root
+
+    steps:
+      - name: Setup
+        run: |
+          # Since dealii image doesn't include Node.js, we'll install it
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends nodejs
+          echo "Github actions is sane!"
+          echo "Running build with deal.ii version ${{ matrix.dealii_version }} on branch ${GITHUB_REF#refs/heads/}"
+
+      # Checks-out Lethe with branch of triggering commit
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      #
+      # Debug
+      #
+      - name: Compile Lethe (Debug-deal.ii:${{ matrix.dealii_version }})
+        run: |
+
+          mkdir build-debug
+          cd build-debug
+          git config --global --add safe.directory /__w/lethe/lethe
+          cmake ../ -DCMAKE_BUILD_TYPE=Debug -G Ninja
+          ninja -j${{ env.COMPILE_JOBS }}
+
+      # These tests require a single core each so we will run them in parallel
+      - name: Run Lethe tests (Debug-deal.ii:${{ matrix.dealii_version }})
+        run: |
+          #Allow OMPI to run as root
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+          cd build-debug
+
+          # Run in parallel
+          ctest --output-on-failure -j${{ env.TEST_JOBS }} 
