@@ -92,9 +92,6 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     add_compile_options(-march=native)
   endif()
 
-  option(BUILD_PROTOTYPES "Build the prototype applications")
-  mark_as_advanced(BUILD_PROTOTYPES)
-
   option(LETHE_USE_LDV "Use dealii::LinearAlgebra::distributed::Vector")
   mark_as_advanced(LETHE_USE_LDV)
   if(LETHE_USE_LDV)
@@ -149,9 +146,6 @@ target_include_directories(lethe-core PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
 add_subdirectory(applications)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  if(BUILD_PROTOTYPES)
-    add_subdirectory(prototypes)
-  endif()
 
   if(BUILD_TESTING)
     set(DEAL_II_WITH_DEALII ON)
