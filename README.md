@@ -1,6 +1,4 @@
-# Lethe
-
-![Lethe](logo/lethe-logo-with-bkgd.png?raw=true)
+# Lethe-RPT
 
 [![Debug](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/debug.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/debug.yml)
 [![Release](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/release.yml/badge.svg)](https://github.com/chaos-polymtl/lethe-rpt/actions/workflows/release.yml)
