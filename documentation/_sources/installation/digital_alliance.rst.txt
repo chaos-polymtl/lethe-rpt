@@ -6,12 +6,12 @@ Running Lethe on Digital Research Alliance of Canada Clusters
 Setting-up the Folder Structure
 -------------------------------
 
-In your ``$HOME``, create a "dealii" folder and a "lethe" folder, each containing "build" and "inst" folders:
+In your ``$HOME``, create a "dealii" folder and a "lethe-rpt" folder, each containing "build" and "inst" folders:
 
 .. code-block:: text
   :class: copy-button
 
-  mkdir -p {dealii,lethe}/{build,inst}
+  mkdir -p {dealii,lethe-rpt}/{build,inst}
 
 The deal.II and Lethe projects can then be cloned in their corresponding folders, as indicated later in this tutorial.
 
@@ -47,7 +47,7 @@ Load ``Trilinos``, ``Parmetis`` and ``P4est``, and their prerequisite modules an
   source /scinet/vast/etc/vastpreload-openmpi.bash # Only if on Trillium or Nibi
 
   export DEAL_II_DIR=$HOME/dealii/inst/
-  export PATH=$PATH:$HOME/lethe/inst/bin/
+  export PATH=$PATH:$HOME/lethe-rpt/inst/bin/
 
 This file needs to be sourced every time you launch a job or you compile deal.II and/or Lethe. Once the file has been created, you can then source it on the terminal with:
 
@@ -58,7 +58,7 @@ This file needs to be sourced every time you launch a job or you compile deal.II
 
 and use it in your ``.sh`` script when launching a job (see :ref:`Launching Simulations<Launching Simulations>` below). 
 
-Although Lethe always supports the master branch of deal.II, we maintain an identical deal.II fork on the CHAOS laboratory organization. This fork is always tested to make sure it works with Lethe. To clone this deal.II fork, execute in ``$HOME/dealii`` directory:
+Although Lethe-RPT always supports the master branch of deal.II, we maintain an identical deal.II fork on the CHAOS laboratory organization. This fork is always tested to make sure it works with Lethe. To clone this deal.II fork, execute in ``$HOME/dealii`` directory:
 
 .. code-block:: text
   :class: copy-button
@@ -94,19 +94,19 @@ Installing Lethe
 
 After installing deal.II, compiling Lethe is relatively straightforward. To compile Lethe, the ``Trilinos``, ``Parmetis`` and ``P4est`` modules should be loaded.
 
-In the ``$HOME/lethe`` directory, download Lethe:
+In the ``$HOME/lethe-rpt`` directory, download Lethe-RPT:
 
 .. code-block:: text
   :class: copy-button
 
-  git clone https://github.com/chaos-polymtl/lethe.git 
+  git clone https://github.com/chaos-polymtl/lethe-rpt.git 
 
-To install Lethe in the ``$HOME/lethe/inst`` directory (applications will be in ``inst/bin``), run in the ``$HOME/lethe/build`` directory:
+To install Lethe-RPT in the ``$HOME/lethe-rpt/inst`` directory (applications will be in ``inst/bin``), run in the ``$HOME/lethe-rpt/build`` directory:
 
 .. code-block:: text
   :class: copy-button
 
-  cmake ../lethe  -DDEAL_II_DIR=$HOME/dealii/inst -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst -DCMAKE_CXX_FLAGS="-march=native" -G Ninja
+  cmake ../lethe-rpt  -DDEAL_II_DIR=$HOME/dealii/inst -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst -DCMAKE_CXX_FLAGS="-march=native" -G Ninja
   nice ninja -j6 install
 
 

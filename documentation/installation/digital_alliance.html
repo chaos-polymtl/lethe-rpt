@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Applications Overview" href="../applications.html" /><link rel="prev" title="Docker" href="docker.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Applications Overview" href="../applications.html" /><link rel="prev" title="Installation on Apple ARM" href="apple_arm.html" />
 
     <link rel="shortcut icon" href="../_static/lethe_favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Running Lethe on Digital Research Alliance of Canada Clusters - Lethe documentation</title>
@@ -161,7 +161,6 @@
 <li class="toctree-l2"><a class="reference internal" href="regular_installation.html">Regular Installation on Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="windows_wsl.html">Windows with WSL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apple_arm.html">Installation on Apple ARM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker.html">Docker</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Running Lethe on Digital Research Alliance of Canada Clusters</a></li>
 </ul>
 </li>
@@ -232,8 +231,8 @@
 <h1>Running Lethe on Digital Research Alliance of Canada Clusters<a class="headerlink" href="#running-lethe-on-digital-research-alliance-of-canada-clusters" title="Link to this heading">#</a></h1>
 <section id="setting-up-the-folder-structure">
 <h2>Setting-up the Folder Structure<a class="headerlink" href="#setting-up-the-folder-structure" title="Link to this heading">#</a></h2>
-<p>In your <code class="docutils literal notranslate"><span class="pre">$HOME</span></code>, create a “dealii” folder and a “lethe” folder, each containing “build” and “inst” folders:</p>
-<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>mkdir -p {dealii,lethe}/{build,inst}
+<p>In your <code class="docutils literal notranslate"><span class="pre">$HOME</span></code>, create a “dealii” folder and a “lethe-rpt” folder, each containing “build” and “inst” folders:</p>
+<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>mkdir -p {dealii,lethe-rpt}/{build,inst}
 </pre></div>
 </div>
 <p>The deal.II and Lethe projects can then be cloned in their corresponding folders, as indicated later in this tutorial.</p>
@@ -262,7 +261,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$EBROOTOPENMPI/lib/
 source /scinet/vast/etc/vastpreload-openmpi.bash # Only if on Trillium or Nibi
 
 export DEAL_II_DIR=$HOME/dealii/inst/
-export PATH=$PATH:$HOME/lethe/inst/bin/
+export PATH=$PATH:$HOME/lethe-rpt/inst/bin/
 </pre></div>
 </div>
 <p>This file needs to be sourced every time you launch a job or you compile deal.II and/or Lethe. Once the file has been created, you can then source it on the terminal with:</p>
@@ -270,7 +269,7 @@ export PATH=$PATH:$HOME/lethe/inst/bin/
 </pre></div>
 </div>
 <p>and use it in your <code class="docutils literal notranslate"><span class="pre">.sh</span></code> script when launching a job (see <a class="reference internal" href="#launching-simulations"><span class="std std-ref">Launching Simulations</span></a> below).</p>
-<p>Although Lethe always supports the master branch of deal.II, we maintain an identical deal.II fork on the CHAOS laboratory organization. This fork is always tested to make sure it works with Lethe. To clone this deal.II fork, execute in <code class="docutils literal notranslate"><span class="pre">$HOME/dealii</span></code> directory:</p>
+<p>Although Lethe-RPT always supports the master branch of deal.II, we maintain an identical deal.II fork on the CHAOS laboratory organization. This fork is always tested to make sure it works with Lethe. To clone this deal.II fork, execute in <code class="docutils literal notranslate"><span class="pre">$HOME/dealii</span></code> directory:</p>
 <div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/chaos-polymtl/dealii.git
 </pre></div>
 </div>
@@ -295,12 +294,12 @@ export PATH=$PATH:$HOME/lethe/inst/bin/
 <section id="installing-lethe">
 <h2>Installing Lethe<a class="headerlink" href="#installing-lethe" title="Link to this heading">#</a></h2>
 <p>After installing deal.II, compiling Lethe is relatively straightforward. To compile Lethe, the <code class="docutils literal notranslate"><span class="pre">Trilinos</span></code>, <code class="docutils literal notranslate"><span class="pre">Parmetis</span></code> and <code class="docutils literal notranslate"><span class="pre">P4est</span></code> modules should be loaded.</p>
-<p>In the <code class="docutils literal notranslate"><span class="pre">$HOME/lethe</span></code> directory, download Lethe:</p>
-<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/chaos-polymtl/lethe.git
+<p>In the <code class="docutils literal notranslate"><span class="pre">$HOME/lethe-rpt</span></code> directory, download Lethe-RPT:</p>
+<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/chaos-polymtl/lethe-rpt.git
 </pre></div>
 </div>
-<p>To install Lethe in the <code class="docutils literal notranslate"><span class="pre">$HOME/lethe/inst</span></code> directory (applications will be in <code class="docutils literal notranslate"><span class="pre">inst/bin</span></code>), run in the <code class="docutils literal notranslate"><span class="pre">$HOME/lethe/build</span></code> directory:</p>
-<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>cmake ../lethe  -DDEAL_II_DIR=$HOME/dealii/inst -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst -DCMAKE_CXX_FLAGS=&quot;-march=native&quot; -G Ninja
+<p>To install Lethe-RPT in the <code class="docutils literal notranslate"><span class="pre">$HOME/lethe-rpt/inst</span></code> directory (applications will be in <code class="docutils literal notranslate"><span class="pre">inst/bin</span></code>), run in the <code class="docutils literal notranslate"><span class="pre">$HOME/lethe-rpt/build</span></code> directory:</p>
+<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>cmake ../lethe-rpt  -DDEAL_II_DIR=$HOME/dealii/inst -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst -DCMAKE_CXX_FLAGS=&quot;-march=native&quot; -G Ninja
 nice ninja -j6 install
 </pre></div>
 </div>
@@ -416,14 +415,14 @@ mpirun $HOME/lethe/inst/bin/$lethe_application_name_wanted $parameter_file_name.
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="docker.html">
+          <a class="prev-page" href="apple_arm.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Docker</div>
+                <div class="title">Installation on Apple ARM</div>
                 
               </div>
             </a>

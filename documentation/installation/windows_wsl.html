@@ -161,7 +161,6 @@
 <li class="toctree-l2"><a class="reference internal" href="regular_installation.html">Regular Installation on Linux</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Windows with WSL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apple_arm.html">Installation on Apple ARM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker.html">Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="digital_alliance.html">Running Lethe on Digital Research Alliance of Canada Clusters</a></li>
 </ul>
 </li>
@@ -239,7 +238,7 @@
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>This tutorial is aimed at Windows users who have no prior knowledge of Linux. To keep it simple, all dependencies are installed using candi. Installation options given in this tutorial are well suited for lethe users. If you are a developer or need more options, see <a class="reference internal" href="regular_installation.html"><span class="doc">Regular Installation on Linux</span></a>.</p>
+<p>This tutorial is aimed at Windows users who have no prior knowledge of Linux. To keep it simple, all dependencies are installed using candi. Installation options given in this tutorial are well suited for lethe-rpt users. If you are a developer or need more options, see <a class="reference internal" href="regular_installation.html"><span class="doc">Regular Installation on Linux</span></a>.</p>
 </div>
 <dl class="simple">
 <dt>Throughout this tutorial:</dt><dd><ul class="simple">
@@ -355,7 +354,7 @@ sudo apt update
 <span id="install-deal-ii-candi"></span><h2>Installing deal.II using Candi (Step #1)<a class="headerlink" href="#installing-deal-ii-using-candi-step-1" title="Link to this heading">#</a></h2>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>This step is by far the most troublesome in all Lethe installation. Read and follow each step carefully.</p>
+<p>This step is by far the most troublesome in all Lethe-RPT installation. Read and follow each step carefully.</p>
 </div>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="../_images/linux.png"><img alt="linux_shell" src="../_images/linux.png" style="height: 15px;" /></a> Install candi required packages:</p></li>
@@ -526,8 +525,8 @@ mkdir candi; cd candi
 <p>For this change to be effective, you may need to restart your Ubuntu terminal.</p>
 </div>
 </section>
-<section id="installing-lethe-step-2">
-<h2>Installing Lethe (Step #2)<a class="headerlink" href="#installing-lethe-step-2" title="Link to this heading">#</a></h2>
+<section id="installing-lethe-rpt-step-2">
+<h2>Installing Lethe-RPT (Step #2)<a class="headerlink" href="#installing-lethe-rpt-step-2" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="../_images/linux.png"><img alt="linux_shell" src="../_images/linux.png" style="height: 15px;" /></a> Set-up the folder structure. Create the <code class="docutils literal notranslate"><span class="pre">Software</span></code> folder (if you are doing the candi installation, this folder should already exist from Step #1).</p></li>
 </ol>
@@ -535,27 +534,27 @@ mkdir candi; cd candi
 </pre></div>
 </div>
 <p>In the <code class="docutils literal notranslate"><span class="pre">Software</span></code> folder created (if you are in the candi folder, type <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">..</span></code>), type:</p>
-<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>mkdir -p lethe/{git,build,inst}
+<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>mkdir -p lethe-rpt/{git,build,inst}
 </pre></div>
 </div>
 <p>After installation is complete, the folder structure will be:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">lethe/git</span></code> with lethe downloaded files (git),</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">lethe/build</span></code> for compilation files (<code class="docutils literal notranslate"><span class="pre">cmake</span></code> command),</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">lethe/inst</span></code> for installation files (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> command).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lethe-rpt/git</span></code> with lethe downloaded files (git),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lethe-rpt/build</span></code> for compilation files (<code class="docutils literal notranslate"><span class="pre">cmake</span></code> command),</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lethe-rpt/inst</span></code> for installation files (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> command).</p></li>
 </ul>
 <ol class="arabic simple" start="2">
 <li><p><a class="reference internal" href="../_images/linux.png"><img alt="linux_shell" src="../_images/linux.png" style="height: 15px;" /></a> Download lethe:</p></li>
 </ol>
-<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>cd lethe
-git clone https://github.com/chaos-polymtl/lethe --single-branch
+<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>cd lethe-rpt
+git clone https://github.com/chaos-polymtl/lethe-rpt
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
 <li><p><a class="reference internal" href="../_images/linux.png"><img alt="linux_shell" src="../_images/linux.png" style="height: 15px;" /></a> Build lethe:</p></li>
 </ol>
 <div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>cd build
-cmake ../lethe -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst/
+cmake ../lethe-rpt -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst/
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
@@ -597,13 +596,13 @@ cmake ../lethe -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst/
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The lethe test suites requires that deal.II be configured with p4est 2.2, otherwise the test which include restart files will fail.  Even if the tests fail, the application should work as expected (including the restart capabilities).</p>
+<p>The lethe-rpt test suites requires that deal.II be configured with p4est 2.2, otherwise the test which include restart files will fail.  Even if the tests fail, the application should work as expected (including the restart capabilities).</p>
 </div>
-<p>Congratulations, you are now ready to use lethe! For instance, proceed to <a class="reference internal" href="../first_simulation.html"><span class="doc">Launching Your First Simulation</span></a>.</p>
+<p>Congratulations, you are now ready to use lethe-rpt! For instance, proceed to <a class="reference internal" href="../first_simulation.html"><span class="doc">Launching Your First Simulation</span></a>.</p>
 </section>
-<section id="updating-deal-ii-and-lethe">
-<h2>Updating deal.II and Lethe<a class="headerlink" href="#updating-deal-ii-and-lethe" title="Link to this heading">#</a></h2>
-<p>If you have already installed deal.II and lethe, you can update them without doing the entire installation from scratch:</p>
+<section id="updating-deal-ii-and-lethe-rpt">
+<h2>Updating deal.II and Lethe-RPT<a class="headerlink" href="#updating-deal-ii-and-lethe-rpt" title="Link to this heading">#</a></h2>
+<p>If you have already installed deal.II and lethe-rpt, you can update them without doing the entire installation from scratch:</p>
 <section id="through-apt">
 <h3>Through apt<a class="headerlink" href="#through-apt" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
@@ -614,9 +613,9 @@ sudo apt upgrade -y
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p><a class="reference internal" href="../_images/linux.png"><img alt="linux_shell" src="../_images/linux.png" style="height: 15px;" /></a> Then, update lethe:</p></li>
+<li><p><a class="reference internal" href="../_images/linux.png"><img alt="linux_shell" src="../_images/linux.png" style="height: 15px;" /></a> Then, update lethe-rpt:</p></li>
 </ol>
-<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>cd ../lethe/git
+<div class="copy-button highlight-text notranslate"><div class="highlight"><pre><span></span>cd ../lethe-rpt/git
 git pull
 cd ../build
 cmake ../git -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst/
@@ -762,8 +761,8 @@ nano candi.cfg
 <li><a class="reference internal" href="#installing-wsl-and-ubuntu-step-0">Installing WSL and Ubuntu (Step #0)</a></li>
 <li><a class="reference internal" href="#installing-deal-ii-using-apt-step-1">Installing deal.II using apt (Step #1)</a></li>
 <li><a class="reference internal" href="#installing-deal-ii-using-candi-step-1">Installing deal.II using Candi (Step #1)</a></li>
-<li><a class="reference internal" href="#installing-lethe-step-2">Installing Lethe (Step #2)</a></li>
-<li><a class="reference internal" href="#updating-deal-ii-and-lethe">Updating deal.II and Lethe</a><ul>
+<li><a class="reference internal" href="#installing-lethe-rpt-step-2">Installing Lethe-RPT (Step #2)</a></li>
+<li><a class="reference internal" href="#updating-deal-ii-and-lethe-rpt">Updating deal.II and Lethe-RPT</a><ul>
 <li><a class="reference internal" href="#through-apt">Through apt</a></li>
 <li><a class="reference internal" href="#with-candi">With Candi</a></li>
 </ul>
