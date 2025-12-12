@@ -158,15 +158,15 @@ It is generally recommended to add the variable to your bashrc so it is always l
 
 .. _install-lethe:
 
-Installing Lethe 
+Installing Lethe-RPT 
 -------------------------------
 
-Clone Lethe from the `Lethe official repository <https://github.com/chaos-polymtl/lethe>`_.
+Clone Lethe-RPT from the `Lethe-RPT official repository <https://github.com/chaos-polymtl/lethe-rpt>`_.
 
 .. code-block:: text
   :class: copy-button
 
-  git clone https://github.com/chaos-polymtl/lethe --single-branch
+  git clone https://github.com/chaos-polymtl/lethe-rpt
 
 Create a build folder at the same level as the lethe folder
 
@@ -181,14 +181,14 @@ Build Lethe choosing the compilation option (Debug or Release). You can also opt
 .. code-block:: text
   :class: copy-button
 
-  cmake ../lethe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
+  cmake ../lethe-rpt -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
 
 or
 
 .. code-block:: text
   :class: copy-button
 
-  cmake ../lethe -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
+  cmake ../lethe-rpt -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
 
 Then you can compile:
 
@@ -197,7 +197,7 @@ Then you can compile:
 
   make -j$numprocs install
 
-This will install lethe to the installation folder you provided in the previous step. You can now add the following lines to your ``.bashrc``:
+This will install lethe-rpt to the installation folder you provided in the previous step. You can now add the following lines to your ``.bashrc``:
 
 .. code-block:: text
   :class: copy-button

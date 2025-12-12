@@ -16,7 +16,7 @@ Windows with WSL
 
 .. seealso::
 
-  This tutorial is aimed at Windows users who have no prior knowledge of Linux. To keep it simple, all dependencies are installed using candi. Installation options given in this tutorial are well suited for lethe users. If you are a developer or need more options, see :doc:`regular_installation`.
+  This tutorial is aimed at Windows users who have no prior knowledge of Linux. To keep it simple, all dependencies are installed using candi. Installation options given in this tutorial are well suited for lethe-rpt users. If you are a developer or need more options, see :doc:`regular_installation`.
 
 Throughout this tutorial:
   * |win_shell| indicates operations performed in the Windows session, and
@@ -132,7 +132,7 @@ Installing deal.II using Candi (Step #1)
 -----------------------------------------
 
 .. important::
-  This step is by far the most troublesome in all Lethe installation. Read and follow each step carefully.
+  This step is by far the most troublesome in all Lethe-RPT installation. Read and follow each step carefully.
 
 1. |linux_shell| Install candi required packages:
 
@@ -269,7 +269,7 @@ Where ``$numprocs`` corresponds to the number of processors used for the compila
   For this change to be effective, you may need to restart your Ubuntu terminal.
 
 
-Installing Lethe (Step #2)
+Installing Lethe-RPT (Step #2)
 -------------------------------------
 
 1. |linux_shell| Set-up the folder structure. Create the ``Software`` folder (if you are doing the candi installation, this folder should already exist from Step #1).
@@ -284,21 +284,21 @@ In the ``Software`` folder created (if you are in the candi folder, type ``cd ..
 .. code-block:: text
   :class: copy-button
 
-  mkdir -p lethe/{git,build,inst}
+  mkdir -p lethe-rpt/{git,build,inst}
 
 After installation is complete, the folder structure will be:
 
-* ``lethe/git`` with lethe downloaded files (git),
-* ``lethe/build`` for compilation files (``cmake`` command),
-* ``lethe/inst`` for installation files (``make install`` command).
+* ``lethe-rpt/git`` with lethe downloaded files (git),
+* ``lethe-rpt/build`` for compilation files (``cmake`` command),
+* ``lethe-rpt/inst`` for installation files (``make install`` command).
 
 2. |linux_shell| Download lethe:
 
 .. code-block:: text
   :class: copy-button
 
-  cd lethe
-  git clone https://github.com/chaos-polymtl/lethe --single-branch
+  cd lethe-rpt
+  git clone https://github.com/chaos-polymtl/lethe-rpt 
 
 3. |linux_shell| Build lethe:
 
@@ -306,7 +306,7 @@ After installation is complete, the folder structure will be:
   :class: copy-button
 
   cd build
-  cmake ../lethe -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst/
+  cmake ../lethe-rpt -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst/
 
 4. |linux_shell| Compile lethe:
 
@@ -350,14 +350,14 @@ This will take from a few minutes to an hour, depending on your hardware. At the
     apt install numdiff
 
 .. warning:: 
-  The lethe test suites requires that deal.II be configured with p4est 2.2, otherwise the test which include restart files will fail.  Even if the tests fail, the application should work as expected (including the restart capabilities).
+  The lethe-rpt test suites requires that deal.II be configured with p4est 2.2, otherwise the test which include restart files will fail.  Even if the tests fail, the application should work as expected (including the restart capabilities).
 
-Congratulations, you are now ready to use lethe! For instance, proceed to :doc:`../first_simulation`.
+Congratulations, you are now ready to use lethe-rpt! For instance, proceed to :doc:`../first_simulation`.
 
-Updating deal.II and Lethe
+Updating deal.II and Lethe-RPT
 -------------------------------------
 
-If you have already installed deal.II and lethe, you can update them without doing the entire installation from scratch:
+If you have already installed deal.II and lethe-rpt, you can update them without doing the entire installation from scratch:
 
 Through apt
 +++++++++++++++++++++++++++++++++
@@ -370,12 +370,12 @@ Through apt
   sudo apt update
   sudo apt upgrade -y
 
-2. |linux_shell| Then, update lethe:
+2. |linux_shell| Then, update lethe-rpt:
 
 .. code-block:: text
   :class: copy-button
 
-  cd ../lethe/git
+  cd ../lethe-rpt/git
   git pull
   cd ../build
   cmake ../git -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../inst/

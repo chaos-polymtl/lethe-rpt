@@ -5,11 +5,10 @@ Installation on Apple ARM
 .. figure:: ./images/apple.png
    :height: 100px
 
-Lethe can be now be deployed on Apple ARM chips. The support for these chips is experimental, but all Lethe solvers can be deployed for this type of architecture. So far, we have found that Lethe performs very efficiently on Apple ARM architecture. 
 
-The installation of Lethe consists in two steps:
+The installation of Lethe-RPT consists in two steps:
 1. Installation of deal.II using the Candi toolset
-2. Installation of Lethe
+2. Installation of Lethe-RPT
 
 The easiest way to install deal.II and its dependencies under Mac OS is through the Candi toolset. Consequently, this is the only procedure which is explained here. Even under these condition, we will see that the procedure is shaky at best.
 
@@ -21,7 +20,7 @@ To install the dependencies (mpi, p4est, trilinos and METIS) all together using 
 
 Clone the candi git repository in a folder of your choice  (e.g. ``$HOME/software/``). You can edit the ``candi.cfg`` file if you want to force the installation of the deal.II master version instead of the current stable version by setting ``DEAL_II_VERSION=master`` on line 97. Under Apple ARM, we only recommend the installation of the required libraries, namely parmetis, trilinos and p4est.
 
-To ensure that the Lethe test suite works, deal.II must be configured with p4est version 2.3.6. Otherwise, application tests that include restart files will fail. 
+To ensure that the Lethe-RPT test suite works, deal.II must be configured with p4est version 2.3.6. Otherwise, application tests that include restart files will fail. 
 
 From the candi folder, the installation of candi can be launched using:
 
@@ -62,7 +61,7 @@ The deal.II installation procedure might not set the correct path for the librar
 Numdiff
 ~~~~~~~~
 
-numdiff is used within the automatic testing procedure of Lethe to compare files obtained through floating point arithmetic. Without numdiff, Lethe automatic tests may fail when they should not. numdiff can be installed directly from your package manager.
+numdiff is used within the automatic testing procedure of Lethe-RPT to compare files obtained through floating point arithmetic. Without numdiff, Lethe automatic tests may fail when they should not. numdiff can be installed directly from your package manager.
 
 .. code-block:: text
   :class: copy-button
@@ -71,17 +70,17 @@ numdiff is used within the automatic testing procedure of Lethe to compare files
 
 
 
-Installation of Lethe (Step #2)
+Installation of Lethe-RPT (Step #2)
 -------------------------------
 
-Clone lethe from the `official repository <https://github.com/chaos-polymtl/lethe>`
+Clone lethe-rpt from the `official repository <https://github.com/chaos-polymtl/lethe-rpt>`
 
 .. code-block:: text
   :class: copy-button
 
-  git clone https://github.com/chaos-polymtl/lethe --single-branch
+  git clone https://github.com/chaos-polymtl/lethe-rpt --single-branch
 
-Create a build folder at the same level as the lethe folder
+Create a build folder at the same level as the lethe-rpt folder
 
 .. code-block:: text
   :class: copy-button
@@ -89,19 +88,19 @@ Create a build folder at the same level as the lethe folder
   mkdir build
   cd build
 
-Compile Lethe choosing the compilation option (Debug or Release). You can also optionally specify a path to an installation directory of your choice. We recommend that you do so, since this makes using Lethe much more comfortable.
+Compile Lethe-RPT choosing the compilation option (Debug or Release). You can also optionally specify a path to an installation directory of your choice. We recommend that you do so, since this makes using Lethe much more comfortable.
 
 .. code-block:: text
   :class: copy-button
 
-  cmake ../lethe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
+  cmake ../lethe-rpt -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
 
 or
 
 .. code-block:: text
   :class: copy-button
 
-  cmake ../lethe -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
+  cmake ../lethe-rpt -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/username/path/to/installation
 
 Then you can compile:
 
