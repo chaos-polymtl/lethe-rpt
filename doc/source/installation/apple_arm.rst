@@ -71,7 +71,7 @@ numdiff is used within the automatic testing procedure of Lethe-RPT to compare f
 
 
 Installation of Lethe-RPT (Step #2)
--------------------------------
+------------------------------------
 
 Clone lethe-rpt from the `official repository <https://github.com/chaos-polymtl/lethe-rpt>`
 
