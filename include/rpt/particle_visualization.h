@@ -19,25 +19,33 @@
 
 using namespace dealii;
 
-template <int dim> class ParticleVisualization {
+template <int dim>
+class ParticleVisualization
+{
 public:
-  ParticleVisualization(Triangulation<dim> &background_triangulation,
-                        std::string &filename,
+  ParticleVisualization(Triangulation<dim>      &background_triangulation,
+                        std::string             &filename,
                         std::vector<Point<dim>> &positions,
                         std::vector<std::vector<double>> &counts);
 
-  void build_visualization_files();
+  void
+  build_visualization_files();
 
-  void output_particles(unsigned int it);
+  void
+  output_particles(unsigned int it);
+
+
 
 private:
-  std::vector<Point<dim>> particle_positions;
+  std::vector<Point<dim>>          particle_positions;
   std::vector<std::vector<double>> particle_counts;
-  double dt;
-  std::string visualization_filename;
-  Particles::ParticleHandler<dim> particle_handler;
-  DoFHandler<dim> empty_dof_handler;
-  MappingQGeneric<dim> mapping;
+  double                           dt;
+  std::string                      visualization_filename;
+  Particles::ParticleHandler<dim>  particle_handler;
+  DoFHandler<dim>                  empty_dof_handler;
+  MappingQGeneric<dim>             mapping;
 };
+
+
 
 #endif // LETHE_PARTICLE_VISUALIZATION_H

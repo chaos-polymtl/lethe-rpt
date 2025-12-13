@@ -36,7 +36,9 @@ using namespace dealii;
  * Intermediary 2 step is at
  *
  */
-FullMatrix<double> sdirk_coefficients(const unsigned int order,
-                                      const double time_step);
+FullMatrix<double>
+sdirk_coefficients(const unsigned int order, const double time_step);
+
+
 
 #endif

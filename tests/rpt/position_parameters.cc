@@ -17,7 +17,10 @@
 
 #include <vector>
 
-void test() {
+
+void
+test()
+{
   // Particle positions
   Point<3> P0 = {0, 0, 0};       // rho > r | h > 0
   Point<3> P1 = {0.5, 0, 0};     // rho > r | h = 0
@@ -30,8 +33,10 @@ void test() {
   RadioParticle<3> position3(P3, 2);
 
   const unsigned int n_particle = 4;
-  RadioParticle<3> particle_positions[n_particle]{position0, position1,
-                                                  position2, position3};
+  RadioParticle<3>   particle_positions[n_particle]{position0,
+                                                    position1,
+                                                    position2,
+                                                    position3};
 
   // Detector position
   Parameters::DetectorParameters detector_param;
@@ -49,51 +54,61 @@ void test() {
   Detector<3> detector1(detector_param, 0, FP1, MP1);
 
   const unsigned int n_detector = 2;
-  Detector<3> detector_positions[n_detector]{detector0, detector1};
+  Detector<3>        detector_positions[n_detector]{detector0, detector1};
 
   Parameters::RPTParameters rpt_parameters;
 
-  for (unsigned int i_particle = 0; i_particle < n_particle; i_particle++) {
-    for (unsigned int i_detector = 0; i_detector < n_detector; i_detector++) {
-      ParticleDetectorInteractions<3> particle_detector_interactions(
-          particle_positions[i_particle], detector_positions[i_detector],
-          rpt_parameters);
-      double h = particle_detector_interactions.get_h();
-      double rho = particle_detector_interactions.get_rho();
-      deallog << "Particle position " << i_particle << " | Detector "
-              << i_detector << std::endl;
-      deallog << " h = " << h << std::endl;
-      deallog << " rho = " << rho << std::endl;
+  for (unsigned int i_particle = 0; i_particle < n_particle; i_particle++)
+    {
+      for (unsigned int i_detector = 0; i_detector < n_detector; i_detector++)
+        {
+          ParticleDetectorInteractions<3> particle_detector_interactions(
+            particle_positions[i_particle],
+            detector_positions[i_detector],
+            rpt_parameters);
+          double h   = particle_detector_interactions.get_h();
+          double rho = particle_detector_interactions.get_rho();
+          deallog << "Particle position " << i_particle << " | Detector "
+                  << i_detector << std::endl;
+          deallog << " h = " << h << std::endl;
+          deallog << " rho = " << rho << std::endl;
+        }
     }
-  }
 }
 
-int main(int argc, char **argv) {
-  try {
-    initlog();
-    test();
-  } catch (std::exception &exc) {
-    std::cerr << std::endl
-              << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    std::cerr << "Exception on processing: " << std::endl
-              << exc.what() << std::endl
-              << "Aborting!" << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    return 1;
-  } catch (...) {
-    std::cerr << std::endl
-              << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    std::cerr << "Unknown exception!" << std::endl
-              << "Aborting!" << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    return 1;
-  }
+int
+main(int argc, char **argv)
+{
+  try
+    {
+      initlog();
+      test();
+    }
+  catch (std::exception &exc)
+    {
+      std::cerr << std::endl
+                << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      std::cerr << "Exception on processing: " << std::endl
+                << exc.what() << std::endl
+                << "Aborting!" << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      return 1;
+    }
+  catch (...)
+    {
+      std::cerr << std::endl
+                << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      std::cerr << "Unknown exception!" << std::endl
+                << "Aborting!" << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      return 1;
+    }
 
   return 0;
 }

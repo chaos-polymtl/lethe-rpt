@@ -10,7 +10,8 @@
  * @brief Implementation of the computation of the mobility
  * for Cahn-Hilliard equations.
  */
-class MobilityCahnHilliardModel : public InterfacePropertyModel {
+class MobilityCahnHilliardModel : public InterfacePropertyModel
+{
 public:
   /**
    * @brief Instantiate and return a pointer to a MobilityCahnHilliardModel
@@ -19,14 +20,16 @@ public:
    * @param[in] material_interaction_parameters Parameters for the mobility
    * calculation.
    */
-  static std::shared_ptr<MobilityCahnHilliardModel> model_cast(
-      const Parameters::MaterialInteractions &material_interaction_parameters);
+  static std::shared_ptr<MobilityCahnHilliardModel>
+  model_cast(
+    const Parameters::MaterialInteractions &material_interaction_parameters);
 
   /**
    * @brief Pure virtual method to access the mobility constant.
    * @return Value of the mobility constant.
    */
-  virtual double get_mobility_constant() = 0;
+  virtual double
+  get_mobility_constant() = 0;
 
   /**
    * @brief Definition of a virtual destructor for the class.
@@ -40,7 +43,8 @@ public:
  * The mobility function is the following : \f$M(\phi) = D \f$ where D is the
  * mobility constant.
  */
-class MobilityCahnHilliardModelConstant : public MobilityCahnHilliardModel {
+class MobilityCahnHilliardModelConstant : public MobilityCahnHilliardModel
+{
 public:
   /**
    * @brief Default constructor
@@ -49,8 +53,9 @@ public:
    * constant.
    */
   MobilityCahnHilliardModelConstant(
-      const double p_mobility_cahn_hilliard_constant)
-      : mobility_cahn_hilliard_constant(p_mobility_cahn_hilliard_constant) {}
+    const double p_mobility_cahn_hilliard_constant)
+    : mobility_cahn_hilliard_constant(p_mobility_cahn_hilliard_constant)
+  {}
 
   /**
    * @brief Destructor of derived class.
@@ -63,7 +68,9 @@ public:
    *
    * @return Value of the mobility constant.
    */
-  double get_mobility_constant() override {
+  double
+  get_mobility_constant() override
+  {
     return mobility_cahn_hilliard_constant;
   }
 
@@ -74,7 +81,8 @@ public:
    * @return Value of the mobility.
    */
   double
-  value([[maybe_unused]] const std::map<field, double> &fields_value) override {
+  value([[maybe_unused]] const std::map<field, double> &fields_value) override
+  {
     return mobility_cahn_hilliard_constant;
   }
 
@@ -84,9 +92,11 @@ public:
    * may depend.
    * @param[out] property_vector Vectors of the mobility values
    */
-  void vector_value([[maybe_unused]] const std::map<field, std::vector<double>>
-                        &field_vectors,
-                    std::vector<double> &property_vector) override {
+  void
+  vector_value(
+    [[maybe_unused]] const std::map<field, std::vector<double>> &field_vectors,
+    std::vector<double> &property_vector) override
+  {
     std::ranges::fill(property_vector, mobility_cahn_hilliard_constant);
   }
 
@@ -100,8 +110,10 @@ public:
    * @return Value of the partial derivative of the mobility with respect to
    * the field.
    */
-  double jacobian([[maybe_unused]] const std::map<field, double> &field_values,
-                  [[maybe_unused]] field id) override {
+  double
+  jacobian([[maybe_unused]] const std::map<field, double> &field_values,
+           [[maybe_unused]] field                          id) override
+  {
     return 0;
   }
 
@@ -115,10 +127,11 @@ public:
    * mobility with respect to the field id.
    */
   void
-  vector_jacobian([[maybe_unused]] const std::map<field, std::vector<double>>
-                      &field_vectors,
-                  [[maybe_unused]] const field id,
-                  std::vector<double> &jacobian_vector) override {
+  vector_jacobian(
+    [[maybe_unused]] const std::map<field, std::vector<double>> &field_vectors,
+    [[maybe_unused]] const field                                 id,
+    std::vector<double> &jacobian_vector) override
+  {
     std::ranges::fill(jacobian_vector, 0);
   }
 
@@ -132,7 +145,8 @@ private:
  * The mobility function is the following : \f$M(\phi) = D(1-\phi^2)^2 \f$
  * where D is the mobility constant.
  */
-class MobilityCahnHilliardModelQuartic : public MobilityCahnHilliardModel {
+class MobilityCahnHilliardModelQuartic : public MobilityCahnHilliardModel
+{
 public:
   /**
    * @brief Default constructor.
@@ -141,8 +155,9 @@ public:
    * constant.
    */
   MobilityCahnHilliardModelQuartic(
-      const double p_mobility_cahn_hilliard_constant)
-      : mobility_cahn_hilliard_constant(p_mobility_cahn_hilliard_constant) {
+    const double p_mobility_cahn_hilliard_constant)
+    : mobility_cahn_hilliard_constant(p_mobility_cahn_hilliard_constant)
+  {
     this->model_depends_on[field::phase_order_cahn_hilliard] = true;
   }
 
@@ -155,7 +170,9 @@ public:
    * @brief Return the mobility constant.
    * @return Value of the mobility constant.
    */
-  double get_mobility_constant() override {
+  double
+  get_mobility_constant() override
+  {
     return mobility_cahn_hilliard_constant;
   }
 
@@ -165,19 +182,21 @@ public:
    * may depend.
    * @return Value of the mobility calculated with the fields_value.
    */
-  double value(const std::map<field, double> &fields_value) override {
-    Assert(
-        fields_value.contains(field::phase_order_cahn_hilliard),
-        PhysicialPropertyModelFieldUndefined("MobilityCahnHilliardModelQuartic",
-                                             "phase_order_cahn_hilliard"));
+  double
+  value(const std::map<field, double> &fields_value) override
+  {
+    Assert(fields_value.contains(field::phase_order_cahn_hilliard),
+           PhysicialPropertyModelFieldUndefined(
+             "MobilityCahnHilliardModelQuartic", "phase_order_cahn_hilliard"));
     const double &phase_order_cahn_hilliard =
-        fields_value.at(field::phase_order_cahn_hilliard);
+      fields_value.at(field::phase_order_cahn_hilliard);
 
     // The phase order values are clamped to avoid unphysical mobilities in the
     // bulk phases.
     return mobility_cahn_hilliard_constant *
-           std::pow((1 - std::min(1.0, phase_order_cahn_hilliard *
-                                           phase_order_cahn_hilliard)),
+           std::pow((1 - std::min(1.0,
+                                  phase_order_cahn_hilliard *
+                                    phase_order_cahn_hilliard)),
                     2);
   }
 
@@ -187,21 +206,24 @@ public:
    * may depend.
    * @param[out] property_vector Vector of the mobility values.
    */
-  void vector_value(const std::map<field, std::vector<double>> &field_vectors,
-                    std::vector<double> &property_vector) override {
-    Assert(
-        field_vectors.contains(field::phase_order_cahn_hilliard),
-        PhysicialPropertyModelFieldUndefined("MobilityCahnHilliardModelQuartic",
-                                             "phase_order_cahn_hilliard"));
+  void
+  vector_value(const std::map<field, std::vector<double>> &field_vectors,
+               std::vector<double> &property_vector) override
+  {
+    Assert(field_vectors.contains(field::phase_order_cahn_hilliard),
+           PhysicialPropertyModelFieldUndefined(
+             "MobilityCahnHilliardModelQuartic", "phase_order_cahn_hilliard"));
     const std::vector<double> &phase_order_cahn_hilliard =
-        field_vectors.at(field::phase_order_cahn_hilliard);
-    for (unsigned int i = 0; i < property_vector.size(); ++i) {
-      property_vector[i] =
+      field_vectors.at(field::phase_order_cahn_hilliard);
+    for (unsigned int i = 0; i < property_vector.size(); ++i)
+      {
+        property_vector[i] =
           mobility_cahn_hilliard_constant *
-          std::pow((1 - std::min(1.0, phase_order_cahn_hilliard[i] *
-                                          phase_order_cahn_hilliard[i])),
+          std::pow((1 - std::min(1.0,
+                                 phase_order_cahn_hilliard[i] *
+                                   phase_order_cahn_hilliard[i])),
                    2);
-    }
+      }
   }
 
   /**
@@ -215,21 +237,23 @@ public:
    * the field.
    */
 
-  double jacobian(const std::map<field, double> &fields_value,
-                  [[maybe_unused]] field id) override {
-    Assert(
-        fields_value.contains(field::phase_order_cahn_hilliard),
-        PhysicialPropertyModelFieldUndefined("MobilityCahnHilliardModelQuartic",
-                                             "phase_order_cahn_hilliard"));
+  double
+  jacobian(const std::map<field, double> &fields_value,
+           [[maybe_unused]] field         id) override
+  {
+    Assert(fields_value.contains(field::phase_order_cahn_hilliard),
+           PhysicialPropertyModelFieldUndefined(
+             "MobilityCahnHilliardModelQuartic", "phase_order_cahn_hilliard"));
     const double &phase_order_cahn_hilliard =
-        fields_value.at(field::phase_order_cahn_hilliard);
+      fields_value.at(field::phase_order_cahn_hilliard);
 
     return -4 *
            (std::max(-1.0, std::min(phase_order_cahn_hilliard, 0.0)) +
             std::min(1.0, std::max(phase_order_cahn_hilliard, 0.0))) *
            mobility_cahn_hilliard_constant *
-           (1 - std::min(1.0, phase_order_cahn_hilliard *
-                                  phase_order_cahn_hilliard));
+           (1 -
+            std::min(1.0,
+                     phase_order_cahn_hilliard * phase_order_cahn_hilliard));
   }
 
   /**
@@ -244,22 +268,23 @@ public:
 
   void
   vector_jacobian(const std::map<field, std::vector<double>> &fields_vectors,
-                  [[maybe_unused]] const field id,
-                  std::vector<double> &jacobian_vector) override {
-    Assert(
-        fields_vectors.contains(field::phase_order_cahn_hilliard),
-        PhysicialPropertyModelFieldUndefined("MobilityCahnHilliardModelQuartic",
-                                             "phase_order_cahn_hilliard"));
+                  [[maybe_unused]] const field                id,
+                  std::vector<double> &jacobian_vector) override
+  {
+    Assert(fields_vectors.contains(field::phase_order_cahn_hilliard),
+           PhysicialPropertyModelFieldUndefined(
+             "MobilityCahnHilliardModelQuartic", "phase_order_cahn_hilliard"));
     const std::vector<double> &phase_order_cahn_hilliard =
-        fields_vectors.at(field::phase_order_cahn_hilliard);
+      fields_vectors.at(field::phase_order_cahn_hilliard);
     for (unsigned int i = 0; i < jacobian_vector.size(); ++i)
       jacobian_vector[i] =
-          -4 *
-          (std::max(-1.0, std::min(phase_order_cahn_hilliard[i], 0.0)) +
-           std::min(1.0, std::max(phase_order_cahn_hilliard[i], 0.0))) *
-          mobility_cahn_hilliard_constant *
-          (1 - std::min(1.0, phase_order_cahn_hilliard[i] *
-                                 phase_order_cahn_hilliard[i]));
+        -4 *
+        (std::max(-1.0, std::min(phase_order_cahn_hilliard[i], 0.0)) +
+         std::min(1.0, std::max(phase_order_cahn_hilliard[i], 0.0))) *
+        mobility_cahn_hilliard_constant *
+        (1 -
+         std::min(1.0,
+                  phase_order_cahn_hilliard[i] * phase_order_cahn_hilliard[i]));
   }
 
 private:

@@ -12,7 +12,8 @@
  * @param method A time integration method
  */
 inline bool
-is_steady(const Parameters::SimulationControl::TimeSteppingMethod method) {
+is_steady(const Parameters::SimulationControl::TimeSteppingMethod method)
+{
   return (method == Parameters::SimulationControl::TimeSteppingMethod::steady);
 }
 
@@ -21,10 +22,12 @@ is_steady(const Parameters::SimulationControl::TimeSteppingMethod method) {
  *
  * @param method A time integration method
  */
-inline bool time_stepping_is_bdf1(
-    const Parameters::SimulationControl::TimeSteppingMethod method) {
+inline bool
+time_stepping_is_bdf1(
+  const Parameters::SimulationControl::TimeSteppingMethod method)
+{
   return (method ==
-              Parameters::SimulationControl::TimeSteppingMethod::steady_bdf ||
+            Parameters::SimulationControl::TimeSteppingMethod::steady_bdf ||
           method == Parameters::SimulationControl::TimeSteppingMethod::bdf1);
 }
 
@@ -33,13 +36,14 @@ inline bool time_stepping_is_bdf1(
  *
  * @param method A time integration method
  *
- * @return true if the method is BDF1, BDF2, BDF3, or steady BDF, false
- * otherwise.
+ * @return true if the method is BDF1, BDF2, BDF3, or steady BDF, false otherwise.
  */
-inline bool time_stepping_is_bdf(
-    const Parameters::SimulationControl::TimeSteppingMethod method) {
+inline bool
+time_stepping_is_bdf(
+  const Parameters::SimulationControl::TimeSteppingMethod method)
+{
   return (method ==
-              Parameters::SimulationControl::TimeSteppingMethod::steady_bdf ||
+            Parameters::SimulationControl::TimeSteppingMethod::steady_bdf ||
           method == Parameters::SimulationControl::TimeSteppingMethod::bdf1 ||
           method == Parameters::SimulationControl::TimeSteppingMethod::bdf2 ||
           method == Parameters::SimulationControl::TimeSteppingMethod::bdf3);
@@ -52,45 +56,52 @@ inline bool time_stepping_is_bdf(
  *
  * @return true if the method is SDIRK, false otherwise.
  */
-inline bool time_stepping_is_sdirk(
-    const Parameters::SimulationControl::TimeSteppingMethod method) {
+inline bool
+time_stepping_is_sdirk(
+  const Parameters::SimulationControl::TimeSteppingMethod method)
+{
   return (
-      method == Parameters::SimulationControl::TimeSteppingMethod::sdirk22 ||
-      method == Parameters::SimulationControl::TimeSteppingMethod::sdirk33 ||
-      method == Parameters::SimulationControl::TimeSteppingMethod::sdirk43);
+    method == Parameters::SimulationControl::TimeSteppingMethod::sdirk22 ||
+    method == Parameters::SimulationControl::TimeSteppingMethod::sdirk33 ||
+    method == Parameters::SimulationControl::TimeSteppingMethod::sdirk43);
 }
 
 /**
- * @brief Determines if the time integration method is within the high-order
- * (>=2) bdf family
+ * @brief Determines if the time integration method is within the high-order (>=2) bdf family
  *
  * @param method A time integration method
  */
-inline bool time_stepping_is_bdf_high_order(
-    const Parameters::SimulationControl::TimeSteppingMethod method) {
+inline bool
+time_stepping_is_bdf_high_order(
+  const Parameters::SimulationControl::TimeSteppingMethod method)
+{
   return (method == Parameters::SimulationControl::TimeSteppingMethod::bdf2 ||
           method == Parameters::SimulationControl::TimeSteppingMethod::bdf3);
 }
+
 
 /**
  * @brief Determines if the time integration method requires an additional array
  *
  * @param method A time integration method
  */
-inline bool time_stepping_method_uses_two_previous_solutions(
-    const Parameters::SimulationControl::TimeSteppingMethod method) {
+inline bool
+time_stepping_method_uses_two_previous_solutions(
+  const Parameters::SimulationControl::TimeSteppingMethod method)
+{
   return (method == Parameters::SimulationControl::TimeSteppingMethod::bdf2 ||
           method == Parameters::SimulationControl::TimeSteppingMethod::bdf3);
 }
 
 /**
- * @brief Determines if the time integration method requires two additional
- * arrays
+ * @brief Determines if the time integration method requires two additional arrays
  *
  * @param method A time integration method
  */
-inline bool time_stepping_method_uses_three_previous_solutions(
-    const Parameters::SimulationControl::TimeSteppingMethod method) {
+inline bool
+time_stepping_method_uses_three_previous_solutions(
+  const Parameters::SimulationControl::TimeSteppingMethod method)
+{
   return (method == Parameters::SimulationControl::TimeSteppingMethod::bdf3);
 }
 

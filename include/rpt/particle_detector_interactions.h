@@ -17,7 +17,9 @@
 #include <rpt/radioactive_particle.h>
 #include <rpt/rpt_calculating_parameters.h>
 
-template <int dim> class ParticleDetectorInteractions {
+template <int dim>
+class ParticleDetectorInteractions
+{
 public:
   /**
    * @brief Constructor for the ParticleDetectorInteractions.
@@ -31,49 +33,56 @@ public:
    *
    * @param dead_time Dead_time defines the parameter dead-time for the detector
    *
-   * @param activity Activity defines the activity of the radioactive source
-   * with respect to the detector
+   * @param activity Activity defines the activity of the radioactive source with respect to the detector
    *
-   * @param attenuation_coefficient_reactor Attenuation_coefficient_reactor
-   * defines the homogeneous attenuation coefficient of the reactor with respect
-   * to the reactor
+   * @param attenuation_coefficient_reactor Attenuation_coefficient_reactor defines the homogeneous attenuation coefficient of the reactor with respect to the reactor
    */
-  ParticleDetectorInteractions(RadioParticle<dim> &particle,
-                               Detector<dim> &detector,
+  ParticleDetectorInteractions(RadioParticle<dim>        &particle,
+                               Detector<dim>             &detector,
                                Parameters::RPTParameters &rpt_parameters)
-      : particle_position(particle.get_position()),
-        detector_face_position(detector.get_face_position()),
-        detector_middle_position(detector.get_middle_position()),
-        detector_radius(detector.get_radius()),
-        detector_length(detector.get_length()),
-        dead_time(detector.get_dead_time()), activity(detector.get_activity()),
-        attenuation_coefficient_reactor(
-            detector.get_attenuation_coefficient_reactor()),
-        parameters(rpt_parameters) {}
+    : particle_position(particle.get_position())
+    , detector_face_position(detector.get_face_position())
+    , detector_middle_position(detector.get_middle_position())
+    , detector_radius(detector.get_radius())
+    , detector_length(detector.get_length())
+    , dead_time(detector.get_dead_time())
+    , activity(detector.get_activity())
+    , attenuation_coefficient_reactor(
+        detector.get_attenuation_coefficient_reactor())
+    , parameters(rpt_parameters)
+  {}
 
   /**
    * @brief Calculate photon count of a detector with the Monte Carlo method.
    */
-  double calculate_count();
+  double
+  calculate_count();
 
-  double get_h();
+  double
+  get_h();
 
-  double get_rho();
+  double
+  get_rho();
 
-  double get_alpha(double n_alpha, double n_theta);
+  double
+  get_alpha(double n_alpha, double n_theta);
 
-  double get_theta(double n_alpha, double n_theta);
+  double
+  get_theta(double n_alpha, double n_theta);
 
-  double get_detector_path_length(double n_alpha, double n_theta);
+  double
+  get_detector_path_length(double n_alpha, double n_theta);
 
-  double get_reactor_path_length(double n_alpha, double n_theta);
+  double
+  get_reactor_path_length(double n_alpha, double n_theta);
 
 private:
   /**
    * @brief Calculate position parameters (h & rho) of the particle with the
    * detector.
    */
-  void calculate_position_parameters();
+  void
+  calculate_position_parameters();
 
   /**
    * @brief Calculate related angles (theta and alpha) to the solid angle.
@@ -84,17 +93,20 @@ private:
    * @param n_theta The random value [0; 1] generated in the Monte Carlo for
    * theta
    */
-  void calculate_solid_angle(double n_alpha, double n_theta);
+  void
+  calculate_solid_angle(double n_alpha, double n_theta);
 
   /**
    * @brief Calculate the length of the photon path through the detector.
    */
-  double calculate_detector_path_length();
+  double
+  calculate_detector_path_length();
 
   /**
    * @brief Calculate the length of the photon path through the reactor/tank.
    */
-  double calculate_reactor_path_length();
+  double
+  calculate_reactor_path_length();
 
   /**
    * @brief Calculate the probability functions of the gamma-rays interaction
@@ -112,18 +124,19 @@ private:
    *
    * @param reactor_path_length Length of the photon path through the reactor
    */
-  double calculate_non_interaction_probability(double &reactor_path_length);
+  double
+  calculate_non_interaction_probability(double &reactor_path_length);
 
   /**
-   * @brief Calculate the efficiency of the detector with the Monte Carlo
-   * method.
+   * @brief Calculate the efficiency of the detector with the Monte Carlo method.
    */
-  void calculate_efficiency();
+  void
+  calculate_efficiency();
 
   /**
-   * @brief Solve the t variable of the equation of a straigth line in
-   * parametric form. It used the Newton's method with a numerical derivative
-   * with initial values of -1 and 1.
+   * @brief Solve the t variable of the equation of a straigth line in parametric
+   * form. It used the Newton's method with a numerical derivative with initial
+   * values of -1 and 1.
    *
    * @param e_inverse Inverse of the detector direction matrix
    *
@@ -132,20 +145,21 @@ private:
    * @param particle_position_rotation Transfer of the lab coordinate particle
    * position to the detector-particle coordinate
    */
-  std::vector<double> solve_t(Tensor<2, dim> e_inverse,
-                              Tensor<1, dim> detector_particle_origin,
-                              Tensor<1, dim> particle_position_rotation);
+  std::vector<double>
+  solve_t(Tensor<2, dim> e_inverse,
+          Tensor<1, dim> detector_particle_origin,
+          Tensor<1, dim> particle_position_rotation);
 
-  double efficiency;
-  double alpha;
-  double theta;
-  double theta_cri;
-  double weighting_factor_alpha;
-  double weighting_factor_theta;
-  double h;
-  double rho;
-  double OA_distance;
-  double OB_distance;
+  double         efficiency;
+  double         alpha;
+  double         theta;
+  double         theta_cri;
+  double         weighting_factor_alpha;
+  double         weighting_factor_theta;
+  double         h;
+  double         rho;
+  double         OA_distance;
+  double         OB_distance;
   Tensor<1, dim> detector_orientation_x;
   Tensor<1, dim> detector_orientation_y;
   Tensor<1, dim> detector_orientation_z;
@@ -154,12 +168,14 @@ private:
   Point<dim> detector_face_position;
   Point<dim> detector_middle_position;
 
-  double detector_radius;
-  double detector_length;
-  double dead_time;
-  double activity;
-  double attenuation_coefficient_reactor;
+  double                    detector_radius;
+  double                    detector_length;
+  double                    dead_time;
+  double                    activity;
+  double                    attenuation_coefficient_reactor;
   Parameters::RPTParameters parameters;
 };
+
+
 
 #endif // lethe_particle_detector_interactions_h

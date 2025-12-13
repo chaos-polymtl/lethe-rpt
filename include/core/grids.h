@@ -21,12 +21,12 @@ using namespace dealii;
  * mesh or primitive is used
  */
 template <int dim, int spacedim = dim>
-void attach_grid_to_triangulation(Triangulation<dim, spacedim> &triangulation,
-                                  const Parameters::Mesh &mesh_parameters);
+void
+attach_grid_to_triangulation(Triangulation<dim, spacedim> &triangulation,
+                             const Parameters::Mesh       &mesh_parameters);
 
 /**
- * @brief Modifies the triangulation to set up periodic boundary conditions in
- * the case of CFD simulations
+ * @brief Modifies the triangulation to set up periodic boundary conditions in the case of CFD simulations
  *
  * @param[in,out] triangulation The triangulation to which a grid is attached
  *
@@ -34,9 +34,10 @@ void attach_grid_to_triangulation(Triangulation<dim, spacedim> &triangulation,
  * id. This is used to set up the periodicity of the domain
  */
 template <int dim, int spacedim = dim>
-void setup_periodic_boundary_conditions(
-    parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
-    const BoundaryConditions::BoundaryConditions &boundary_conditions);
+void
+setup_periodic_boundary_conditions(
+  parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
+  const BoundaryConditions::BoundaryConditions          &boundary_conditions);
 
 /**
  * @brief Completely sets up a mesh and its manifolds.
@@ -59,11 +60,13 @@ void setup_periodic_boundary_conditions(
  * periodicity.
  */
 template <int dim, int spacedim = dim>
-void read_mesh_and_manifolds(
-    parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
-    const Parameters::Mesh &mesh_parameters,
-    const Parameters::Manifolds &manifolds_parameters, bool restart,
-    const BoundaryConditions::BoundaryConditions &boundary_conditions);
+void
+read_mesh_and_manifolds(
+  parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
+  const Parameters::Mesh                                &mesh_parameters,
+  const Parameters::Manifolds                           &manifolds_parameters,
+  bool                                                   restart,
+  const BoundaryConditions::BoundaryConditions          &boundary_conditions);
 
 /**
  * @brief Completely sets up a mesh and its manifolds for rotor-stator domains.
@@ -88,12 +91,14 @@ void read_mesh_and_manifolds(
  * including rotor mesh info.
  */
 template <int dim, int spacedim = dim>
-void read_mesh_and_manifolds_for_stator_and_rotor(
-    parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
-    const Parameters::Mesh &mesh_parameters,
-    const Parameters::Manifolds &manifolds_parameters, bool restart,
-    const BoundaryConditions::BoundaryConditions &boundary_conditions,
-    const Parameters::Mortar<dim> &mortar_parameters);
+void
+read_mesh_and_manifolds_for_stator_and_rotor(
+  parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
+  const Parameters::Mesh                                &mesh_parameters,
+  const Parameters::Manifolds                           &manifolds_parameters,
+  bool                                                   restart,
+  const BoundaryConditions::BoundaryConditions          &boundary_conditions,
+  const Parameters::Mortar<dim>                         &mortar_parameters);
 
 /**
  * @brief Refine a mesh around specific boundary ids
@@ -108,29 +113,39 @@ void read_mesh_and_manifolds_for_stator_and_rotor(
  *
  */
 template <int dim, int spacedim = dim>
-void refine_triangulation_at_boundaries(
-    const std::vector<int> boundary_ids, const unsigned int n_refinement,
-    parallel::DistributedTriangulationBase<dim, spacedim> &triangulation) {
+void
+refine_triangulation_at_boundaries(
+  const std::vector<int>                                 boundary_ids,
+  const unsigned int                                     n_refinement,
+  parallel::DistributedTriangulationBase<dim, spacedim> &triangulation)
+{
   // For the amount of refinements required
-  for (unsigned int r = 0; r < n_refinement; ++r) {
-    // Loop over the cells and flag all cells which are within the list of
-    // boundary ids
-    for (const auto &cell : triangulation.active_cell_iterators()) {
-      if (cell->is_locally_owned()) {
-        for (const auto f : cell->face_indices())
-
+  for (unsigned int r = 0; r < n_refinement; ++r)
+    {
+      // Loop over the cells and flag all cells which are within the list of
+      // boundary ids
+      for (const auto &cell : triangulation.active_cell_iterators())
         {
-          if (cell->face(f)->at_boundary()) {
-            if (std::find(boundary_ids.begin(), boundary_ids.end(),
-                          cell->face(f)->boundary_id()) != boundary_ids.end()) {
-              cell->set_refine_flag();
+          if (cell->is_locally_owned())
+            {
+              for (const auto f : cell->face_indices())
+
+                {
+                  if (cell->face(f)->at_boundary())
+                    {
+                      if (std::find(boundary_ids.begin(),
+                                    boundary_ids.end(),
+                                    cell->face(f)->boundary_id()) !=
+                          boundary_ids.end())
+                        {
+                          cell->set_refine_flag();
+                        }
+                    }
+                }
             }
-          }
         }
-      }
+      triangulation.execute_coarsening_and_refinement();
     }
-    triangulation.execute_coarsening_and_refinement();
-  }
 }
 
 #endif

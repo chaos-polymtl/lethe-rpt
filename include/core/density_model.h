@@ -9,7 +9,8 @@
 /**
  * @brief Abstract class for calculating the density of materials.
  */
-class DensityModel : public PhysicalPropertyModel {
+class DensityModel : public PhysicalPropertyModel
+{
 public:
   /**
    * @brief Instantiate and return a pointer to a DensityModel object by
@@ -23,13 +24,15 @@ public:
   static std::shared_ptr<DensityModel>
   model_cast(const Parameters::Material &material_properties);
 
+
   /**
    * @brief Get the value of the compressibility factor used in the
    * density model.
    *
    * @return Value of the compressibility factor.
    */
-  virtual double get_psi() const = 0;
+  virtual double
+  get_psi() const = 0;
 
   /**
    * @brief Get the value of the reference state density
@@ -37,7 +40,8 @@ public:
    *
    * @return Value of the reference state density.
    */
-  virtual double get_density_ref() const = 0;
+  virtual double
+  get_density_ref() const = 0;
 
   /**
    * @brief Check if the model is a constant density model.
@@ -45,24 +49,32 @@ public:
    * @return Boolean indicating if the model corresponds to a constant
    * density model.
    */
-  bool is_constant_density_model() const { return constant_density_model; }
+  bool
+  is_constant_density_model() const
+  {
+    return constant_density_model;
+  }
 
 protected:
   /// Boolean indicating if the model corresponds to a constant density model
   bool constant_density_model = false;
 };
 
+
 /**
  * @brief Constant density model.
  */
-class DensityConstant : public DensityModel {
+class DensityConstant : public DensityModel
+{
 public:
   /**
    * @brief Constructor of the constant density model.
    *
    * @param[in] p_density Constant density value.
    */
-  DensityConstant(const double p_density) : density(p_density) {
+  DensityConstant(const double p_density)
+    : density(p_density)
+  {
     this->constant_density_model = true;
   }
 
@@ -77,7 +89,9 @@ public:
    *
    * @return Density value.
    */
-  double value(const std::map<field, double> &field_values) override {
+  double
+  value(const std::map<field, double> &field_values) override
+  {
     (void)field_values;
     return density;
   }
@@ -93,8 +107,10 @@ public:
    * @note Here, the @p field_vectors parameter is ignored since the density
    * remains constant.
    */
-  void vector_value(const std::map<field, std::vector<double>> &field_vectors,
-                    std::vector<double> &property_vector) override {
+  void
+  vector_value(const std::map<field, std::vector<double>> &field_vectors,
+               std::vector<double> &property_vector) override
+  {
     (void)field_vectors;
     std::fill(property_vector.begin(), property_vector.end(), density);
   }
@@ -116,8 +132,9 @@ public:
    * specified field. Since the density remains constant, this function returns
    * zero.
    */
-  double jacobian(const std::map<field, double> &field_values,
-                  const field id) override {
+  double
+  jacobian(const std::map<field, double> &field_values, const field id) override
+  {
     (void)field_values;
     (void)id;
     return 0.0;
@@ -144,8 +161,9 @@ public:
    */
   void
   vector_jacobian(const std::map<field, std::vector<double>> &field_vectors,
-                  const field id,
-                  std::vector<double> &jacobian_vector) override {
+                  const field                                 id,
+                  std::vector<double> &jacobian_vector) override
+  {
     (void)field_vectors;
     (void)id;
     std::fill(jacobian_vector.begin(), jacobian_vector.end(), 0.0);
@@ -157,7 +175,11 @@ public:
    *
    * @return Value of the compressibility factor which in this case is null.
    */
-  double get_psi() const override { return 0.0; }
+  double
+  get_psi() const override
+  {
+    return 0.0;
+  }
 
   /**
    * @brief Get the value of the reference state density used in the density
@@ -166,12 +188,17 @@ public:
    * @return Value of the reference state density, here the constant density
    * value.
    */
-  double get_density_ref() const override { return density; }
+  double
+  get_density_ref() const override
+  {
+    return density;
+  }
 
 private:
   /// Density of the material.
   const double density;
 };
+
 
 /**
  * @brief Isothermal ideal gas density.
@@ -190,7 +217,8 @@ private:
  * The model is used for weakly compressible flows when temperature
  * fluctuations' influence on density can be neglected.
  */
-class DensityIsothermalIdealGas : public DensityModel {
+class DensityIsothermalIdealGas : public DensityModel
+{
 public:
   /**
    * @brief Constructor of the isothermal ideal gas density model.
@@ -204,9 +232,12 @@ public:
    *
    * @param[in] p_T Value of the temperature of the gas at reference state.
    */
-  DensityIsothermalIdealGas(const double p_density_ref, const double p_R,
+  DensityIsothermalIdealGas(const double p_density_ref,
+                            const double p_R,
                             const double p_T)
-      : density_ref(p_density_ref), psi(1. / (p_R * p_T)) {
+    : density_ref(p_density_ref)
+    , psi(1. / (p_R * p_T))
+  {
     this->model_depends_on[field::pressure] = true;
   }
 
@@ -219,7 +250,9 @@ public:
    *
    * @return Value of the density computed with the @p field_values.
    */
-  double value(const std::map<field, double> &field_values) override {
+  double
+  value(const std::map<field, double> &field_values) override
+  {
     Assert(field_values.find(field::pressure) != field_values.end(),
            PhysicialPropertyModelFieldUndefined("DensityIsothermalIdealGas",
                                                 "pressure"));
@@ -236,8 +269,10 @@ public:
    *
    * @param[out] property_vector Vectors of computed density values.
    */
-  void vector_value(const std::map<field, std::vector<double>> &field_vectors,
-                    std::vector<double> &property_vector) override {
+  void
+  vector_value(const std::map<field, std::vector<double>> &field_vectors,
+               std::vector<double> &property_vector) override
+  {
     Assert(field_vectors.find(field::pressure) != field_vectors.end(),
            PhysicialPropertyModelFieldUndefined("DensityIsothermalIdealGas",
                                                 "pressure"));
@@ -259,8 +294,9 @@ public:
    * @return Value of the derivative of the density with respect to the
    * specified field.
    */
-  double jacobian(const std::map<field, double> &field_values,
-                  const field id) override {
+  double
+  jacobian(const std::map<field, double> &field_values, const field id) override
+  {
     (void)field_values;
     if (id == field::pressure)
       return psi;
@@ -284,8 +320,9 @@ public:
    */
   void
   vector_jacobian(const std::map<field, std::vector<double>> &field_vectors,
-                  const field id,
-                  std::vector<double> &jacobian_vector) override {
+                  const field                                 id,
+                  std::vector<double> &jacobian_vector) override
+  {
     (void)field_vectors;
     if (id == field::pressure)
       std::fill(jacobian_vector.begin(), jacobian_vector.end(), psi);
@@ -299,7 +336,11 @@ public:
    *
    * @return Value of the isothermal ideal gas compressibility factor.
    */
-  double get_psi() const override { return psi; }
+  double
+  get_psi() const override
+  {
+    return psi;
+  }
 
   /**
    * @brief Get the value of the reference state density used in the density
@@ -307,7 +348,11 @@ public:
    *
    * @return Value of the density of the isothermal ideal gas at reference state
    */
-  double get_density_ref() const override { return density_ref; }
+  double
+  get_density_ref() const override
+  {
+    return density_ref;
+  }
 
 private:
   /// Density of the isothermal ideal gas at reference state

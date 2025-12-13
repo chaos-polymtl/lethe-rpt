@@ -12,10 +12,10 @@
 using namespace dealii;
 
 /**
- * @brief Output the data out to "group_files" vtu files, with a pvtu file and a
- * pvd to store the timing This function outputs the data out to "group_files"
- * vtu file that are orchestrated by a .pvtu file. An additional pvd file takes
- * care of storing the time associated with each .pvtu file.
+ * @brief Output the data out to "group_files" vtu files, with a pvtu file and a pvd to store the timing
+ * This function outputs the data out to "group_files" vtu file that are
+ * orchestrated by a .pvtu file. An additional pvd file takes care of storing
+ * the time associated with each .pvtu file.
  *
  * @param[in] pvd_handler a PVDHandler to store the information about the file
  * name and time associated with it
@@ -32,13 +32,16 @@ using namespace dealii;
  * used to store iteration number in the file name
  */
 template <int dim, int spacedim = dim>
-void write_vtu_and_pvd(PVDHandler &pvd_handler,
-                       const DataOutInterface<dim, spacedim> &data_out,
-                       const std::string &folder,
-                       const std::string &file_prefix, const double time,
-                       const unsigned int iter, const unsigned int group_files,
-                       const MPI_Comm &mpi_communicator,
-                       const unsigned int digits = 5);
+void
+write_vtu_and_pvd(PVDHandler                            &pvd_handler,
+                  const DataOutInterface<dim, spacedim> &data_out,
+                  const std::string                     &folder,
+                  const std::string                     &file_prefix,
+                  const double                           time,
+                  const unsigned int                     iter,
+                  const unsigned int                     group_files,
+                  const MPI_Comm                        &mpi_communicator,
+                  const unsigned int                     digits = 5);
 
 /**
  * @brief Output the Data Out Faces to a single vtu file
@@ -57,17 +60,19 @@ void write_vtu_and_pvd(PVDHandler &pvd_handler,
  * used to store iteration number in the file name
  */
 template <int dim>
-void write_boundaries_vtu(
-    const DataOutFaces<dim> &data_out, const std::string &folder,
-    const double time, const unsigned int iter,
-    const MPI_Comm &mpi_communicator,
-    const std::string &file_prefix = std::string("boundaries"),
-    const unsigned int digits = 5);
+void
+write_boundaries_vtu(const DataOutFaces<dim> &data_out,
+                     const std::string       &folder,
+                     const double             time,
+                     const unsigned int       iter,
+                     const MPI_Comm          &mpi_communicator,
+                     const std::string &file_prefix = std::string("boundaries"),
+                     const unsigned int digits      = 5);
 
 /**
- * @brief Output the Data Out Faces as vtu files, with a pvtu file and a pvd to
- * store the timing This function is used only when the mortar feature is
- * enabled, since the rotating domain changes its boundary position over time.
+ * @brief Output the Data Out Faces as vtu files, with a pvtu file and a pvd to store the timing
+ * This function is used only when the mortar feature is enabled, since the
+ * rotating domain changes its boundary position over time.
  *
  * @param[in] pvd_handler a PVDHandler to store the information about the file
  * name and time associated with it
@@ -89,10 +94,15 @@ void write_boundaries_vtu(
  * used to store iteration number in the file name
  */
 template <int dim>
-void write_boundaries_vtu_and_pvd(
-    PVDHandler &pvd_handler_boundary, const DataOutFaces<dim> &data_out_faces,
-    const std::string &folder, const double time, const unsigned int iter,
-    const unsigned int group_files, const MPI_Comm &mpi_communicator,
-    const std::string &file_prefix = std::string("boundaries"),
-    const unsigned int digits = 5);
+void
+write_boundaries_vtu_and_pvd(
+  PVDHandler              &pvd_handler_boundary,
+  const DataOutFaces<dim> &data_out_faces,
+  const std::string       &folder,
+  const double             time,
+  const unsigned int       iter,
+  const unsigned int       group_files,
+  const MPI_Comm          &mpi_communicator,
+  const std::string       &file_prefix = std::string("boundaries"),
+  const unsigned int       digits      = 5);
 #endif

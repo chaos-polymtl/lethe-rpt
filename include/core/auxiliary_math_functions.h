@@ -14,7 +14,9 @@
  * @param value_two
  * @return harmonic mean of value_one and value_two
  */
-inline double harmonic_mean(const double &value_one, const double &value_two) {
+inline double
+harmonic_mean(const double &value_one, const double &value_two)
+{
   return (2 * value_one * value_two /
           (value_one + value_two + std::numeric_limits<double>::min()));
 }

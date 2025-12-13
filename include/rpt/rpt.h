@@ -22,7 +22,9 @@
 
 using namespace dealii;
 
-template <int dim> class RPT {
+template <int dim>
+class RPT
+{
 public:
   /**
    * @brief Constructor for the RPT
@@ -37,30 +39,34 @@ public:
    * @brief Set up data assignation & call photon counts calculation
    * for all particle positions and detector
    */
-  void setup_and_calculate();
+  void
+  setup_and_calculate();
 
   /**
    * @brief Export position, detector id and count results in .csv or .dat
    */
-  void export_data();
+  void
+  export_data();
 
   /**
    * @brief Calculate photon counts for all particle positions and detector
    */
-  void calculate_counts();
+  void
+  calculate_counts();
 
   /**
    * @brief Calculate cost function for calculated and measured counts
    */
-  double calculate_cost_function(std::vector<double> &measured_counts,
-                                 std::vector<double> &calculated_counts);
+  double
+  calculate_cost_function(std::vector<double> &measured_counts,
+                          std::vector<double> &calculated_counts);
 
   RPTCalculatingParameters rpt_parameters;
 
 private:
   std::vector<RadioParticle<dim>> particle_positions;
-  std::vector<Detector<dim>> detectors;
-  std::vector<double> calculated_counts;
+  std::vector<Detector<dim>>      detectors;
+  std::vector<double>             calculated_counts;
 };
 
 #endif

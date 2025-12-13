@@ -14,28 +14,31 @@
 
 #include <../tests/tests.h>
 
-void test() {
+void
+test()
+{
   Parameters::NonLinearSolver params{
-      .verbosity = Parameters::Verbosity::quiet,
-      .solver = Parameters::NonLinearSolver::SolverType::kinsol_newton,
-      .kinsol_strategy =
-          Parameters::NonLinearSolver::KinsolStrategy::line_search, // kinsol
-                                                                    // strategy
-      .tolerance = 1e-8,
-      .max_iterations = 20,
-      .display_precision = 4,
-      .force_rhs_calculation = false,
-      .matrix_tolerance = 0.0,
-      .step_tolerance = 0.0,
-      .reuse_matrix = false,
-      .reuse_preconditioner = false,
-      .abort_at_convergence_failure = false};
+    .verbosity = Parameters::Verbosity::quiet,
+    .solver    = Parameters::NonLinearSolver::SolverType::kinsol_newton,
+    .kinsol_strategy =
+      Parameters::NonLinearSolver::KinsolStrategy::line_search, // kinsol
+                                                                // strategy
+    .tolerance                    = 1e-8,
+    .max_iterations               = 20,
+    .display_precision            = 4,
+    .force_rhs_calculation        = false,
+    .matrix_tolerance             = 0.0,
+    .step_tolerance               = 0.0,
+    .reuse_matrix                 = false,
+    .reuse_preconditioner         = false,
+    .abort_at_convergence_failure = false};
 
   deallog << "Creating solver" << std::endl;
 
   // Create an instantiation of the Test Class
   std::unique_ptr<NonLinearProblemTestClass> solver =
-      std::make_unique<NonLinearProblemTestClass>(params);
+    std::make_unique<NonLinearProblemTestClass>(params);
+
 
   deallog << "Solving non-linear system " << std::endl;
   // Solve the non-linear system of equation
@@ -46,33 +49,40 @@ void test() {
           << present_solution[1] << std::endl;
 }
 
-int main(int argc, char **argv) {
-  try {
-    Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
-    initlog();
-    test();
-  } catch (std::exception &exc) {
-    std::cerr << std::endl
-              << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    std::cerr << "Exception on processing: " << std::endl
-              << exc.what() << std::endl
-              << "Aborting!" << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    return 1;
-  } catch (...) {
-    std::cerr << std::endl
-              << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    std::cerr << "Unknown exception!" << std::endl
-              << "Aborting!" << std::endl
-              << "----------------------------------------------------"
-              << std::endl;
-    return 1;
-  }
+int
+main(int argc, char **argv)
+{
+  try
+    {
+      Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
+      initlog();
+      test();
+    }
+  catch (std::exception &exc)
+    {
+      std::cerr << std::endl
+                << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      std::cerr << "Exception on processing: " << std::endl
+                << exc.what() << std::endl
+                << "Aborting!" << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      return 1;
+    }
+  catch (...)
+    {
+      std::cerr << std::endl
+                << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      std::cerr << "Unknown exception!" << std::endl
+                << "Aborting!" << std::endl
+                << "----------------------------------------------------"
+                << std::endl;
+      return 1;
+    }
 
   return 0;
 }

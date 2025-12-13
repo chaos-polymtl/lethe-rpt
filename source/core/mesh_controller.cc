@@ -3,8 +3,10 @@
 
 #include <core/mesh_controller.h>
 
-double MeshController::calculate_coarsening_factor(
-    unsigned int current_number_of_elements) {
+double
+MeshController::calculate_coarsening_factor(
+  unsigned int current_number_of_elements)
+{
   // Parameters of the controller
   double P = 0.5;
   double I = 0.3;
@@ -22,23 +24,24 @@ double MeshController::calculate_coarsening_factor(
   previous_mesh_control_error = previous_mesh_control_error + error;
 
   // Calculate the coarsening factor
-  double coarsening_fraction_controlled = -error * P -
-                                          previous_mesh_control_error * I -
-                                          (error - previous_error) * D;
+  double coarsening_fraction_controlled =
+    -error * P - previous_mesh_control_error * I - (error - previous_error) * D;
 
   // Saturate the coarsening parameter.
-  if (coarsening_fraction_controlled < 0.0) {
-    // Stop the integration if we are at the saturation point.
-    coarsening_fraction_controlled = 0;
-    if (error > 0.0)
-      previous_mesh_control_error = previous_mesh_control_error - error;
-  }
-  if (coarsening_fraction_controlled > 1.0) {
-    coarsening_fraction_controlled = 1;
-    // Stop the integration if we are at the saturation point.
-    if (error < 1.0)
-      previous_mesh_control_error = previous_mesh_control_error - error;
-  }
+  if (coarsening_fraction_controlled < 0.0)
+    {
+      // Stop the integration if we are at the saturation point.
+      coarsening_fraction_controlled = 0;
+      if (error > 0.0)
+        previous_mesh_control_error = previous_mesh_control_error - error;
+    }
+  if (coarsening_fraction_controlled > 1.0)
+    {
+      coarsening_fraction_controlled = 1;
+      // Stop the integration if we are at the saturation point.
+      if (error < 1.0)
+        previous_mesh_control_error = previous_mesh_control_error - error;
+    }
 
   return coarsening_fraction_controlled;
 }
