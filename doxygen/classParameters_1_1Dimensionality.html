@@ -148,7 +148,7 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class used to rescale physical properties for cases where the main dimensions of the problems (Length, Mass, Time and Temperature) are not expressed in SI, but are expressed in another set of units. For example, this can be used to carry out a simulation where the mesh is expressed in millimeters instead of meters. This class is currently only used to rescale the physical properties in the FEM-based physics (e.g. all of those that are solvers). Support for <a class="el" href="namespaceDEM.html">DEM</a>, CFD-DEM and rescaling of boundary conditions is planned in the midterm. </p>
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00023">23</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00022">22</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6235741682a482cf5113e4f5497c9168" name="a6235741682a482cf5113e4f5497c9168"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6235741682a482cf5113e4f5497c9168">&#9670;&#160;</a></span>Dimensionality()</h2>
@@ -175,9 +175,9 @@ Public Attributes</h2></td></tr>
 
 <p>Default constructor that assumes that the units used in the simulation are consistent. </p>
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00031">31</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00029">29</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
-<p class="reference">References <a class="el" href="dimensionality_8cc_source.html#l00010">define_all_scales()</a>.</p>
+<p class="reference">References <a class="el" href="dimensionality_8cc_source.html#l00008">define_all_scales()</a>.</p>
 
 </div>
 </div>
@@ -214,9 +214,9 @@ Public Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8cc_source.html#l00033">33</a> of file <a class="el" href="dimensionality_8cc_source.html">dimensionality.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8cc_source.html#l00029">29</a> of file <a class="el" href="dimensionality_8cc_source.html">dimensionality.cc</a>.</p>
 
-<p class="reference">References <a class="el" href="utilities_8h_source.html#l01009">convert_string_to_vector()</a>.</p>
+<p class="reference">References <a class="el" href="utilities_8h_source.html#l00927">convert_string_to_vector()</a>.</p>
 
 </div>
 </div>
@@ -237,9 +237,9 @@ Public Attributes</h2></td></tr>
 
 <p>Defines all the sub-scales that are relevant to simulations. This is used to define scaling laws for kinematic viscosity or other quantities which appear multiple times in the simulation. This prevents the recalculation of these scales (and thus, human errors). </p>
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8cc_source.html#l00010">10</a> of file <a class="el" href="dimensionality_8cc_source.html">dimensionality.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8cc_source.html#l00008">8</a> of file <a class="el" href="dimensionality_8cc_source.html">dimensionality.cc</a>.</p>
 
-<p class="reference">References <a class="el" href="dimensionality_8h_source.html#l00095">cahn_hilliard_epsilon_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00094">cahn_hilliard_mobility_scaling</a>, <a class="el" href="utilities_8h_source.html#l01009">convert_string_to_vector()</a>, <a class="el" href="dimensionality_8h_source.html#l00084">density_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00090">diffusivity_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00089">enthalpy_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00072">length</a>, <a class="el" href="dimensionality_8h_source.html#l00073">mass</a>, <a class="el" href="dimensionality_8h_source.html#l00085">specific_gas_constant_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00087">specific_heat_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00093">surface_tension_gradient_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00092">surface_tension_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00075">temperature</a>, <a class="el" href="dimensionality_8h_source.html#l00088">thermal_conductivity_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00091">thermal_expansion_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00074">time</a>, and <a class="el" href="dimensionality_8h_source.html#l00086">viscosity_scaling</a>.</p>
+<p class="reference">References <a class="el" href="dimensionality_8h_source.html#l00085">cahn_hilliard_epsilon_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00084">cahn_hilliard_mobility_scaling</a>, <a class="el" href="utilities_8h_source.html#l00927">convert_string_to_vector()</a>, <a class="el" href="dimensionality_8h_source.html#l00074">density_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00080">diffusivity_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00079">enthalpy_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00062">length</a>, <a class="el" href="dimensionality_8h_source.html#l00063">mass</a>, <a class="el" href="dimensionality_8h_source.html#l00075">specific_gas_constant_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00077">specific_heat_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00083">surface_tension_gradient_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00082">surface_tension_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00065">temperature</a>, <a class="el" href="dimensionality_8h_source.html#l00078">thermal_conductivity_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00081">thermal_expansion_scaling</a>, <a class="el" href="dimensionality_8h_source.html#l00064">time</a>, and <a class="el" href="dimensionality_8h_source.html#l00076">viscosity_scaling</a>.</p>
 
 </div>
 </div>
@@ -267,9 +267,9 @@ Public Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8cc_source.html#l00070">70</a> of file <a class="el" href="dimensionality_8cc_source.html">dimensionality.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8cc_source.html#l00057">57</a> of file <a class="el" href="dimensionality_8cc_source.html">dimensionality.cc</a>.</p>
 
-<p class="reference">References <a class="el" href="utilities_8h_source.html#l01009">convert_string_to_vector()</a>, <a class="el" href="dimensionality_8cc_source.html#l00010">define_all_scales()</a>, <a class="el" href="dimensionality_8h_source.html#l00072">length</a>, <a class="el" href="dimensionality_8h_source.html#l00073">mass</a>, <a class="el" href="dimensionality_8h_source.html#l00075">temperature</a>, and <a class="el" href="dimensionality_8h_source.html#l00074">time</a>.</p>
+<p class="reference">References <a class="el" href="utilities_8h_source.html#l00927">convert_string_to_vector()</a>, <a class="el" href="dimensionality_8cc_source.html#l00008">define_all_scales()</a>, <a class="el" href="dimensionality_8h_source.html#l00062">length</a>, <a class="el" href="dimensionality_8h_source.html#l00063">mass</a>, <a class="el" href="dimensionality_8h_source.html#l00065">temperature</a>, and <a class="el" href="dimensionality_8h_source.html#l00064">time</a>.</p>
 
 </div>
 </div>
@@ -286,7 +286,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00095">95</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00085">85</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -302,7 +302,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00094">94</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00084">84</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -318,7 +318,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00084">84</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00074">74</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -334,7 +334,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00090">90</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00080">80</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -350,7 +350,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00089">89</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00079">79</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -366,7 +366,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00072">72</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00062">62</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -382,7 +382,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00073">73</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00063">63</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -398,7 +398,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00085">85</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00075">75</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -414,7 +414,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00087">87</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00077">77</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -430,7 +430,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00093">93</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00083">83</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -446,7 +446,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00092">92</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00082">82</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -462,7 +462,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00075">75</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00065">65</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -478,7 +478,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00088">88</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00078">78</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -494,7 +494,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00091">91</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00081">81</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -510,7 +510,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00074">74</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00064">64</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
@@ -526,7 +526,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00086">86</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="dimensionality_8h_source.html#l00076">76</a> of file <a class="el" href="dimensionality_8h_source.html">dimensionality.h</a>.</p>
 
 </div>
 </div>
