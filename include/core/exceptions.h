@@ -13,18 +13,14 @@
 
 using namespace dealii;
 
-DeclException3(SolidWarning,
-               unsigned int,
-               std::string,
-               std::string,
+DeclException3(SolidWarning, unsigned int, std::string, std::string,
                << "'number of solids = " << arg1 << "' but " << arg2
                << " solver does not support nitsche restriction. Use " << arg3
                << " solver instead.");
 
 DeclException1(
-  NoSolidWarning,
-  std::string,
-  << "No solid defined: impossible to assemble nitsche restriction in " << arg1
-  << " solver. Change the 'number of solids' parameter.");
+    NoSolidWarning, std::string,
+    << "No solid defined: impossible to assemble nitsche restriction in "
+    << arg1 << " solver. Change the 'number of solids' parameter.");
 
 #endif

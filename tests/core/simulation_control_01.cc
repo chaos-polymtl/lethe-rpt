@@ -13,21 +13,19 @@
 // Tests (with common definitions)
 #include <../tests/tests.h>
 
-void
-test()
-{
+void test() {
   Parameters::SimulationControl simulationControlParameters;
-  simulationControlParameters.dt     = 0.01;
-  simulationControlParameters.adapt  = false;
+  simulationControlParameters.dt = 0.01;
+  simulationControlParameters.adapt = false;
   simulationControlParameters.maxCFL = 99;
   simulationControlParameters.method =
-    Parameters::SimulationControl::TimeSteppingMethod::bdf1;
-  simulationControlParameters.time_end                          = 999;
-  simulationControlParameters.number_mesh_adaptation            = 9;
-  simulationControlParameters.output_name                       = "test";
-  simulationControlParameters.subdivision                       = 7;
-  simulationControlParameters.output_folder                     = "canard";
-  simulationControlParameters.output_iteration_frequency        = 8;
+      Parameters::SimulationControl::TimeSteppingMethod::bdf1;
+  simulationControlParameters.time_end = 999;
+  simulationControlParameters.number_mesh_adaptation = 9;
+  simulationControlParameters.output_name = "test";
+  simulationControlParameters.subdivision = 7;
+  simulationControlParameters.output_folder = "canard";
+  simulationControlParameters.output_iteration_frequency = 8;
   simulationControlParameters.time_step_independent_of_end_time = true;
 
   SimulationControlTransient simulationControl(simulationControlParameters);
@@ -49,37 +47,30 @@ test()
   deallog << "OK" << std::endl;
 }
 
-int
-main()
-{
-  try
-    {
-      initlog();
-      test();
-    }
-  catch (std::exception &exc)
-    {
-      std::cerr << std::endl
-                << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      std::cerr << "Exception on processing: " << std::endl
-                << exc.what() << std::endl
-                << "Aborting!" << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      return 1;
-    }
-  catch (...)
-    {
-      std::cerr << std::endl
-                << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      std::cerr << "Unknown exception!" << std::endl
-                << "Aborting!" << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      return 1;
-    }
+int main() {
+  try {
+    initlog();
+    test();
+  } catch (std::exception &exc) {
+    std::cerr << std::endl
+              << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    std::cerr << "Exception on processing: " << std::endl
+              << exc.what() << std::endl
+              << "Aborting!" << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    return 1;
+  } catch (...) {
+    std::cerr << std::endl
+              << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    std::cerr << "Unknown exception!" << std::endl
+              << "Aborting!" << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    return 1;
+  }
 }

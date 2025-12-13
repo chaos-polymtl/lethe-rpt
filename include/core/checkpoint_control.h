@@ -9,8 +9,7 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
-class CheckpointControl
-{
+class CheckpointControl {
 public:
   /**
    * @brief The CheckpointControl is responsible for keeping track of the
@@ -20,53 +19,37 @@ public:
    * simulation checkpoints.
    */
   CheckpointControl(Parameters::Restart &param)
-    : max_checkpoint_id(2)
-    , next_checkpoint_id(max_checkpoint_id)
-    , checkpointing_frequency(param.frequency)
-    , restart(param.checkpoint)
-    , filename(param.filename)
-  {}
+      : max_checkpoint_id(2), next_checkpoint_id(max_checkpoint_id),
+        checkpointing_frequency(param.frequency), restart(param.checkpoint),
+        filename(param.filename) {}
 
   /**
    * @brief Return true if a checkpoint should be made at the current time step.
    * @param time_step_number Current time step.
    */
-  bool
-  is_checkpoint_time_step(const unsigned int time_step_number)
-  {
-    if (restart && !(time_step_number % checkpointing_frequency))
-      {
-        increment_checkpoint_id();
-        return true;
-      }
+  bool is_checkpoint_time_step(const unsigned int time_step_number) {
+    if (restart && !(time_step_number % checkpointing_frequency)) {
+      increment_checkpoint_id();
+      return true;
+    }
     return false;
   }
 
   /**
    * @brief Return the next checkpoint id.
    */
-  unsigned int
-  get_next_checkpoint_id() const
-  {
-    return next_checkpoint_id;
-  }
+  unsigned int get_next_checkpoint_id() const { return next_checkpoint_id; }
 
   /**
    * @brief Return the prefix for the restart files.
    */
-  std::string
-  get_filename() const
-  {
-    return filename;
-  }
+  std::string get_filename() const { return filename; }
 
   /**
    * @brief Serialize the checkpoint controller object to an output archive.
    * @param ar Output archive where the attributes are stored.
    */
-  void
-  serialize(boost::archive::text_oarchive &ar) const
-  {
+  void serialize(boost::archive::text_oarchive &ar) const {
     ar &next_checkpoint_id;
   }
 
@@ -74,9 +57,7 @@ public:
    * @brief Deserialize an input archive to the checkpoint controller object.
    * @param ar Input archive where the attributes are stored.
    */
-  void
-  deserialize(boost::archive::text_iarchive &ar)
-  {
+  void deserialize(boost::archive::text_iarchive &ar) {
     ar &next_checkpoint_id;
   }
 
@@ -84,16 +65,14 @@ private:
   /**
    * @brief Calculate the next checkpoint id.
    */
-  void
-  increment_checkpoint_id()
-  {
+  void increment_checkpoint_id() {
     next_checkpoint_id = (next_checkpoint_id + 1) % max_checkpoint_id;
   }
 
   const unsigned int max_checkpoint_id;
-  unsigned int       next_checkpoint_id;
+  unsigned int next_checkpoint_id;
   const unsigned int checkpointing_frequency;
-  const bool         restart;
-  const std::string  filename;
+  const bool restart;
+  const std::string filename;
 };
 #endif

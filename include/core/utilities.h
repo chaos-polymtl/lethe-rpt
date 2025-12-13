@@ -39,21 +39,14 @@ using namespace dealii;
  * the DEM model.
  */
 
-class statistics
-{
+class statistics {
   /**
    * @brief Default constructor.
    *
    * Initializes all statistical values (min, max, total, average) to 0.
    */
 public:
-  statistics()
-    : min(0)
-    , max(0)
-    , total(0)
-    , average(0)
-  {}
-
+  statistics() : min(0), max(0), total(0), average(0) {}
 
   /// The minimum value in the dataset.
   double min;
@@ -68,7 +61,6 @@ public:
   double average;
 };
 
-
 /**
  * @brief Add statistical values to a TableHandler.
  *
@@ -80,11 +72,9 @@ public:
  * @param[in,out] table Reference to the TableHandler where the values will be
  * added.
  */
-inline void
-add_statistics_to_table_handler(const std::string &variable,
-                                const statistics  &stats,
-                                TableHandler      &table)
-{
+inline void add_statistics_to_table_handler(const std::string &variable,
+                                            const statistics &stats,
+                                            TableHandler &table) {
   table.add_value("Variable", variable);
   table.add_value("Min", stats.min);
   table.add_value("Max", stats.max);
@@ -119,15 +109,13 @@ add_statistics_to_table_handler(const std::string &variable,
  * variables values.
  */
 template <typename T>
-TableHandler
-make_table_scalars_vectors(
-  const std::vector<T>                   &independent_values,
-  const std::string                      &independent_column_name,
-  const std::vector<std::vector<double>> &dependent_vector,
-  const std::vector<std::string>         &dependent_column_names,
-  const unsigned int                      display_precision,
-  const bool                              display_scientific_notation = false);
-
+TableHandler make_table_scalars_vectors(
+    const std::vector<T> &independent_values,
+    const std::string &independent_column_name,
+    const std::vector<std::vector<double>> &dependent_vector,
+    const std::vector<std::string> &dependent_column_names,
+    const unsigned int display_precision,
+    const bool display_scientific_notation = false);
 
 /**
  * @brief Generate a table from a vector of scalars (independent variable) and
@@ -158,14 +146,13 @@ make_table_scalars_vectors(
  * variables values.
  */
 template <int dim, typename T>
-TableHandler
-make_table_scalars_tensors(
-  const std::vector<T>              &independent_values,
-  const std::string                 &independent_column_name,
-  const std::vector<Tensor<1, dim>> &dependent_vector,
-  const std::vector<std::string>    &dependent_column_names,
-  const unsigned int                 display_precision,
-  const bool                         display_scientific_notation = false);
+TableHandler make_table_scalars_tensors(
+    const std::vector<T> &independent_values,
+    const std::string &independent_column_name,
+    const std::vector<Tensor<1, dim>> &dependent_vector,
+    const std::vector<std::string> &dependent_column_names,
+    const unsigned int display_precision,
+    const bool display_scientific_notation = false);
 
 /**
  * @brief Generate a table from a vector of scalar (independent variable) and a
@@ -196,14 +183,13 @@ make_table_scalars_tensors(
  * variables values.
  */
 template <int dim, typename T>
-TableHandler
-make_table_scalars_tensors(
-  const std::vector<T>                           &independent_values,
-  const std::string                              &independent_column_name,
-  const std::vector<std::vector<Tensor<1, dim>>> &dependent_vector,
-  const std::vector<std::string>                 &dependent_column_names,
-  const unsigned int                              display_precision,
-  const bool display_scientific_notation = false);
+TableHandler make_table_scalars_tensors(
+    const std::vector<T> &independent_values,
+    const std::string &independent_column_name,
+    const std::vector<std::vector<Tensor<1, dim>>> &dependent_vector,
+    const std::vector<std::string> &dependent_column_names,
+    const unsigned int display_precision,
+    const bool display_scientific_notation = false);
 
 /**
  * @brief Generate a table from a vector of Tensor<1,dim> (independent
@@ -233,15 +219,13 @@ make_table_scalars_tensors(
  * variables values.
  */
 template <int dim>
-TableHandler
-make_table_tensors_tensors(
-  const std::vector<Tensor<1, dim>> &independent_vector,
-  const std::vector<std::string>    &independent_column_names,
-  const std::vector<Tensor<1, dim>> &dependent_vector,
-  const std::vector<std::string>    &dependent_column_names,
-  const unsigned int                 display_precision,
-  const bool                         display_scientific_notation = false);
-
+TableHandler make_table_tensors_tensors(
+    const std::vector<Tensor<1, dim>> &independent_vector,
+    const std::vector<std::string> &independent_column_names,
+    const std::vector<Tensor<1, dim>> &dependent_vector,
+    const std::vector<std::string> &dependent_column_names,
+    const unsigned int display_precision,
+    const bool display_scientific_notation = false);
 
 /**
  * @brief Generate a table from a vector of Tensor<1,dim> (independent
@@ -270,15 +254,13 @@ make_table_tensors_tensors(
  * variable values.
  */
 template <int dim>
-TableHandler
-make_table_tensors_scalars(
-  const std::vector<Tensor<1, dim>> &independent_vector,
-  const std::vector<std::string>    &independent_column_names,
-  const std::vector<double>         &dependent_values,
-  const std::string                 &dependent_column_name,
-  const unsigned int                 display_precision,
-  const bool                         display_scientific_notation = false);
-
+TableHandler make_table_tensors_scalars(
+    const std::vector<Tensor<1, dim>> &independent_vector,
+    const std::vector<std::string> &independent_column_names,
+    const std::vector<double> &dependent_values,
+    const std::string &dependent_column_name,
+    const unsigned int display_precision,
+    const bool display_scientific_notation = false);
 
 /**
  * @brief Calculate the equivalent properties for a given phase. Method called
@@ -286,15 +268,15 @@ make_table_tensors_scalars(
  *
  * @param phase Phase value for the given quadrature point
  *
- * @param property0 Property value for the fluid with index 0 (fluid for phase = 0)
+ * @param property0 Property value for the fluid with index 0 (fluid for phase =
+ * 0)
  *
- * @param property1 Property value for the fluid with index 1 (fluid for phase = 1)
+ * @param property1 Property value for the fluid with index 1 (fluid for phase =
+ * 1)
  */
-inline double
-calculate_point_property(const double phase,
-                         const double property0,
-                         const double property1)
-{
+inline double calculate_point_property(const double phase,
+                                       const double property0,
+                                       const double property1) {
   double property_eq = phase * property1 + (1 - phase) * property0;
 
   // Limit parameters value (patch)
@@ -302,14 +284,12 @@ calculate_point_property(const double phase,
   // VOF advection equation
   const double property_min = std::min(property0, property1);
   const double property_max = std::max(property0, property1);
-  if (property_eq < property_min)
-    {
-      property_eq = property_min;
-    }
-  if (property_eq > property_max)
-    {
-      property_eq = property_max;
-    }
+  if (property_eq < property_min) {
+    property_eq = property_min;
+  }
+  if (property_eq > property_max) {
+    property_eq = property_max;
+  }
 
   return property_eq;
 }
@@ -326,13 +306,9 @@ calculate_point_property(const double phase,
  * @retval +1 if the value is positive.
  * @retval 0 if the value is zero.
  */
-template <typename T>
-[[nodiscard]] constexpr int
-sgn(const T val) noexcept
-{
+template <typename T> [[nodiscard]] constexpr int sgn(const T val) noexcept {
   return (static_cast<T>(0) < val) - (val < static_cast<T>(0));
 }
-
 
 /**
  * @brief Clip a property between a lower and a higher value
@@ -340,13 +316,11 @@ sgn(const T val) noexcept
  * @param[in,out] lower Lower admissible value
  * @param[in,out] upper Upper admissible value
  * @param[in,out] n
- * @return Clipped variable that is not below the lower limit and not above the upper limit
+ * @return Clipped variable that is not below the lower limit and not above the
+ * upper limit
  *
  */
-template <typename T>
-T
-clip(const T &n, const T &lower, const T &upper)
-{
+template <typename T> T clip(const T &n, const T &lower, const T &upper) {
   return std::max(lower, std::min(n, upper));
 }
 
@@ -366,16 +340,14 @@ clip(const T &n, const T &lower, const T &upper)
 [[nodiscard]] inline double
 calculate_point_property_cahn_hilliard(const double phase_cahn_hilliard,
                                        const double property0,
-                                       const double property1)
-{
+                                       const double property1) {
   double phase = phase_cahn_hilliard;
 
-  if (std::abs(phase_cahn_hilliard) > 1)
-    {
-      phase = sgn(phase_cahn_hilliard);
-    }
+  if (std::abs(phase_cahn_hilliard) > 1) {
+    phase = sgn(phase_cahn_hilliard);
+  }
 
-  double property_avg  = (property0 + property1) * 0.5;
+  double property_avg = (property0 + property1) * 0.5;
   double property_diff = (property0 - property1) * 0.5;
 
   double property_eq = phase * property_diff + property_avg;
@@ -383,9 +355,9 @@ calculate_point_property_cahn_hilliard(const double phase_cahn_hilliard,
   return property_eq;
 }
 
-
 /**
- * @brief Reads a file generated by a deal.II TableHandler and fills a TableHandler with its data.
+ * @brief Reads a file generated by a deal.II TableHandler and fills a
+ * TableHandler with its data.
  *
  * This function reads a table from a file and populates the given TableHandler.
  * Warning: If the table already contains data, it will be erased.
@@ -396,58 +368,54 @@ calculate_point_property_cahn_hilliard(const double phase_cahn_hilliard,
  * @param[in] delimiter Delimiter used in the file to separate values. Default
  * is a space (" ").
  */
-void
-fill_table_from_file(TableHandler      &table,
-                     const std::string &file_name,
-                     const std::string &delimiter = " ");
+void fill_table_from_file(TableHandler &table, const std::string &file_name,
+                          const std::string &delimiter = " ");
 
 /**
- * @brief function that read a file that was build from a dealii table and fill 2 vectors.
- * The first vector contains all the columns names and the second one contained
- * all the column data.
+ * @brief function that read a file that was build from a dealii table and fill
+ * 2 vectors. The first vector contains all the columns names and the second one
+ * contained all the column data.
  *
  * @param[in,out] map A map used to store the data based on column names.
  * @param[in] file_name Path to the file to read the table from.
  * @param[in] delimiter Delimiter used in the file to separate values. Default
  * is a space (" ").
  */
-void
-fill_vectors_from_file(std::map<std::string, std::vector<double>> &map,
-                       const std::string                          &file_name,
-                       const std::string &delimiter = " ");
+void fill_vectors_from_file(std::map<std::string, std::vector<double>> &map,
+                            const std::string &file_name,
+                            const std::string &delimiter = " ");
 
 /**
- * @brief Function that read a file that was build from a dealii table and create a map with the key being the column name and the variable the vectors of data.
+ * @brief Function that read a file that was build from a dealii table and
+ * create a map with the key being the column name and the variable the vectors
+ * of data.
  *
  * @param[in,out] map A map used to store the data based on column names.
  * @param[in] file_name Path to the file to read the table from.
  * @param[in] delimiter Delimiter used in the file to separate values. Default
  * is a space (" ").
  */
-void
-fill_string_vectors_from_file(
-  std::map<std::string, std::vector<std::string>> &map,
-  const std::string                               &file_name,
-  const std::string                               &delimiter = " ");
+void fill_string_vectors_from_file(
+    std::map<std::string, std::vector<std::string>> &map,
+    const std::string &file_name, const std::string &delimiter = " ");
 
 /**
  * @brief Creates the simulation output folder
  *
  * @param[in] dirname Output directory name
  */
-void
-create_output_folder(const std::string &dirname);
+void create_output_folder(const std::string &dirname);
 
 /**
  * @brief Delete the output folder and its content.
  *
  * @param[in] dirname Output directory name.
  */
-void
-delete_output_folder(const std::string &dirname);
+void delete_output_folder(const std::string &dirname);
 
 /**
- * @brief Prints a string and then adds a line above and below made with dashes containing as many dashes as the string has characters+1
+ * @brief Prints a string and then adds a line above and below made with dashes
+ * containing as many dashes as the string has characters+1
  *
  * For example, if the string to be printed is "Tracer" the result will be:
  * @code
@@ -461,11 +429,9 @@ delete_output_folder(const std::string &dirname);
  * @param[in] delimiter the character used to delimit the printing. Default
  * value is "-"
  */
-inline void
-announce_string(const ConditionalOStream &pcout,
-                const std::string        &expression,
-                const char                delimiter = '-')
-{
+inline void announce_string(const ConditionalOStream &pcout,
+                            const std::string &expression,
+                            const char delimiter = '-') {
   pcout << std::string(expression.size() + 1, delimiter) << std::endl;
   pcout << expression << std::endl;
   pcout << std::string(expression.size() + 1, delimiter) << std::endl;
@@ -483,21 +449,18 @@ announce_string(const ConditionalOStream &pcout,
  * @param[in] serialize_on_rank_zero Boolean indicating if the table should only
  * be serialized on rank 0 only. By default, it is set to `true`.
  */
-inline void
-serialize_table(const TableHandler &table,
-                const std::string  &filename,
-                const MPI_Comm     &mpi_communicator,
-                const bool          serialize_on_rank_zero = true)
-{
+inline void serialize_table(const TableHandler &table,
+                            const std::string &filename,
+                            const MPI_Comm &mpi_communicator,
+                            const bool serialize_on_rank_zero = true) {
   unsigned int this_mpi_process(
-    Utilities::MPI::this_mpi_process(mpi_communicator));
+      Utilities::MPI::this_mpi_process(mpi_communicator));
 
-  if (!serialize_on_rank_zero || this_mpi_process == 0)
-    {
-      std::ofstream                 ofile(filename);
-      boost::archive::text_oarchive oa(ofile, boost::archive::no_header);
-      oa << table;
-    }
+  if (!serialize_on_rank_zero || this_mpi_process == 0) {
+    std::ofstream ofile(filename);
+    boost::archive::text_oarchive oa(ofile, boost::archive::no_header);
+    oa << table;
+  }
 }
 
 /**
@@ -512,21 +475,17 @@ serialize_table(const TableHandler &table,
  * @param[in] deserialize_on_rank_zero Boolean indicating if the table should
  * only be deserialized on rank 0 only. By default, it is set to `true`.
  */
-inline void
-deserialize_table(TableHandler      &table,
-                  const std::string &filename,
-                  const MPI_Comm    &mpi_communicator,
-                  const bool         deserialize_on_rank_zero = true)
-{
+inline void deserialize_table(TableHandler &table, const std::string &filename,
+                              const MPI_Comm &mpi_communicator,
+                              const bool deserialize_on_rank_zero = true) {
   unsigned int this_mpi_process(
-    Utilities::MPI::this_mpi_process(mpi_communicator));
+      Utilities::MPI::this_mpi_process(mpi_communicator));
 
-  if (!deserialize_on_rank_zero || this_mpi_process == 0)
-    {
-      std::ifstream                 ifile(filename);
-      boost::archive::text_iarchive ia(ifile, boost::archive::no_header);
-      ia >> table;
-    }
+  if (!deserialize_on_rank_zero || this_mpi_process == 0) {
+    std::ifstream ifile(filename);
+    boost::archive::text_iarchive ia(ifile, boost::archive::no_header);
+    ia >> table;
+  }
 }
 
 /**
@@ -538,17 +497,13 @@ deserialize_table(TableHandler      &table,
  *
  * @param[in] mpi_communicator The MPI communicator
  */
-inline void
-serialize_tables_vector(
-  const std::vector<OutputStructTableHandler> &table_output_structs,
-  const MPI_Comm                               mpi_communicator)
-{
-  for (const auto &output_table : table_output_structs)
-    {
-      serialize_table(output_table.table,
-                      output_table.table_filename,
-                      mpi_communicator);
-    }
+inline void serialize_tables_vector(
+    const std::vector<OutputStructTableHandler> &table_output_structs,
+    const MPI_Comm mpi_communicator) {
+  for (const auto &output_table : table_output_structs) {
+    serialize_table(output_table.table, output_table.table_filename,
+                    mpi_communicator);
+  }
 }
 
 /**
@@ -560,17 +515,13 @@ serialize_tables_vector(
  *
  * @param[in] mpi_communicator The MPI communicator
  */
-inline void
-deserialize_tables_vector(
-  std::vector<OutputStructTableHandler> &table_output_structs,
-  const MPI_Comm                         mpi_communicator)
-{
-  for (auto &output_table : table_output_structs)
-    {
-      deserialize_table(output_table.table,
-                        output_table.table_filename,
-                        mpi_communicator);
-    }
+inline void deserialize_tables_vector(
+    std::vector<OutputStructTableHandler> &table_output_structs,
+    const MPI_Comm mpi_communicator) {
+  for (auto &output_table : table_output_structs) {
+    deserialize_table(output_table.table, output_table.table_filename,
+                      mpi_communicator);
+  }
 }
 
 /**
@@ -583,9 +534,8 @@ deserialize_tables_vector(
  * @param[in] parameter_name  Name of the parameter to retrieve.
  * @return std::string Value of the parameter, or an empty string if not found.
  */
-std::string
-get_last_value_of_parameter(const std::string &file_name,
-                            const std::string &parameter_name);
+std::string get_last_value_of_parameter(const std::string &file_name,
+                                        const std::string &parameter_name);
 /**
  * @brief Extract the dimension in which to run Lethe from
  * the contents of the parameter file. This is something that
@@ -595,8 +545,7 @@ get_last_value_of_parameter(const std::string &file_name,
  *
  * @param file_name[in] The file name from which dimension is read
  */
-unsigned int
-get_dimension(const std::string &file_name);
+unsigned int get_dimension(const std::string &file_name);
 
 /**
  * @brief Extract the maximum value between the number of boundary conditions
@@ -613,8 +562,7 @@ conditions
  *
  * @return The maximum number of boundary conditions or manifolds.
  */
-int
-get_max_subsection_size(const std::string &file_name);
+int get_max_subsection_size(const std::string &file_name);
 
 /**
  * @brief Return the tensor corresponding to the @p value_string. If the
@@ -634,12 +582,11 @@ get_max_subsection_size(const std::string &file_name);
  */
 template <int spacedim>
 inline Tensor<1, spacedim>
-value_string_to_tensor(const std::string &value_string)
-{
+value_string_to_tensor(const std::string &value_string) {
   std::vector<std::string> vector_of_string(
-    Utilities::split_string_list(value_string));
+      Utilities::split_string_list(value_string));
   std::vector<double> vector_of_double =
-    Utilities::string_to_double(vector_of_string);
+      Utilities::string_to_double(vector_of_string);
 
   Assert(vector_of_double.size() == 3 || vector_of_double.size() == 2,
          ExcMessage("Invalid string: " + value_string +
@@ -676,35 +623,31 @@ value_string_to_tensor(const std::string &value_string)
  */
 template <int spacedim>
 inline Tensor<1, spacedim>
-value_string_to_tensor(const std::string &value_string_0,
-                       const double      &value_1,
-                       const double      &value_2 = 0)
-{
+value_string_to_tensor(const std::string &value_string_0, const double &value_1,
+                       const double &value_2 = 0) {
   std::vector<std::string> vector_of_string(
-    Utilities::split_string_list(value_string_0));
+      Utilities::split_string_list(value_string_0));
   Tensor<1, spacedim> output_tensor;
 
   // The used parameter is a list of values
-  if (vector_of_string.size() > 1)
-    {
-      std::vector<double> vector_of_double =
+  if (vector_of_string.size() > 1) {
+    std::vector<double> vector_of_double =
         Utilities::string_to_double(vector_of_string);
-      Assert(vector_of_double.size() == 3 || vector_of_double.size() == 2,
-             ExcMessage("Invalid string: " + value_string_0 +
-                        ". This should be a two or three dimensional vector "
-                        "or point."));
-      for (unsigned int i = 0; i < vector_of_double.size(); ++i)
-        output_tensor[i] = vector_of_double[i];
-    }
-  else // Depreciated individual entries
-    {
-      // Since the first parameter is the alias of the new parameter,
-      // the value of the first parameter is obtained for its entry
-      output_tensor[0] = Utilities::string_to_double(value_string_0);
-      output_tensor[1] = value_1;
-      if constexpr (spacedim == 3)
-        output_tensor[2] = value_2;
-    }
+    Assert(vector_of_double.size() == 3 || vector_of_double.size() == 2,
+           ExcMessage("Invalid string: " + value_string_0 +
+                      ". This should be a two or three dimensional vector "
+                      "or point."));
+    for (unsigned int i = 0; i < vector_of_double.size(); ++i)
+      output_tensor[i] = vector_of_double[i];
+  } else // Depreciated individual entries
+  {
+    // Since the first parameter is the alias of the new parameter,
+    // the value of the first parameter is obtained for its entry
+    output_tensor[0] = Utilities::string_to_double(value_string_0);
+    output_tensor[1] = value_1;
+    if constexpr (spacedim == 3)
+      output_tensor[2] = value_2;
+  }
   return output_tensor;
 }
 
@@ -721,20 +664,17 @@ value_string_to_tensor(const std::string &value_string_0,
  * @return Cell diameter value.
  */
 template <int dim>
-inline double
-compute_cell_diameter(const double cell_measure, const unsigned int fe_degree)
-{
+inline double compute_cell_diameter(const double cell_measure,
+                                    const unsigned int fe_degree) {
   double h;
   if constexpr (dim == 2)
     h = std::sqrt(4. * cell_measure / numbers::PI) / fe_degree;
   else if constexpr (dim == 3)
     h = std::cbrt(6. * cell_measure / numbers::PI) / fe_degree;
   else
-    Assert(
-      false,
-      ExcMessage(std::string(
-        "'dim' should have a value of either 2 or 3. Only 2D and 3D simulations "
-        "are supported.")));
+    Assert(false, ExcMessage(std::string("'dim' should have a value of either "
+                                         "2 or 3. Only 2D and 3D simulations "
+                                         "are supported.")));
   return h;
 }
 
@@ -750,8 +690,7 @@ compute_cell_diameter(const double cell_measure, const unsigned int fe_degree)
  * @return Area (2D) volume (3D) of the cell.
  */
 inline double
-compute_cell_measure_with_JxW(const std::vector<double> &JxW_values)
-{
+compute_cell_measure_with_JxW(const std::vector<double> &JxW_values) {
   double cell_measure = 0;
   for (const double &JxW : JxW_values)
     cell_measure += JxW;
@@ -776,16 +715,12 @@ compute_cell_measure_with_JxW(const std::vector<double> &JxW_values)
  * @return Smallest cell size value.
  */
 template <int dim>
-inline double
-identify_minimum_cell_size(const Mapping<dim>    &mapping,
-                           const DoFHandler<dim> &dof_handler,
-                           const Quadrature<dim> &cell_quadrature,
-                           const MPI_Comm        &mpi_communicator)
-{
+inline double identify_minimum_cell_size(const Mapping<dim> &mapping,
+                                         const DoFHandler<dim> &dof_handler,
+                                         const Quadrature<dim> &cell_quadrature,
+                                         const MPI_Comm &mpi_communicator) {
   // Initialize FEValues for interface algebraic reinitialization
-  FEValues<dim> fe_values(mapping,
-                          dof_handler.get_fe(),
-                          cell_quadrature,
+  FEValues<dim> fe_values(mapping, dof_handler.get_fe(), cell_quadrature,
                           update_JxW_values);
 
   // Initialize cell diameter
@@ -794,21 +729,19 @@ identify_minimum_cell_size(const Mapping<dim>    &mapping,
   // Element degree
   const unsigned int degree = fe_values.get_fe().degree;
 
-  for (const auto &cell : dof_handler.active_cell_iterators())
-    {
-      if (cell->is_locally_owned())
-        {
-          fe_values.reinit(cell);
+  for (const auto &cell : dof_handler.active_cell_iterators()) {
+    if (cell->is_locally_owned()) {
+      fe_values.reinit(cell);
 
-          // Compute cell diameter
-          double cell_measure =
-            compute_cell_measure_with_JxW(fe_values.get_JxW_values());
-          double h_local = compute_cell_diameter<dim>(cell_measure, degree);
+      // Compute cell diameter
+      double cell_measure =
+          compute_cell_measure_with_JxW(fe_values.get_JxW_values());
+      double h_local = compute_cell_diameter<dim>(cell_measure, degree);
 
-          // Update cell diameter to minimum value
-          h = std::min(h, h_local);
-        }
+      // Update cell diameter to minimum value
+      h = std::min(h, h_local);
     }
+  }
 
   // Get the minimum between all processes
   h = Utilities::MPI::min(h, mpi_communicator);
@@ -831,11 +764,9 @@ identify_minimum_cell_size(const Mapping<dim>    &mapping,
  * @return double
  */
 
-inline double
-get_penalty_factor(const unsigned int fe_degree,
-                   const double       cell_extent_here,
-                   const double       cell_extent_there)
-{
+inline double get_penalty_factor(const unsigned int fe_degree,
+                                 const double cell_extent_here,
+                                 const double cell_extent_there) {
   return (fe_degree + 1) * (fe_degree + 1.) * 0.5 *
          (1. / cell_extent_here + 1. / cell_extent_there);
 }
@@ -850,9 +781,7 @@ get_penalty_factor(const unsigned int fe_degree,
  */
 
 template <typename key, typename val>
-std::vector<key>
-extract_keys_from_map(const std::map<key, val> &map)
-{
+std::vector<key> extract_keys_from_map(const std::map<key, val> &map) {
   std::vector<key> keys;
   for (const auto &pair : map)
     keys.push_back(pair.first);
@@ -869,9 +798,7 @@ extract_keys_from_map(const std::map<key, val> &map)
  */
 
 template <typename key, typename val>
-std::vector<val>
-extract_values_from_map(const std::map<key, val> &map)
-{
+std::vector<val> extract_values_from_map(const std::map<key, val> &map) {
   std::vector<val> values;
   for (const auto &pair : map)
     values.push_back(pair.second);
@@ -879,15 +806,14 @@ extract_values_from_map(const std::map<key, val> &map)
 }
 
 /**
- * @brief Concatenate words which are passed from the command line to a main function
- * into a single string in which the words are seperated by space.
+ * @brief Concatenate words which are passed from the command line to a main
+ * function into a single string in which the words are seperated by space.
  *
  * @param[in] argc number of arguments in C style.
  * @param[in] argv arguments themselves in C style.
  */
 
-std::string
-concatenate_strings(const int argc, char **argv);
+std::string concatenate_strings(const int argc, char **argv);
 
 /**
  * @brief Print the information of the deal.II and Lethe branches
@@ -895,8 +821,7 @@ concatenate_strings(const int argc, char **argv);
  *
  * @param[in] pcout Parallel output stream
  */
-void
-print_version_info(const ConditionalOStream &pcout);
+void print_version_info(const ConditionalOStream &pcout);
 
 /**
  * @brief Parse the arguments given to the application
@@ -919,16 +844,14 @@ parse_args(int argc, char **argv);
  * file.
  * @param[in] file_name File name where the parameters will be written.
  */
-void
-print_parameters_to_output_file(const ConditionalOStream &pcout,
-                                const ParameterHandler   &prm,
-                                const std::string        &file_name);
+void print_parameters_to_output_file(const ConditionalOStream &pcout,
+                                     const ParameterHandler &prm,
+                                     const std::string &file_name);
 
 /**
  * @brief Delete vtu and pvd files
  */
-void
-delete_vtu_and_pvd_files(const std::string &output_path);
+void delete_vtu_and_pvd_files(const std::string &output_path);
 
 /**
  * @brief Converts point to angle (in radians)
@@ -940,11 +863,10 @@ delete_vtu_and_pvd_files(const std::string &output_path);
 template <int dim>
 inline double
 point_to_angle(const Point<dim> &point,
-               const Point<dim> &center_of_rotation = Point<dim>())
-{
+               const Point<dim> &center_of_rotation = Point<dim>()) {
   return std::fmod(std::atan2(point[1] - center_of_rotation[1],
                               point[0] - center_of_rotation[0]) +
-                     2 * numbers::PI,
+                       2 * numbers::PI,
                    2 * numbers::PI);
 }
 
@@ -956,9 +878,7 @@ point_to_angle(const Point<dim> &point,
  * @return point Point cartesian coordinates
  */
 template <int dim>
-inline Point<dim>
-radius_to_point(const double radius, const double rad)
-{
+inline Point<dim> radius_to_point(const double radius, const double rad) {
   Point<dim> point;
 
   point[0] = radius * std::cos(rad);
@@ -979,16 +899,14 @@ radius_to_point(const double radius, const double rad)
 
 inline void
 create_random_number_container(std::vector<double> &random_container,
-                               const unsigned int   number_of_elements,
-                               const double         maximum_range,
-                               const unsigned int   prn_seed)
-{
-  for (unsigned int i = 0; i < number_of_elements; ++i)
-    {
-      srand(prn_seed * (i + 1));
-      random_container.push_back((((double)rand()) / ((double)RAND_MAX)) *
-                                 maximum_range);
-    }
+                               const unsigned int number_of_elements,
+                               const double maximum_range,
+                               const unsigned int prn_seed) {
+  for (unsigned int i = 0; i < number_of_elements; ++i) {
+    srand(prn_seed * (i + 1));
+    random_container.push_back((((double)rand()) / ((double)RAND_MAX)) *
+                               maximum_range);
+  }
 }
 
 /**
@@ -1002,44 +920,39 @@ create_random_number_container(std::vector<double> &random_container,
  * simulation information.
  * @param[in] entry_string A declare string in the parameter file.
  *
- * @return A std::vector<double> corresponding to the entry_string in the prm file.
+ * @return A std::vector<double> corresponding to the entry_string in the prm
+ * file.
  */
 template <typename T>
-std::vector<T>
-convert_string_to_vector(const ParameterHandler &prm,
-                         const std::string      &entry_string)
-{
-  std::string              full_str = prm.get(entry_string);
+std::vector<T> convert_string_to_vector(const ParameterHandler &prm,
+                                        const std::string &entry_string) {
+  std::string full_str = prm.get(entry_string);
   std::vector<std::string> vector_of_string(
-    Utilities::split_string_list(full_str));
-  if constexpr (std::is_same<T, int>::value)
-    {
-      std::vector<T> vector = Utilities::string_to_int(vector_of_string);
-      return vector;
+      Utilities::split_string_list(full_str));
+  if constexpr (std::is_same<T, int>::value) {
+    std::vector<T> vector = Utilities::string_to_int(vector_of_string);
+    return vector;
+  }
+  if constexpr (std::is_same<T, double>::value) {
+    std::vector<T> vector = Utilities::string_to_double(vector_of_string);
+    return vector;
+  }
+  if constexpr (std::is_same<T, std::string>::value) {
+    return vector_of_string;
+  }
+  if constexpr (std::is_same<T, types::boundary_id>::value) {
+    std::vector<int> vector_int = Utilities::string_to_int(vector_of_string);
+    std::vector<T> vector;
+    for (const auto var_int : vector_int) {
+      AssertThrow(
+          var_int >= 0,
+          ExcMessage(
+              "You are trying to convert a negative integer to a boundary id. "
+              "Lethe does not support negative boundary id."));
+      vector.push_back(static_cast<types::boundary_id>(var_int));
     }
-  if constexpr (std::is_same<T, double>::value)
-    {
-      std::vector<T> vector = Utilities::string_to_double(vector_of_string);
-      return vector;
-    }
-  if constexpr (std::is_same<T, std::string>::value)
-    {
-      return vector_of_string;
-    }
-  if constexpr (std::is_same<T, types::boundary_id>::value)
-    {
-      std::vector<int> vector_int = Utilities::string_to_int(vector_of_string);
-      std::vector<T>   vector;
-      for (const auto var_int : vector_int)
-        {
-          AssertThrow(
-            var_int >= 0,
-            ExcMessage(
-              "You are trying to convert a negative integer to a boundary id. Lethe does not support negative boundary id."));
-          vector.push_back(static_cast<types::boundary_id>(var_int));
-        }
-      return vector;
-    }
+    return vector;
+  }
 
   AssertThrow(false,
               ExcMessage("Error: convert_string_to_vector only works for "
@@ -1047,7 +960,5 @@ convert_string_to_vector(const ParameterHandler &prm,
 
   return std::vector<T>();
 }
-
-
 
 #endif

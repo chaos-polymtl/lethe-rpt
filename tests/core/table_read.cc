@@ -12,7 +12,6 @@
 
 #include <deal.II/particles/data_out.h>
 
-
 // Lethe
 #include <core/utilities.h>
 
@@ -26,9 +25,7 @@
  * functions always stay the same.
  */
 
-void
-test()
-{
+void test() {
   std::string table_file_name = "../table_read_input.dat";
 
   TableHandler table;
@@ -39,47 +36,39 @@ test()
   std::map<std::string, std::vector<double>> vectors;
   fill_vectors_from_file(vectors, table_file_name);
 
-  for (const auto &it : vectors)
-    {
-      deallog << it.first << std::endl;
-      for (const auto &j : it.second)
-        deallog << j << std::endl;
-    }
+  for (const auto &it : vectors) {
+    deallog << it.first << std::endl;
+    for (const auto &j : it.second)
+      deallog << j << std::endl;
+  }
 }
 
-int
-main(int argc, char *argv[])
-{
-  try
-    {
-      initlog();
-      Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
-      test();
-    }
-  catch (std::exception &exc)
-    {
-      std::cerr << std::endl
-                << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      std::cerr << "Exception on processing: " << std::endl
-                << exc.what() << std::endl
-                << "Aborting!" << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      return 1;
-    }
-  catch (...)
-    {
-      std::cerr << std::endl
-                << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      std::cerr << "Unknown exception!" << std::endl
-                << "Aborting!" << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      return 1;
-    }
+int main(int argc, char *argv[]) {
+  try {
+    initlog();
+    Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
+    test();
+  } catch (std::exception &exc) {
+    std::cerr << std::endl
+              << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    std::cerr << "Exception on processing: " << std::endl
+              << exc.what() << std::endl
+              << "Aborting!" << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    return 1;
+  } catch (...) {
+    std::cerr << std::endl
+              << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    std::cerr << "Unknown exception!" << std::endl
+              << "Aborting!" << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    return 1;
+  }
   return 0;
 }

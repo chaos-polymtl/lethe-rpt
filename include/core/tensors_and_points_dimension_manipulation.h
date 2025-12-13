@@ -20,9 +20,7 @@ using namespace dealii;
  */
 
 template <int dim>
-inline Tensor<1, 3>
-tensor_nd_to_3d(const Tensor<1, dim> &tensor)
-{
+inline Tensor<1, 3> tensor_nd_to_3d(const Tensor<1, dim> &tensor) {
   Tensor<1, 3> tensor_3d;
   tensor_3d[0] = tensor[0];
   tensor_3d[1] = tensor[1];
@@ -46,9 +44,7 @@ tensor_nd_to_3d(const Tensor<1, dim> &tensor)
  *
  */
 template <int dim>
-inline Tensor<1, 2>
-tensor_nd_to_2d(const Tensor<1, dim> &tensor)
-{
+inline Tensor<1, 2> tensor_nd_to_2d(const Tensor<1, dim> &tensor) {
   Tensor<1, 2> tensor_2d;
   tensor_2d[0] = tensor[0];
   tensor_2d[1] = tensor[1];
@@ -64,10 +60,7 @@ tensor_nd_to_2d(const Tensor<1, dim> &tensor)
  * @return point_3d Three-dimensional output point
  *
  */
-template <int dim>
-inline Point<3>
-point_nd_to_3d(const Point<dim> &point)
-{
+template <int dim> inline Point<3> point_nd_to_3d(const Point<dim> &point) {
   Point<3> point_3d;
   point_3d[0] = point[0];
   point_3d[1] = point[1];
@@ -89,10 +82,7 @@ point_nd_to_3d(const Point<dim> &point)
  * @return point_2d Two-dimensional output point
  *
  */
-template <int dim>
-inline Point<2>
-point_nd_to_2d(const Point<dim> &point)
-{
+template <int dim> inline Point<2> point_nd_to_2d(const Point<dim> &point) {
   Point<2> point_2d;
   point_2d[0] = point[0];
   point_2d[1] = point[1];

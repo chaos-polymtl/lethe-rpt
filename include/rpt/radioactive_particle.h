@@ -12,9 +12,7 @@
 
 using namespace dealii;
 
-template <int dim>
-class RadioParticle
-{
+template <int dim> class RadioParticle {
 public:
   /**
    * @brief Constructor for the RadioParticle.
@@ -24,26 +22,15 @@ public:
    * @param n ID number to the particle
    *
    */
-  RadioParticle(Point<dim> &location, int n)
-    : position(location)
-    , id(n)
-  {}
+  RadioParticle(Point<dim> &location, int n) : position(location), id(n) {}
 
-  Point<dim>
-  get_position()
-  {
-    return position;
-  }
+  Point<dim> get_position() { return position; }
 
-  Point<dim>
-  get_id()
-  {
-    return id;
-  }
+  Point<dim> get_id() { return id; }
 
 private:
   Point<dim> position;
-  int        id;
+  int id;
 };
 
 #endif // lethe_radioactive_particle_h

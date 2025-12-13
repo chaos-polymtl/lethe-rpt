@@ -3,7 +3,8 @@
 
 /**
  * @file simulation_control.h
- * @brief Simulation control classes for managing time-stepping and iteration control in Lethe
+ * @brief Simulation control classes for managing time-stepping and iteration
+ * control in Lethe
  *
  * This file defines the simulation control hierarchy used in Lethe to manage
  * steady-state and transient simulations. The SimulationControl base class and
@@ -20,7 +21,8 @@
 #include <deal.II/particles/particle_handler.h>
 
 /**
- * @brief Base class for controlling steady-state and transient simulations in Lethe
+ * @brief Base class for controlling steady-state and transient simulations in
+ * Lethe
  *
  * The SimulationControl class is responsible for managing the progression of
  * simulations carried out with Lethe. This is a pure virtual base class that
@@ -39,8 +41,7 @@
  * @note This class handles serialization through save() and read() methods
  * to enable checkpointing and restart capabilities.
  */
-class SimulationControl
-{
+class SimulationControl {
 protected:
   /// Time stepping method used for the simulation (BDF, SDIRK, steady, etc.)
   Parameters::SimulationControl::TimeSteppingMethod method;
@@ -71,7 +72,8 @@ protected:
   double end_time;
 
   /**
-   * @brief Boolean to keep the time step for the last iteration regardless of the end time
+   * @brief Boolean to keep the time step for the last iteration regardless of
+   * the end time
    *
    * When true, the last time step is not adjusted to match the end time
    * exactly. Applies to both fixed time step and adaptive time step
@@ -188,7 +190,8 @@ protected:
   Parameters::SimulationControl::BDFStartupMethods bdf_start_method;
 
   /**
-   * @brief The time scaling used for small time-steps at the startup of the simulation
+   * @brief The time scaling used for small time-steps at the startup of the
+   * simulation
    *
    * This scaling factor is applied during the startup phase when using
    * high-order BDF methods to gradually transition to the full-order scheme.
@@ -208,9 +211,7 @@ protected:
    *
    * @see calculate_bdf_coefficients
    */
-  void
-  update_bdf_coefficients()
-  {
+  void update_bdf_coefficients() {
     bdf_coefs = calculate_bdf_coefficients(assembly_method, time_step_vector);
   }
 
@@ -232,21 +233,18 @@ public:
    */
   virtual ~SimulationControl() = default;
 
-
   /**
-   * @brief Return the number of stages associated with the time-stepping method.
-   * For SDIRK methods, the number of stages is given by the last digit of the
-   * method name. For other methods, the number of stages is 1.
+   * @brief Return the number of stages associated with the time-stepping
+   * method. For SDIRK methods, the number of stages is given by the last digit
+   * of the method name. For other methods, the number of stages is 1.
    *
    * @param[in] method The time-stepping method for which the number of stages
    * is requested.
    *
    * @return The number of stages associated with the time-stepping method.
    */
-  static unsigned int
-  get_number_of_stages(
-    const Parameters::SimulationControl::TimeSteppingMethod &method);
-
+  static unsigned int get_number_of_stages(
+      const Parameters::SimulationControl::TimeSteppingMethod &method);
 
   /**
    * @brief Pure virtual function to control the progression of the simulation
@@ -259,8 +257,7 @@ public:
    *
    * @return true if the simulation should continue, false otherwise
    */
-  virtual bool
-  integrate() = 0;
+  virtual bool integrate() = 0;
 
   /**
    * @brief Establishes if a simulation has reached its end
@@ -268,10 +265,10 @@ public:
    * The concrete implementation of the class decides what is the stopping
    * criteria (iteration number, time_end reached, residual tolerance, etc.)
    *
-   * @return true if the simulation has reached its end condition, false otherwise
+   * @return true if the simulation has reached its end condition, false
+   * otherwise
    */
-  virtual bool
-  is_at_end() = 0;
+  virtual bool is_at_end() = 0;
 
   /**
    * @brief Add a time step and store the previous one in the history
@@ -283,46 +280,38 @@ public:
    * @param[in] p_timestep The new value of the time step for the present
    * iteration
    */
-  void
-  add_time_step(double p_timestep);
-
+  void add_time_step(double p_timestep);
 
   /**
-   * @brief Establish if the iteration is the first iteration or if the simulation has not begun
+   * @brief Establish if the iteration is the first iteration or if the
+   * simulation has not begun
    *
    * @return true if iteration_number <= 1, false otherwise
    */
-  bool
-  is_at_start() const
-  {
-    return iteration_number <= 1;
-  }
+  bool is_at_start() const { return iteration_number <= 1; }
 
   /**
    * @brief Establish if the simulation is a steady-state simulation
    *
    * @return true if the method is steady or steady_bdf, false otherwise
    */
-  bool
-  is_steady() const
-  {
+  bool is_steady() const {
     return method ==
-             Parameters::SimulationControl::TimeSteppingMethod::steady ||
+               Parameters::SimulationControl::TimeSteppingMethod::steady ||
            method ==
-             Parameters::SimulationControl::TimeSteppingMethod::steady_bdf;
+               Parameters::SimulationControl::TimeSteppingMethod::steady_bdf;
   }
 
   /**
    * @brief Establish if the method is a BDF method
    *
-   * @return true if the method is BDF1, BDF2, BDF3, or steady BDF, false otherwise
+   * @return true if the method is BDF1, BDF2, BDF3, or steady BDF, false
+   * otherwise
    */
-  bool
-  is_bdf() const
-  {
+  bool is_bdf() const {
     return method == Parameters::SimulationControl::TimeSteppingMethod::bdf1 ||
            method ==
-             Parameters::SimulationControl::TimeSteppingMethod::steady_bdf ||
+               Parameters::SimulationControl::TimeSteppingMethod::steady_bdf ||
            method == Parameters::SimulationControl::TimeSteppingMethod::bdf2 ||
            method == Parameters::SimulationControl::TimeSteppingMethod::bdf3;
   }
@@ -332,16 +321,13 @@ public:
    *
    * @return true if the method is sdirk22, sdirk33, or sdirk43, false otherwise
    */
-  bool
-  is_sdirk() const
-  {
+  bool is_sdirk() const {
     return method ==
-             Parameters::SimulationControl::TimeSteppingMethod::sdirk22 ||
+               Parameters::SimulationControl::TimeSteppingMethod::sdirk22 ||
            method ==
-             Parameters::SimulationControl::TimeSteppingMethod::sdirk33 ||
+               Parameters::SimulationControl::TimeSteppingMethod::sdirk33 ||
            method == Parameters::SimulationControl::TimeSteppingMethod::sdirk43;
   }
-
 
   /**
    * @brief Calculate the next value of the time step
@@ -352,12 +338,7 @@ public:
    *
    * @return The calculated time step value
    */
-  virtual double
-  calculate_time_step()
-  {
-    return time_step;
-  }
-
+  virtual double calculate_time_step() { return time_step; }
 
   /**
    * @brief Print the current progress status of the simulation
@@ -369,17 +350,12 @@ public:
    * @param[in] pcout Parallel conditional output stream used to print the
    * information
    */
-  virtual void
-  print_progression(const ConditionalOStream &pcout) = 0;
+  virtual void print_progression(const ConditionalOStream &pcout) = 0;
 
   /**
    * @brief Check if VTU/PVTU/PVD outputs are disabled
    */
-  bool
-  output_enabled() const
-  {
-    return output_iteration_frequency != 0;
-  }
+  bool output_enabled() const { return output_iteration_frequency != 0; }
 
   /**
    * @brief Check if the present iteration is an output iteration
@@ -389,19 +365,15 @@ public:
    *
    * @return true if output should be written at this iteration, false otherwise
    */
-  virtual bool
-  is_output_iteration();
+  virtual bool is_output_iteration();
 
   /**
-   * @brief Check if the boundaries of the domain should be outputted when writing results
+   * @brief Check if the boundaries of the domain should be outputted when
+   * writing results
    *
    * @return true if boundaries should be included in output, false otherwise
    */
-  bool
-  get_output_boundaries() const
-  {
-    return output_boundaries;
-  }
+  bool get_output_boundaries() const { return output_boundaries; }
 
   /**
    * @brief Check if the present iteration is a verbose iteration
@@ -409,10 +381,10 @@ public:
    * Determines if output should be written to the terminal at the current
    * iteration based on the log_frequency setting.
    *
-   * @return true if verbose output should be written at this iteration, false otherwise
+   * @return true if verbose output should be written at this iteration, false
+   * otherwise
    */
-  virtual bool
-  is_verbose_iteration();
+  virtual bool is_verbose_iteration();
 
   /**
    * @brief Check if this is the first assembly of the present iteration
@@ -428,11 +400,9 @@ public:
    * @note This method has a side effect: it sets first_assembly to false after
    * being called when it returns true.
    */
-  virtual bool
-  is_first_assembly()
-  {
+  virtual bool is_first_assembly() {
     bool return_value = first_assembly;
-    first_assembly    = false;
+    first_assembly = false;
     return return_value;
   }
 
@@ -443,8 +413,7 @@ public:
    * transitioning to the full-order scheme. This ensures stability during
    * the initial time steps.
    */
-  void
-  update_assembly_method();
+  void update_assembly_method();
 
   /**
    * @brief Set the value of the CFL condition
@@ -454,12 +423,7 @@ public:
    *
    * @param[in] p_CFL Value of the CFL condition calculated by the solver
    */
-  void
-  set_CFL(const double p_CFL)
-  {
-    CFL = p_CFL;
-  }
-
+  void set_CFL(const double p_CFL) { CFL = p_CFL; }
 
   /**
    * @brief Manually force the value of the time step for the present iteration
@@ -471,172 +435,116 @@ public:
    *
    * @pre new_time_step must be positive (cannot go backward in time)
    */
-  void
-  set_current_time_step(const double new_time_step)
-  {
-    Assert(
-      time_step > 0,
-      ExcMessage(
-        "You are trying to set a null or negative time-step in a SimulationControl. This is now allowed, we cannot go backward in time."));
+  void set_current_time_step(const double new_time_step) {
+    Assert(time_step > 0,
+           ExcMessage("You are trying to set a null or negative time-step in a "
+                      "SimulationControl. This is now allowed, we cannot go "
+                      "backward in time."));
     time_step = new_time_step;
   }
 
   /**
-   * @brief Provide the value of the residual at the beginning of the iteration to the simulation controller
+   * @brief Provide the value of the residual at the beginning of the iteration
+   * to the simulation controller
    *
    * Used primarily in adjoint time-stepping to track convergence.
    *
    * @param[in] new_residual Value of the residual at the beginning of an
    * adjoint time-stepping time step
    */
-  void
-  provide_residual(const double new_residual)
-  {
-    residual = new_residual;
-  }
+  void provide_residual(const double new_residual) { residual = new_residual; }
 
   /**
    * @brief Get current time step
    *
    * @return Current time step value
    */
-  double
-  get_time_step() const
-  {
-    return time_step;
-  }
+  double get_time_step() const { return time_step; }
 
   /**
    * @brief Get current iteration number
    *
    * @return Current iteration number
    */
-  unsigned int
-  get_iteration_number() const
-  {
-    return iteration_number;
-  }
+  unsigned int get_iteration_number() const { return iteration_number; }
 
   /**
    * @brief Get output file name prefix
    *
    * @return Output file name prefix
    */
-  std::string
-  get_output_name() const
-  {
-    return output_name;
-  }
+  std::string get_output_name() const { return output_name; }
 
   /**
    * @brief Get output directory path
    *
    * @return Output directory path
    */
-  std::string
-  get_output_path() const
-  {
-    return output_path;
-  }
+  std::string get_output_path() const { return output_path; }
 
   /**
    * @brief Get number of parallel files to generate for output
    *
    * @return Number of parallel output files
    */
-  unsigned int
-  get_group_files() const
-  {
-    return group_files;
-  }
+  unsigned int get_group_files() const { return group_files; }
 
   /**
    * @brief Get log precision
    *
    * @return Number of significant digits displayed on the standard outputs
    */
-  unsigned int
-  get_log_precision() const
-  {
-    return log_precision;
-  }
+  unsigned int get_log_precision() const { return log_precision; }
 
   /**
    * @brief Get current simulation time
    *
    * @return Current simulation time
    */
-  double
-  get_current_time() const
-  {
-    return current_time;
-  }
+  double get_current_time() const { return current_time; }
 
   /**
    * @brief Get previous simulation time
    *
    * @return Previous simulation time
    */
-  double
-  get_previous_time() const
-  {
-    return previous_time;
-  }
+  double get_previous_time() const { return previous_time; }
 
   /**
    * @brief Get time step history vector
    *
    * @return Vector containing previous time steps
    */
-  std::vector<double>
-  get_time_steps_vector() const
-  {
-    return time_step_vector;
-  }
+  std::vector<double> get_time_steps_vector() const { return time_step_vector; }
 
   /**
    * @brief Get current CFL number
    *
    * @return Current CFL condition value
    */
-  double
-  get_CFL() const
-  {
-    return CFL;
-  }
+  double get_CFL() const { return CFL; }
 
   /**
    * @brief Get step number (alias for get_iteration_number)
    *
    * @return Current iteration/step number
    */
-  unsigned int
-  get_step_number() const
-  {
-    return iteration_number;
-  }
+  unsigned int get_step_number() const { return iteration_number; }
 
   /**
    * @brief Get number of mesh subdivisions for output
    *
    * @return Number of mesh subdivisions to be used when outputting the results
    */
-  unsigned int
-  get_number_subdivision() const
-  {
-    return subdivision;
-  }
+  unsigned int get_number_subdivision() const { return subdivision; }
 
   /**
    * @brief Get log frequency
    *
-   * @return Frequency at which the status of the simulation is written to the terminal
+   * @return Frequency at which the status of the simulation is written to the
+   * terminal
    */
-  unsigned int
-  get_log_frequency() const
-  {
-    return log_frequency;
-  }
+  unsigned int get_log_frequency() const { return log_frequency; }
 
   /**
    * @brief Get current assembly method
@@ -644,8 +552,7 @@ public:
    * @return Current time stepping method used for assembly
    */
   Parameters::SimulationControl::TimeSteppingMethod
-  get_assembly_method() const
-  {
+  get_assembly_method() const {
     return assembly_method;
   }
 
@@ -654,10 +561,8 @@ public:
    *
    * @param[in] a_method The time stepping method to use for assembly
    */
-  void
-  set_assembly_method(
-    const Parameters::SimulationControl::TimeSteppingMethod a_method)
-  {
+  void set_assembly_method(
+      const Parameters::SimulationControl::TimeSteppingMethod a_method) {
     assembly_method = a_method;
   }
 
@@ -669,9 +574,7 @@ public:
    *
    * @return Number of previous solutions needed for the current method
    */
-  unsigned int
-  get_number_of_previous_solution_in_assembly() const
-  {
+  unsigned int get_number_of_previous_solution_in_assembly() const {
     return number_of_previous_solutions(method);
   }
 
@@ -684,17 +587,14 @@ public:
    *
    * @return Vector of simulation times (current and previous)
    */
-  std::vector<double>
-  get_simulation_times() const
-  {
+  std::vector<double> get_simulation_times() const {
     // Create a vector of the previous times
     std::vector<double> times(n_previous_time_steps + 1);
-    for (unsigned int i = 0; i < n_previous_time_steps + 1; ++i)
-      {
-        times[i] = current_time;
-        for (unsigned int j = 0; j < i; ++j)
-          times[i] -= time_step_vector[j];
-      }
+    for (unsigned int i = 0; i < n_previous_time_steps + 1; ++i) {
+      times[i] = current_time;
+      for (unsigned int j = 0; j < i; ++j)
+        times[i] -= time_step_vector[j];
+    }
     return times;
   }
 
@@ -707,11 +607,7 @@ public:
    *
    * @return Const reference to the BDF coefficients vector
    */
-  Vector<double> const &
-  get_bdf_coefficients()
-  {
-    return bdf_coefs;
-  }
+  Vector<double> const &get_bdf_coefficients() { return bdf_coefs; }
 
   /**
    * @brief Indicate if the simulation uses adaptive time stepping or not
@@ -721,8 +617,7 @@ public:
    *
    * @return true if the simulation has adaptive time stepping, false otherwise
    */
-  virtual bool
-  is_adaptive_time_stepping() const = 0;
+  virtual bool is_adaptive_time_stepping() const = 0;
 
   /**
    * @brief Save the simulation control information to a checkpoint file
@@ -732,8 +627,7 @@ public:
    *
    * @param[in] prefix The prefix of the checkpoint file for the simulation
    */
-  virtual void
-  save(const std::string &prefix);
+  virtual void save(const std::string &prefix);
 
   /**
    * @brief Read the simulation control information from a checkpoint file
@@ -743,11 +637,11 @@ public:
    *
    * @param[in] prefix The prefix of the checkpoint file for the simulation
    */
-  virtual void
-  read(const std::string &prefix);
+  virtual void read(const std::string &prefix);
 
   /**
-   * @brief Read and return simulation control information from checkpoint without updating
+   * @brief Read and return simulation control information from checkpoint
+   * without updating
    *
    * Reads and returns the simulation control information from the checkpoint
    * file without updating the internal simulation control state. Useful for
@@ -756,12 +650,12 @@ public:
    *
    * @param[in] prefix The prefix of the checkpoint file for the simulation
    *
-   * @return A vector containing the last checkpointed iteration number and time step
+   * @return A vector containing the last checkpointed iteration number and time
+   * step
    */
   std::vector<double>
   get_checkpointed_simulation_control_info(const std::string &prefix);
 };
-
 
 /**
  * @brief Simulation control for transient simulations
@@ -777,8 +671,7 @@ public:
  * - Specific output times capability
  * - Maximum time step limiting
  */
-class SimulationControlTransient : public SimulationControl
-{
+class SimulationControlTransient : public SimulationControl {
 protected:
   /// Enable adaptive time stepping
   bool adapt;
@@ -846,8 +739,7 @@ protected:
    *
    * @return The calculated time step value
    */
-  virtual double
-  calculate_time_step() override;
+  virtual double calculate_time_step() override;
 
 public:
   /**
@@ -863,19 +755,14 @@ public:
    * @param[in] pcout Parallel conditional output stream used to print the
    * information
    */
-  virtual void
-  print_progression(const ConditionalOStream &pcout) override;
+  virtual void print_progression(const ConditionalOStream &pcout) override;
 
   /**
    * @brief Indicate if the simulation uses adaptive time stepping or not
    *
    * @return true if the simulation has adaptive time stepping, false otherwise
    */
-  bool
-  is_adaptive_time_stepping() const override
-  {
-    return adapt;
-  }
+  bool is_adaptive_time_stepping() const override { return adapt; }
 
   /**
    * @brief Proceed with the simulation until the end condition is reached
@@ -884,16 +771,15 @@ public:
    *
    * @return true if the simulation should continue, false otherwise
    */
-  virtual bool
-  integrate() override;
+  virtual bool integrate() override;
 
   /**
    * @brief End the simulation when the end time is reached
    *
-   * @return true if the current time has reached or exceeded the end time, false otherwise
+   * @return true if the current time has reached or exceeded the end time,
+   * false otherwise
    */
-  virtual bool
-  is_at_end() override;
+  virtual bool is_at_end() override;
 
   /**
    * @brief Check if the current iteration is an output iteration
@@ -903,8 +789,7 @@ public:
    *
    * @return true if output should be written at this iteration, false otherwise
    */
-  virtual bool
-  is_output_iteration() override;
+  virtual bool is_output_iteration() override;
 
   /**
    * @brief Save the simulation control information to a checkpoint file
@@ -914,8 +799,7 @@ public:
    *
    * @param[in] prefix The prefix of the checkpoint file for the simulation
    */
-  void
-  save(const std::string &prefix) override;
+  void save(const std::string &prefix) override;
 
   /**
    * @brief Read the simulation control information from a checkpoint file
@@ -927,18 +811,17 @@ public:
    *
    * @param[in] prefix The prefix of the checkpoint file for the simulation
    */
-  void
-  read(const std::string &prefix) override;
+  void read(const std::string &prefix) override;
 };
 
 /**
- * @brief Transient simulation control tailored for the Discrete Element Method (DEM)
+ * @brief Transient simulation control tailored for the Discrete Element Method
+ * (DEM)
  *
  * This class specializes SimulationControlTransient for DEM simulations.
  * It provides DEM-specific progress reporting and output formatting.
  */
-class SimulationControlTransientDEM : public SimulationControlTransient
-{
+class SimulationControlTransientDEM : public SimulationControlTransient {
 public:
   /**
    * @brief Construct a DEM transient simulation control object
@@ -955,8 +838,7 @@ public:
    * @param[in] pcout Parallel conditional output stream used to print the
    * information
    */
-  virtual void
-  print_progression(const ConditionalOStream &pcout) override;
+  virtual void print_progression(const ConditionalOStream &pcout) override;
 };
 
 /**
@@ -969,8 +851,7 @@ public:
  *
  * @note Steady-state simulations do not use adaptive time stepping.
  */
-class SimulationControlSteady : public SimulationControl
-{
+class SimulationControlSteady : public SimulationControl {
 public:
   /**
    * @brief Construct a steady-state simulation control object
@@ -985,19 +866,14 @@ public:
    * @param[in] pcout Parallel conditional output stream used to print the
    * information
    */
-  virtual void
-  print_progression(const ConditionalOStream &pcout) override;
+  virtual void print_progression(const ConditionalOStream &pcout) override;
 
   /**
    * @brief Indicate if the simulation uses adaptive time stepping
    *
    * @return false (steady-state simulations do not use adaptive time stepping)
    */
-  bool
-  is_adaptive_time_stepping() const override
-  {
-    return false;
-  }
+  bool is_adaptive_time_stepping() const override { return false; }
 
   /**
    * @brief Proceed with the simulation until the end condition is reached
@@ -1006,16 +882,15 @@ public:
    *
    * @return true if the simulation should continue, false otherwise
    */
-  virtual bool
-  integrate() override;
+  virtual bool integrate() override;
 
   /**
    * @brief End the simulation when the number of mesh adaptations is reached
    *
-   * @return true if the required number of mesh adaptations has been completed, false otherwise
+   * @return true if the required number of mesh adaptations has been completed,
+   * false otherwise
    */
-  virtual bool
-  is_at_end() override;
+  virtual bool is_at_end() override;
 };
 
 /**
@@ -1029,8 +904,7 @@ public:
  * mechanisms, but applies them in the context of an adjoint problem where time
  * is a pseudo-parameter for convergence.
  */
-class SimulationControlAdjointSteady : public SimulationControlTransient
-{
+class SimulationControlAdjointSteady : public SimulationControlTransient {
 public:
   /**
    * @brief Construct an adjoint steady-state simulation control object
@@ -1045,18 +919,16 @@ public:
    * @param[in] pcout Parallel conditional output stream used to print the
    * information
    */
-  virtual void
-  print_progression(const ConditionalOStream &pcout) override;
+  virtual void print_progression(const ConditionalOStream &pcout) override;
 
   /**
    * @brief End the simulation when the desired residual tolerance is reached
    *
-   * @return true if the residual has reached the stop_tolerance, false otherwise
+   * @return true if the residual has reached the stop_tolerance, false
+   * otherwise
    */
-  virtual bool
-  is_at_end() override;
+  virtual bool is_at_end() override;
 };
-
 
 /**
  * @brief Simulation control for ray tracing simulations
@@ -1069,8 +941,7 @@ public:
  * instead, iterations represent photon propagation steps until all photons
  * have completed their trajectories.
  */
-class SimulationControlRayTracing : public SimulationControl
-{
+class SimulationControlRayTracing : public SimulationControl {
 public:
   /**
    * @brief Construct a ray tracing simulation control object
@@ -1080,8 +951,8 @@ public:
    * to be traced
    */
   SimulationControlRayTracing(
-    const Parameters::SimulationControl &param,
-    Particles::ParticleHandler<3>       &input_photon_handler);
+      const Parameters::SimulationControl &param,
+      Particles::ParticleHandler<3> &input_photon_handler);
 
   /**
    * @brief Proceed with the simulation until the end condition is reached
@@ -1090,27 +961,22 @@ public:
    *
    * @return true if the simulation should continue, false otherwise
    */
-  virtual bool
-  integrate() override;
+  virtual bool integrate() override;
 
   /**
-   * @brief End the simulation when there are no longer any photons in the triangulation
+   * @brief End the simulation when there are no longer any photons in the
+   * triangulation
    *
    * @return true if all photons have exited or been absorbed, false otherwise
    */
-  bool
-  is_at_end() override;
+  bool is_at_end() override;
 
   /**
    * @brief Indicate if the simulation uses adaptive time stepping
    *
    * @return false (ray tracing simulations do not use adaptive time stepping)
    */
-  bool
-  is_adaptive_time_stepping() const override
-  {
-    return false;
-  }
+  bool is_adaptive_time_stepping() const override { return false; }
 
   /**
    * @brief Print the current progress status of the ray tracing simulation
@@ -1118,11 +984,11 @@ public:
    * @param[in] pcout Parallel conditional output stream used to print the
    * information
    */
-  void
-  print_progression(const ConditionalOStream &pcout) override;
+  void print_progression(const ConditionalOStream &pcout) override;
 
   /**
-   * @brief Reference to the photon handler used during the ray-tracing simulation
+   * @brief Reference to the photon handler used during the ray-tracing
+   * simulation
    *
    * This handler manages the photons being traced through the domain.
    */

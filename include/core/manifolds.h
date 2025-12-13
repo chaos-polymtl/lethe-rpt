@@ -14,53 +14,42 @@
 
 using namespace dealii;
 
-namespace Parameters
-{
-  /**
-   * @brief Manifolds - This class manages attaching manifolds to
-   * faces when a manual attachment is required (for example if the mesh
-   * is coming from a GMSH file)
-   */
-  class Manifolds
-  {
-  public:
-    enum class ManifoldType
-    {
-      none,
-      spherical,
-      cylindrical,
-      iges
-    };
+namespace Parameters {
+/**
+ * @brief Manifolds - This class manages attaching manifolds to
+ * faces when a manual attachment is required (for example if the mesh
+ * is coming from a GMSH file)
+ */
+class Manifolds {
+public:
+  enum class ManifoldType { none, spherical, cylindrical, iges };
 
-    // ID of boundary condition
-    std::vector<unsigned int> id;
+  // ID of boundary condition
+  std::vector<unsigned int> id;
 
-    // List of boundary type for each number
-    std::vector<ManifoldType> types;
+  // List of boundary type for each number
+  std::vector<ManifoldType> types;
 
-    // Vector containing strings describing the user inserted geometrical
-    // characteristics of the manifolds
-    std::vector<std::string> manifold_point;
-    std::vector<std::string> manifold_direction;
+  // Vector containing strings describing the user inserted geometrical
+  // characteristics of the manifolds
+  std::vector<std::string> manifold_point;
+  std::vector<std::string> manifold_direction;
 
-    // File names for cad manifolds
-    std::vector<std::string> cad_files;
+  // File names for cad manifolds
+  std::vector<std::string> cad_files;
 
-    // Number of boundary conditions
-    unsigned int size;
-    unsigned int max_size;
+  // Number of boundary conditions
+  unsigned int size;
+  unsigned int max_size;
 
-    void
-    parse_boundary(const ParameterHandler &prm, unsigned int i_bc);
+  void parse_boundary(const ParameterHandler &prm, unsigned int i_bc);
 
-    static void
-    declareDefaultEntry(ParameterHandler &prm, unsigned int i_bc);
-    void
-    declare_parameters(ParameterHandler &prm, unsigned int subsection_max_size);
+  static void declareDefaultEntry(ParameterHandler &prm, unsigned int i_bc);
+  void declare_parameters(ParameterHandler &prm,
+                          unsigned int subsection_max_size);
 
-    void
-    parse_parameters(ParameterHandler &prm);
-  };
+  void parse_parameters(ParameterHandler &prm);
+};
 } // namespace Parameters
 
 /**
@@ -68,99 +57,80 @@ namespace Parameters
  * id to the faces when outputting the surfaces within the domain.
  */
 template <int dim>
-class BoundaryPostprocessor : public DataPostprocessorScalar<dim>
-{
+class BoundaryPostprocessor : public DataPostprocessorScalar<dim> {
 public:
   BoundaryPostprocessor()
-    : DataPostprocessorScalar<dim>("boundary_id", update_quadrature_points)
-  {}
-  virtual void
-  evaluate_vector_field(
-    const DataPostprocessorInputs::Vector<dim> &input_data,
-    std::vector<Vector<double>> &computed_quantities) const override
-  {
+      : DataPostprocessorScalar<dim>("boundary_id", update_quadrature_points) {}
+  virtual void evaluate_vector_field(
+      const DataPostprocessorInputs::Vector<dim> &input_data,
+      std::vector<Vector<double>> &computed_quantities) const override {
     auto current_cell = input_data.template get_cell<dim>();
 
-    for (unsigned int p = 0; p < input_data.evaluation_points.size(); ++p)
-      {
-        unsigned int boundary_id  = 0;
-        double       min_distance = DBL_MAX;
+    for (unsigned int p = 0; p < input_data.evaluation_points.size(); ++p) {
+      unsigned int boundary_id = 0;
+      double min_distance = DBL_MAX;
 
-        for (const auto face : current_cell->face_indices())
-          {
-            if (current_cell->face(face)->at_boundary())
-              {
-                for (const auto vertex :
-                     current_cell->face(face)->vertex_indices())
-                  {
-                    double distance = input_data.evaluation_points[p].distance(
-                      current_cell->face(face)->vertex(vertex));
-                    if (distance < min_distance)
-                      {
-                        min_distance = distance;
+      for (const auto face : current_cell->face_indices()) {
+        if (current_cell->face(face)->at_boundary()) {
+          for (const auto vertex : current_cell->face(face)->vertex_indices()) {
+            double distance = input_data.evaluation_points[p].distance(
+                current_cell->face(face)->vertex(vertex));
+            if (distance < min_distance) {
+              min_distance = distance;
 
-                        boundary_id = current_cell->face(face)->boundary_id();
-                      }
-                  }
-              }
+              boundary_id = current_cell->face(face)->boundary_id();
+            }
           }
-        computed_quantities[p][0] = boundary_id;
+        }
       }
+      computed_quantities[p][0] = boundary_id;
+    }
   };
 
-  virtual void
-  evaluate_scalar_field(
-    const DataPostprocessorInputs::Scalar<dim> &input_data,
-    std::vector<Vector<double>> &computed_quantities) const override
-  {
+  virtual void evaluate_scalar_field(
+      const DataPostprocessorInputs::Scalar<dim> &input_data,
+      std::vector<Vector<double>> &computed_quantities) const override {
     auto current_cell = input_data.template get_cell<dim>();
 
-    for (unsigned int p = 0; p < input_data.evaluation_points.size(); ++p)
-      {
-        unsigned int boundary_id  = 0;
-        double       min_distance = DBL_MAX;
+    for (unsigned int p = 0; p < input_data.evaluation_points.size(); ++p) {
+      unsigned int boundary_id = 0;
+      double min_distance = DBL_MAX;
 
-        for (const auto face : current_cell->face_indices())
-          {
-            if (current_cell->face(face)->at_boundary())
-              {
-                for (const auto vertex :
-                     current_cell->face(face)->vertex_indices())
-                  {
-                    double distance = input_data.evaluation_points[p].distance(
-                      current_cell->face(face)->vertex(vertex));
-                    if (distance < min_distance)
-                      {
-                        min_distance = distance;
+      for (const auto face : current_cell->face_indices()) {
+        if (current_cell->face(face)->at_boundary()) {
+          for (const auto vertex : current_cell->face(face)->vertex_indices()) {
+            double distance = input_data.evaluation_points[p].distance(
+                current_cell->face(face)->vertex(vertex));
+            if (distance < min_distance) {
+              min_distance = distance;
 
-                        boundary_id = current_cell->face(face)->boundary_id();
-                      }
-                  }
-              }
+              boundary_id = current_cell->face(face)->boundary_id();
+            }
           }
-        computed_quantities[p][0] = boundary_id;
+        }
       }
+      computed_quantities[p][0] = boundary_id;
+    }
   }
 };
-
 
 /**
  * @brief Attaches manifold to boundaries of the triangulation
  *
  * @param triangulation The triangulation to manifolds are attached
  *
- * @param manifolds The information about the type of manifolds attached to the faces
+ * @param manifolds The information about the type of manifolds attached to the
+ * faces
  */
 template <int dim, int spacedim = dim>
-void
-attach_manifolds_to_triangulation(
-  parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
-  const Parameters::Manifolds                            manifolds);
+void attach_manifolds_to_triangulation(
+    parallel::DistributedTriangulationBase<dim, spacedim> &triangulation,
+    const Parameters::Manifolds manifolds);
 
 /**
- * @brief Attaches CAD manifolds using IGES files to boundaries of the triangulation
- * This function attaches a CAD manifold to the faces of a triangulation. Note
- * that this only works in 3D.
+ * @brief Attaches CAD manifolds using IGES files to boundaries of the
+ * triangulation This function attaches a CAD manifold to the faces of a
+ * triangulation. Note that this only works in 3D.
  *
  * @param triangulation The triangulation to manifolds are attached
  *
@@ -168,22 +138,16 @@ attach_manifolds_to_triangulation(
  *
  * @param manifold_id Identifier of the manifold
  */
-void
-attach_cad_to_manifold(parallel::DistributedTriangulationBase<2> &triangulation,
-                       const std::string                         &cad_name,
-                       const unsigned int                         manifold_id);
+void attach_cad_to_manifold(
+    parallel::DistributedTriangulationBase<2> &triangulation,
+    const std::string &cad_name, const unsigned int manifold_id);
 
-void
-attach_cad_to_manifold(
-  parallel::DistributedTriangulationBase<2, 3> &triangulation,
-  const std::string                            &cad_name,
-  const unsigned int                            manifold_id);
+void attach_cad_to_manifold(
+    parallel::DistributedTriangulationBase<2, 3> &triangulation,
+    const std::string &cad_name, const unsigned int manifold_id);
 
-void
-attach_cad_to_manifold(parallel::DistributedTriangulationBase<3> &triangulation,
-                       const std::string                         &cad_name,
-                       const unsigned int                         manifold_id);
-
-
+void attach_cad_to_manifold(
+    parallel::DistributedTriangulationBase<3> &triangulation,
+    const std::string &cad_name, const unsigned int manifold_id);
 
 #endif

@@ -12,7 +12,6 @@
 
 using namespace dealii;
 
-
 /**
  * @brief Structure representing a Butcher tableau for a SDIRK method.
  *
@@ -30,9 +29,8 @@ using namespace dealii;
  * integration method and are specific to each SDIRK variant (e.g., SDIRK22,
  * SDIRK33).
  */
-struct SDIRKTable
-{
-  FullMatrix<double>  A;
+struct SDIRKTable {
+  FullMatrix<double> A;
   std::vector<double> b;
   std::vector<double> c;
 };
@@ -55,7 +53,8 @@ struct SDIRKTable
  * TimeSteppingMethod::sdirk22, TimeSteppingMethod::sdirk33) selected from the
  * Parameters::SimulationControl::TimeSteppingMethod enum.
  *
- * @return SDIRKTable A structure containing the Butcher tableau (A, b, c) for the requested method.
+ * @return SDIRKTable A structure containing the Butcher tableau (A, b, c) for
+ * the requested method.
  */
 
 // When referencing to SDIRK methods the pattern used is sdirkOrderStage. For
@@ -63,13 +62,11 @@ struct SDIRKTable
 SDIRKTable
 sdirk_table(const Parameters::SimulationControl::TimeSteppingMethod method);
 
-
-
-class SDIRKStageData
-{
+class SDIRKStageData {
 public:
   /**
-   * @brief Extract the coefficients of a given stage from a SDIRK Butcher tableau.
+   * @brief Extract the coefficients of a given stage from a SDIRK Butcher
+   * tableau.
    *
    * This function returns the data needed to compute the solution increment
    * at a particular stage of a SDIRK (Singly Diagonally Implicit Runge-Kutta)
@@ -111,8 +108,8 @@ public:
   SDIRKStageData(const SDIRKTable &table, const unsigned int stage_i);
 
   std::vector<double> a_ij;
-  double              c_i;
-  double              b_i;
+  double c_i;
+  double b_i;
 };
 
 #endif // SDIRK_STAGE_DATA_H

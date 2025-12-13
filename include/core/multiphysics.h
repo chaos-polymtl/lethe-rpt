@@ -4,14 +4,13 @@
 #ifndef lethe_multiphysics_h
 #define lethe_multiphysics_h
 
-enum PhysicsID : unsigned int
-{
+enum PhysicsID : unsigned int {
   fluid_dynamics = 0,
-  heat_transfer  = 1,
-  tracer         = 2,
-  VOF            = 3,
-  cahn_hilliard  = 4,
-  void_fraction  = 5
+  heat_transfer = 1,
+  tracer = 2,
+  VOF = 3,
+  cahn_hilliard = 4,
+  void_fraction = 5
 };
 
 /**
@@ -19,8 +18,8 @@ enum PhysicsID : unsigned int
  * for multiple purposes (e.g. adaptive mesh refinement, solid domain
  * constraints).
  */
-enum class Variable : unsigned int
-{ /// Velocity vector field from fluid dynamics
+enum class Variable : unsigned int { /// Velocity vector field from fluid
+                                     /// dynamics
   velocity = 0,
   /// Pressure scalar field from fluid dynamics
   pressure = 1,
@@ -41,9 +40,7 @@ enum class Variable : unsigned int
  * parameters
  *
  */
-inline PhysicsID
-get_physics_id(std::string physics_name)
-{
+inline PhysicsID get_physics_id(std::string physics_name) {
   if (physics_name == "fluid dynamics")
     return PhysicsID::fluid_dynamics;
   else if (physics_name == "heat transfer")
@@ -57,9 +54,8 @@ get_physics_id(std::string physics_name)
   else if (physics_name == "void fraction")
     return PhysicsID::void_fraction;
   else
-    AssertThrow(false,
-                dealii::StandardExceptions::ExcMessage(
-                  "An unknown Physics name was requested"));
+    AssertThrow(false, dealii::StandardExceptions::ExcMessage(
+                           "An unknown Physics name was requested"));
 }
 
 #endif

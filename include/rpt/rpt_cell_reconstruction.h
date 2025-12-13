@@ -28,9 +28,7 @@
 
 using namespace dealii;
 
-template <int dim>
-class RPTCellReconstruction
-{
+template <int dim> class RPTCellReconstruction {
 public:
   /**
    * @brief Constructor for the RPTCellReconstruction
@@ -41,37 +39,35 @@ public:
    *
    */
   RPTCellReconstruction(
-    Parameters::RPTParameters               &rpt_parameters,
-    Parameters::RPTReconstructionParameters &rpt_reconstruction_parameters,
-    Parameters::DetectorParameters          &rpt_detector_parameters);
+      Parameters::RPTParameters &rpt_parameters,
+      Parameters::RPTReconstructionParameters &rpt_reconstruction_parameters,
+      Parameters::DetectorParameters &rpt_detector_parameters);
 
   /**
    * @brief Set up grid and find positions for every unknown particle positions.
    */
-  void
-  execute_cell_reconstruction();
+  void execute_cell_reconstruction();
 
   /**
    * @brief Calculate counts at vertices for the coarse mesh.
    */
-  void
-  set_coarse_mesh_counts();
+  void set_coarse_mesh_counts();
 
   /**
-   * @brief Find the position of the best cell that contains the unknown particle
-   * position
+   * @brief Find the position of the best cell that contains the unknown
+   * particle position
    *
-   * @param particle_reconstruction_counts Counts the the current unknown particle
-   * position for every detector
+   * @param particle_reconstruction_counts Counts the the current unknown
+   * particle position for every detector
    *
-   * @param id Index of the unknown particle, useful when "positions_evaluation" is enable
+   * @param id Index of the unknown particle, useful when "positions_evaluation"
+   * is enable
    */
   void
   find_unknown_position(std::vector<double> &particle_reconstruction_counts,
-                        unsigned int         id);
+                        unsigned int id);
 
-  void
-  find_all_positions();
+  void find_all_positions();
 
   /**
    * @brief Find the vertices position of coarse mesh vertices or the candidate
@@ -83,9 +79,8 @@ public:
    *                            Is {-1} by default when executing coarse mesh
    *                            (no parent cells)
    */
-  void
-  find_vertices_positions(unsigned int     level,
-                          std::vector<int> parent_cell_indexes = {-1});
+  void find_vertices_positions(unsigned int level,
+                               std::vector<int> parent_cell_indexes = {-1});
   /**
    * @brief Find the cell candidates indexes for the unknown particle positions
    * cells
@@ -97,13 +92,14 @@ public:
    *                            (no parent cells)
    */
   std::vector<int>
-  find_cells(unsigned int         level,
+  find_cells(unsigned int level,
              std::vector<double> &particle_reconstruction_counts,
-             std::vector<int>     parent_cell_indexes = {-1});
+             std::vector<int> parent_cell_indexes = {-1});
 
   /**
-   * @brief Find the best cell candidates indexes for the unknown particle positions
-   * with the least squared method comparing vertices counts for every detectors
+   * @brief Find the best cell candidates indexes for the unknown particle
+   * positions with the least squared method comparing vertices counts for every
+   * detectors
    *
    * @param level Level of the current cells of the mesh
    *
@@ -113,36 +109,31 @@ public:
    *
    * @param candidate List of cell candidates
    */
-  int
-  find_best_cell(unsigned int         level,
-                 std::vector<double> &particle_reconstruction_counts,
-                 std::vector<int>     candidate);
+  int find_best_cell(unsigned int level,
+                     std::vector<double> &particle_reconstruction_counts,
+                     std::vector<int> candidate);
 
   /**
    * @brief Calculate counts at new vertices
    */
-  void
-  calculate_counts();
+  void calculate_counts();
 
   /**
    * @brief Export positions and cell volumes in .csv or .dat
    */
-  void
-  export_positions();
+  void export_positions();
 
   /**
    * @brief Generate files for visualization (pvtu/vtu)
    */
-  void
-  visualize_positions();
-
+  void visualize_positions();
 
 private:
-  Triangulation<dim>                      triangulation;
-  Parameters::RPTParameters               parameters;
+  Triangulation<dim> triangulation;
+  Parameters::RPTParameters parameters;
   Parameters::RPTReconstructionParameters reconstruction_parameters;
-  Parameters::DetectorParameters          detector_parameters;
-  std::vector<Detector<dim>>              detectors;
+  Parameters::DetectorParameters detector_parameters;
+  std::vector<Detector<dim>> detectors;
 
   // All counts of the unknown particle positions
   // Data structure : [[detector_counts_0_particle_0, ...,
@@ -159,12 +150,12 @@ private:
   //                   {vertex_id_m, <vertex_position_m(x, y, z),
   //                   [detector_counts_0_particle_0, ...]>}}
   std::map<unsigned int, std::pair<Point<dim>, std::vector<double>>>
-    map_vertices_index;
+      map_vertices_index;
 
   std::vector<Point<dim>> reconstruction_positions; // Found positions
   std::vector<double>
-    cells_volumes; // Cell volumes of the cell that contains positions
-  std::vector<Point<dim>>   known_positions;  // Known positions to analyse
+      cells_volumes; // Cell volumes of the cell that contains positions
+  std::vector<Point<dim>> known_positions;    // Known positions to analyse
   std::vector<unsigned int> final_cell_level; // Level of the best cells
 
   // Status of the best cells after analyse of reconstructed positions vs real
@@ -181,6 +172,5 @@ private:
 
   TimerOutput computing_timer;
 };
-
 
 #endif // lethe_rpt_cell_reconstruction_h

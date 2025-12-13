@@ -6,16 +6,14 @@
 
 #include <core/parameters.h>
 
-template <typename VectorType>
-class PhysicsSolver;
+template <typename VectorType> class PhysicsSolver;
 
 /**
- * @brief Base class that works as an interface for all solver strategies (either non-linear or linear) for all systems of equations.
+ * @brief Base class that works as an interface for all solver strategies
+ * (either non-linear or linear) for all systems of equations.
  *
  */
-template <typename VectorType>
-class PhysicsSolverStrategy
-{
+template <typename VectorType> class PhysicsSolverStrategy {
 public:
   /**
    * @brief Constructor for the non-linear solver strategies.
@@ -27,7 +25,7 @@ public:
    * simulation parameter file.
    *
    */
-  PhysicsSolverStrategy(PhysicsSolver<VectorType>         *physics_solver,
+  PhysicsSolverStrategy(PhysicsSolver<VectorType> *physics_solver,
                         const Parameters::NonLinearSolver &params);
 
   /**
@@ -43,16 +41,13 @@ public:
    * @brief Destructor.
    *
    */
-  virtual ~PhysicsSolverStrategy()
-  {}
+  virtual ~PhysicsSolverStrategy() {}
 
   /**
    * @brief Solve the system of equations.
    *
    */
-  virtual void
-  solve() = 0;
-
+  virtual void solve() = 0;
 
   /**
    * @brief Get the current newton iteration.
@@ -60,9 +55,7 @@ public:
    * @return Iteration number.
    *
    */
-  inline unsigned int
-  get_current_newton_iteration() const
-  {
+  inline unsigned int get_current_newton_iteration() const {
     return outer_iteration;
   }
 
@@ -88,17 +81,13 @@ protected:
 
 template <typename VectorType>
 PhysicsSolverStrategy<VectorType>::PhysicsSolverStrategy(
-  PhysicsSolver<VectorType>         *physics_solver,
-  const Parameters::NonLinearSolver &params)
-  : physics_solver(physics_solver)
-  , params(params)
-  , outer_iteration(0)
-{}
+    PhysicsSolver<VectorType> *physics_solver,
+    const Parameters::NonLinearSolver &params)
+    : physics_solver(physics_solver), params(params), outer_iteration(0) {}
 
 template <typename VectorType>
 PhysicsSolverStrategy<VectorType>::PhysicsSolverStrategy(
-  PhysicsSolver<VectorType> *physics_solver)
-  : physics_solver(physics_solver)
-{}
+    PhysicsSolver<VectorType> *physics_solver)
+    : physics_solver(physics_solver) {}
 
 #endif

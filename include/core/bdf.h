@@ -34,11 +34,9 @@ using namespace dealii;
  *
  * @note At the moment, the highest implemented scheme is @p bdf3 (@p order=3).
  */
-Vector<double>
-calculate_bdf_coefficients(
-  Parameters::SimulationControl::TimeSteppingMethod method,
-  const std::vector<double>                        &time_steps);
-
+Vector<double> calculate_bdf_coefficients(
+    Parameters::SimulationControl::TimeSteppingMethod method,
+    const std::vector<double> &time_steps);
 
 /**
  * @brief Recursive function for calculating the \f$j^{th}\f$ order divided
@@ -64,11 +62,8 @@ calculate_bdf_coefficients(
  * @return Vector of \f$n\f$ divided differences (\f$\delta^j\f$) used in the
  * calculation of BDF coefficients.
  */
-Vector<double>
-delta(unsigned int          order,
-      unsigned int          n,
-      unsigned int          j,
-      const Vector<double> &times);
+Vector<double> delta(unsigned int order, unsigned int n, unsigned int j,
+                     const Vector<double> &times);
 
 /**
  * @brief Get the maximum number of previous time steps supposed by the BDF
@@ -80,11 +75,7 @@ delta(unsigned int          order,
  * @note At the moment, this is hardcoded to 3, but eventually this could be
  * made larger or smaller depending on the methods used.
  */
-inline unsigned int
-maximum_number_of_previous_solutions()
-{
-  return 3;
-}
+inline unsigned int maximum_number_of_previous_solutions() { return 3; }
 
 /**
  * @brief Get the number of previous time steps for a specific BDF scheme.
@@ -93,10 +84,8 @@ maximum_number_of_previous_solutions()
  *
  * @return Number of previous time steps used in a given BDF scheme.
  */
-inline unsigned int
-number_of_previous_solutions(
-  const Parameters::SimulationControl::TimeSteppingMethod method)
-{
+inline unsigned int number_of_previous_solutions(
+    const Parameters::SimulationControl::TimeSteppingMethod method) {
   if (method == Parameters::SimulationControl::TimeSteppingMethod::bdf1 ||
       method == Parameters::SimulationControl::TimeSteppingMethod::steady_bdf)
     return 1;
@@ -129,49 +118,41 @@ number_of_previous_solutions(
  */
 
 template <typename DataType>
-void
-bdf_extrapolate(const std::vector<double>                &time_vector,
-                const std::vector<std::vector<DataType>> &solution_vector,
-                const unsigned int     number_of_previous_solutions,
-                std::vector<DataType> &extrapolated_solution)
-{
+void bdf_extrapolate(const std::vector<double> &time_vector,
+                     const std::vector<std::vector<DataType>> &solution_vector,
+                     const unsigned int number_of_previous_solutions,
+                     std::vector<DataType> &extrapolated_solution) {
   // If only one previous solution is used, we don't make a Lagrange
   // polynomial but use the previous value
-  if (number_of_previous_solutions == 1)
-    {
-      for (unsigned int q = 0; q < extrapolated_solution.size(); ++q)
-        extrapolated_solution[q] = solution_vector[0][q];
-      return;
-    }
+  if (number_of_previous_solutions == 1) {
+    for (unsigned int q = 0; q < extrapolated_solution.size(); ++q)
+      extrapolated_solution[q] = solution_vector[0][q];
+    return;
+  }
 
   // Otherwise, we extrapolate with a Lagrange polynomial
-  for (unsigned int q = 0; q < extrapolated_solution.size(); ++q)
-    {
-      // Set extrapolated solution to zero
-      extrapolated_solution[q] = 0;
+  for (unsigned int q = 0; q < extrapolated_solution.size(); ++q) {
+    // Set extrapolated solution to zero
+    extrapolated_solution[q] = 0;
 
-      // For all the previous solutions which we will use to extrapolate
-      for (unsigned int p = 0; p < number_of_previous_solutions; ++p)
-        {
-          // Factor is the weight of the previous solution fixed by the Lagrange
-          // polynomial
-          double factor = 1;
-          for (unsigned int k = 0; k < number_of_previous_solutions; ++k)
-            {
-              if (p != k)
-                {
-                  // The time vector also contains the time of the solution to
-                  // be extrapolated to, hence the +1
-                  factor *= (time_vector[0] - time_vector[k + 1]) /
-                            (time_vector[p + 1] - time_vector[k + 1]);
-                }
-            }
-          // Calculate the contribution of this time step to the extrapolated
-          // solution
-          extrapolated_solution[q] += solution_vector[p][q] * factor;
+    // For all the previous solutions which we will use to extrapolate
+    for (unsigned int p = 0; p < number_of_previous_solutions; ++p) {
+      // Factor is the weight of the previous solution fixed by the Lagrange
+      // polynomial
+      double factor = 1;
+      for (unsigned int k = 0; k < number_of_previous_solutions; ++k) {
+        if (p != k) {
+          // The time vector also contains the time of the solution to
+          // be extrapolated to, hence the +1
+          factor *= (time_vector[0] - time_vector[k + 1]) /
+                    (time_vector[p + 1] - time_vector[k + 1]);
         }
+      }
+      // Calculate the contribution of this time step to the extrapolated
+      // solution
+      extrapolated_solution[q] += solution_vector[p][q] * factor;
     }
+  }
 }
-
 
 #endif

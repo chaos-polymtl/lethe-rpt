@@ -3,11 +3,8 @@
 
 #include <rpt/rpt_calculating_parameters.h>
 
-void
-RPTCalculatingParameters::declare(ParameterHandler &prm)
-{
-  prm.declare_entry("print parameters",
-                    "none",
+void RPTCalculatingParameters::declare(ParameterHandler &prm) {
+  prm.declare_entry("print parameters", "none",
                     Patterns::Selection("none|only changed|all"),
                     "Print all the parameters, or only"
                     "the changed parameters or none");
@@ -19,9 +16,7 @@ RPTCalculatingParameters::declare(ParameterHandler &prm)
   Parameters::RPTFEMReconstructionParameters::declare_parameters(prm);
 }
 
-void
-RPTCalculatingParameters::parse(ParameterHandler &prm)
-{
+void RPTCalculatingParameters::parse(ParameterHandler &prm) {
   rpt_param.parse_parameters(prm);
   tuning_param.parse_parameters(prm);
   detector_param.parse_parameters(prm);

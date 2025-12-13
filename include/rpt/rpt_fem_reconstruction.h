@@ -42,73 +42,63 @@
 #include <rpt/rpt_calculating_parameters.h>
 #include <rpt/rpt_utilities.h>
 
-
 #define FORCE_USE_OF_TRILINOS
-namespace LA
-{
-#if defined(DEAL_II_WITH_PETSC) && !defined(DEAL_II_PETSC_WITH_COMPLEX) && \
-  !(defined(DEAL_II_WITH_TRILINOS) && defined(FORCE_USE_OF_TRILINOS))
-  using namespace dealii::LinearAlgebraPETSc;
-#  define USE_PETSC_LA
+namespace LA {
+#if defined(DEAL_II_WITH_PETSC) && !defined(DEAL_II_PETSC_WITH_COMPLEX) &&     \
+    !(defined(DEAL_II_WITH_TRILINOS) && defined(FORCE_USE_OF_TRILINOS))
+using namespace dealii::LinearAlgebraPETSc;
+#define USE_PETSC_LA
 #elif defined(DEAL_II_WITH_TRILINOS)
-  using namespace dealii::LinearAlgebraTrilinos;
+using namespace dealii::LinearAlgebraTrilinos;
 #else
-#  error DEAL_II_WITH_PETSC or DEAL_II_WITH_TRILINOS required
+#error DEAL_II_WITH_PETSC or DEAL_II_WITH_TRILINOS required
 #endif
 } // namespace LA
 
 using namespace dealii;
 
-
-template <int dim>
-class RPTL2Projection
-{
+template <int dim> class RPTL2Projection {
 public:
   /**
    * @brief Constructor for the RPTL2Projection
    *
-   * @param rpt_parameters General parameters for photon count calculation with the Monte Carlo method and setting up the grid
-   * @param rpt_fem_reconstruction_parameters Parameters for the particle position reconstruction
-   * @param rpt_detector_parameters Parameters specifying information about the detectors for photon count calculation with the Monte Carlo method
+   * @param rpt_parameters General parameters for photon count calculation with
+   * the Monte Carlo method and setting up the grid
+   * @param rpt_fem_reconstruction_parameters Parameters for the particle
+   * position reconstruction
+   * @param rpt_detector_parameters Parameters specifying information about the
+   * detectors for photon count calculation with the Monte Carlo method
    */
   RPTL2Projection(Parameters::RPTParameters &rpt_parameters,
                   Parameters::RPTFEMReconstructionParameters
-                    &rpt_fem_reconstruction_parameters,
+                      &rpt_fem_reconstruction_parameters,
                   Parameters::DetectorParameters &rpt_detector_parameters)
-    : mpi_communicator(MPI_COMM_WORLD)
-    , fe(1)
-    , dof_handler(triangulation)
-    , mapping(FE_SimplexP<dim>(1))
-    , parameters(rpt_parameters)
-    , fem_reconstruction_parameters(rpt_fem_reconstruction_parameters)
-    , detector_parameters(rpt_detector_parameters)
-    , pcout(std::cout,
-            (Utilities::MPI::this_mpi_process(mpi_communicator) == 0))
-    , computing_timer(mpi_communicator,
-                      pcout,
-                      TimerOutput::summary,
-                      TimerOutput::wall_times)
+      : mpi_communicator(MPI_COMM_WORLD), fe(1), dof_handler(triangulation),
+        mapping(FE_SimplexP<dim>(1)), parameters(rpt_parameters),
+        fem_reconstruction_parameters(rpt_fem_reconstruction_parameters),
+        detector_parameters(rpt_detector_parameters),
+        pcout(std::cout,
+              (Utilities::MPI::this_mpi_process(mpi_communicator) == 0)),
+        computing_timer(mpi_communicator, pcout, TimerOutput::summary,
+                        TimerOutput::wall_times)
 
   {}
   /**
    * @brief Using the L2 projection, builds a dictionary of photon counts
    * with respect to a detector for given positions inside a reactor.
    */
-  void
-  L2_project();
+  void L2_project();
 
   /**
    * @brief Set up the triangulation that covers the domain of the reactor.
    */
-  void
-  setup_triangulation();
+  void setup_triangulation();
 
   /**
    * @brief Set up the system to be solved by enumerating the degrees of
    * freedom and set up the matrix and vector objects to hold the system data.
    */
-  void
-  setup_system();
+  void setup_system();
 
   /**
    * @brief Assemble matrix and right hand side that form the linear system
@@ -117,8 +107,7 @@ public:
    * @param detector_no detector_no defines the detector for which the
    * linear system is being assembled.
    */
-  void
-  assemble_system(unsigned detector_no);
+  void assemble_system(unsigned detector_no);
 
   /**
    * @brief Solve the linear system for a given detector to get the nodal
@@ -127,93 +116,83 @@ public:
    * @param detector_no detector_no defines the detector for which the linear
    * system is being solved.
    */
-  void
-  solve_linear_system(unsigned detector_no);
+  void solve_linear_system(unsigned detector_no);
 
   /**
    * @brief Outputs the solution of the linear system (nodal counts) in a
    * ".vtk" file format.
    */
-  void
-  output_results();
+  void output_results();
 
   /**
    * @brief Outputs the position of each vertex of every cell of the grid and
    * the photon count at that position for every detector in a ".dat" file
    * format.
    */
-  void
-  output_raw_results();
+  void output_raw_results();
 
   /**
    * @brief Saves the built dictionary which will be used later for the 3D
    * FEM reconstruction.
    */
-  void
-  checkpoint();
+  void checkpoint();
 
-  MPI_Comm                                   mpi_communicator;
-  Triangulation<dim>                         triangulation;
-  FE_SimplexP<dim>                           fe;
-  DoFHandler<dim>                            dof_handler;
-  MappingFE<dim>                             mapping;
-  Parameters::RPTParameters                  parameters;
+  MPI_Comm mpi_communicator;
+  Triangulation<dim> triangulation;
+  FE_SimplexP<dim> fe;
+  DoFHandler<dim> dof_handler;
+  MappingFE<dim> mapping;
+  Parameters::RPTParameters parameters;
   Parameters::RPTFEMReconstructionParameters fem_reconstruction_parameters;
-  Parameters::DetectorParameters             detector_parameters;
+  Parameters::DetectorParameters detector_parameters;
 
   std::vector<Detector<dim>> detectors;
-  unsigned int               n_detector;
+  unsigned int n_detector;
 
-  AffineConstraints<double>   constraints;
-  LA::MPI::SparseMatrix       system_matrix;
-  LA::MPI::Vector             system_rhs;
-  LA::MPI::Vector             solution;
+  AffineConstraints<double> constraints;
+  LA::MPI::SparseMatrix system_matrix;
+  LA::MPI::Vector system_rhs;
+  LA::MPI::Vector solution;
   std::vector<Vector<double>> nodal_counts;
 
   ConditionalOStream pcout;
-  TimerOutput        computing_timer;
+  TimerOutput computing_timer;
 };
 
-
-
-template <int dim>
-class RPTFEMReconstruction
-{
+template <int dim> class RPTFEMReconstruction {
 public:
   /**
    * @brief Constructor for the RPTFEMReconstruction
    *
-   * @param rpt_parameters General parameters for photon count calculation with the Monte Carlo method and setting up the grid
-   * @param rpt_fem_reconstruction_parameters Parameters for the particle position reconstruction
-   * @param rpt_detector_parameters Parameters specifying information about the detectors for photon count calculation with the Monte Carlo method
+   * @param rpt_parameters General parameters for photon count calculation with
+   * the Monte Carlo method and setting up the grid
+   * @param rpt_fem_reconstruction_parameters Parameters for the particle
+   * position reconstruction
+   * @param rpt_detector_parameters Parameters specifying information about the
+   * detectors for photon count calculation with the Monte Carlo method
    */
   RPTFEMReconstruction(Parameters::RPTParameters &rpt_parameters,
                        Parameters::RPTFEMReconstructionParameters
-                         &rpt_fem_reconstruction_parameters,
+                           &rpt_fem_reconstruction_parameters,
                        Parameters::DetectorParameters &rpt_detector_parameters)
-    : fe(1)
-    , dof_handler(triangulation)
-    , mapping(FE_SimplexP<dim>(1))
-    , parameters(rpt_parameters)
-    , fem_reconstruction_parameters(rpt_fem_reconstruction_parameters)
-    , detector_parameters(rpt_detector_parameters)
-    , computing_timer(std::cout, TimerOutput::summary, TimerOutput::wall_times)
-  {}
+      : fe(1), dof_handler(triangulation), mapping(FE_SimplexP<dim>(1)),
+        parameters(rpt_parameters),
+        fem_reconstruction_parameters(rpt_fem_reconstruction_parameters),
+        detector_parameters(rpt_detector_parameters),
+        computing_timer(std::cout, TimerOutput::summary,
+                        TimerOutput::wall_times) {}
 
   /**
    * @brief Reconstruction of the particle positions with the counts from the
    * detectors.
    */
-  void
-  rpt_fem_reconstruct();
-
+  void rpt_fem_reconstruct();
 
 private:
   /**
    * @brief Set up the triangulation that covers the domain of the reactor.
    */
-  void
-  setup_triangulation();
+  void setup_triangulation();
 
   /**
    * @brief Calculates the cost with the selected cost function of the found
@@ -232,12 +211,10 @@ private:
    * @return cost It is calculated with the cost function mentioned in the
    * parameter file.
    */
-  double
-  calculate_cost(
-    const TriaActiveIterator<DoFCellAccessor<dim, dim, false>> &cell,
-    Vector<double>      &reference_location,
-    const double        &last_constraint,
-    std::vector<double> &experimental_count);
+  double calculate_cost(
+      const TriaActiveIterator<DoFCellAccessor<dim, dim, false>> &cell,
+      Vector<double> &reference_location, const double &last_constraint,
+      std::vector<double> &experimental_count);
 
   /**
    * @brief Evaluates the error vector of the found location in reference
@@ -250,9 +227,8 @@ private:
    *
    * @return norm_error_coordinates
    */
-  double
-  calculate_reference_location_error(Vector<double> &reference_location,
-                                     const double   &last_constraint);
+  double calculate_reference_location_error(Vector<double> &reference_location,
+                                            const double &last_constraint);
 
   /**
    * @brief Searches in the reference space the position of the particle.
@@ -275,16 +251,13 @@ private:
    * and 'false' if the particle's position couldn't be found
    * @param real_location Position of the particle in system coordinates
    */
-  void
-  search_position_in_reference_space(
-    std::vector<std::vector<double>> &count_from_all_detectors,
-    std::vector<double>              &experimental_count,
-    const typename DoFHandler<dim>::active_cell_iterator &cell,
-    const double   &tol_reference_location,
-    double         &max_cost,
-    Vector<double> &reference_location,
-    bool           &position_found,
-    Point<dim>     &real_location);
+  void search_position_in_reference_space(
+      std::vector<std::vector<double>> &count_from_all_detectors,
+      std::vector<double> &experimental_count,
+      const typename DoFHandler<dim>::active_cell_iterator &cell,
+      const double &tol_reference_location, double &max_cost,
+      Vector<double> &reference_location, bool &position_found,
+      Point<dim> &real_location);
 
   /**
    * @brief Finds and saves the position of the particle in system coordinates.
@@ -298,9 +271,8 @@ private:
    * @return 'true' if the particle's position was found and 'false' if the
    * particle's position couldn't be found
    */
-  bool
-  find_position_global_search(std::vector<double> &experimental_counts,
-                              const double         tol_reference_location);
+  bool find_position_global_search(std::vector<double> &experimental_counts,
+                                   const double tol_reference_location);
 
   /**
    * @brief Finds and saves the position of the particle in system coordinates
@@ -316,51 +288,46 @@ private:
    * @return 'true' if the particle's position was found and 'false' if the
    * particle's position couldn't be found
    */
-  bool
-  find_position_local_search(std::vector<double> &experimental_counts,
-                             const double         tol_reference_location);
+  bool find_position_local_search(std::vector<double> &experimental_counts,
+                                  const double tol_reference_location);
 
   /**
    * @brief Reads the file with the experimental counts and finds the
    * particles' positions by calling the "find_cell" function.
    */
-  void
-  trajectory();
+  void trajectory();
 
   /**
-   * @brief Saves the built dictionary so it may be used later for the 3D particle position
-   * reconstruction.
+   * @brief Saves the built dictionary so it may be used later for the 3D
+   * particle position reconstruction.
    */
-  void
-  checkpoint();
+  void checkpoint();
 
   /**
    * @brief Loads the previously built dictionary for the 3D particle position
    * reconstruction.
    */
-  void
-  load_from_checkpoint();
+  void load_from_checkpoint();
 
   /**
    * @brief Exports found particle positions in a the specified file format.
    * If not specified, it will be exported in a ".csv" file format.
    */
-  void
-  export_found_positions();
+  void export_found_positions();
 
-  Triangulation<dim>                         triangulation;
-  FE_SimplexP<dim>                           fe;
-  DoFHandler<dim>                            dof_handler;
-  RPTCalculatingParameters                   rpt_parameters;
-  MappingFE<dim>                             mapping;
-  Parameters::RPTParameters                  parameters;
+  Triangulation<dim> triangulation;
+  FE_SimplexP<dim> fe;
+  DoFHandler<dim> dof_handler;
+  RPTCalculatingParameters rpt_parameters;
+  MappingFE<dim> mapping;
+  Parameters::RPTParameters parameters;
   Parameters::RPTFEMReconstructionParameters fem_reconstruction_parameters;
-  Parameters::DetectorParameters             detector_parameters;
+  Parameters::DetectorParameters detector_parameters;
 
-  std::vector<Detector<dim>>                     detectors;
-  unsigned int                                   n_detector;
-  std::vector<Vector<double>>                    nodal_counts;
-  std::vector<Point<dim>>                        found_positions;
+  std::vector<Detector<dim>> detectors;
+  unsigned int n_detector;
+  std::vector<Vector<double>> nodal_counts;
+  std::vector<Point<dim>> found_positions;
   typename DoFHandler<dim>::active_cell_iterator previous_position_cell;
 
   TimerOutput computing_timer;
@@ -382,11 +349,10 @@ private:
  * @return Calculated reference position
  */
 template <int dim>
-Vector<double>
-assemble_matrix_and_rhs(
-  std::vector<std::vector<double>> &vertex_count,
-  std::vector<double>              &experimental_count,
-  Parameters::RPTFEMReconstructionParameters::FEMCostFunction
-    &cost_function_type);
+Vector<double> assemble_matrix_and_rhs(
+    std::vector<std::vector<double>> &vertex_count,
+    std::vector<double> &experimental_count,
+    Parameters::RPTFEMReconstructionParameters::FEMCostFunction
+        &cost_function_type);
 
 #endif

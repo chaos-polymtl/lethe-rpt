@@ -17,9 +17,7 @@ using namespace dealii;
  * attributes such as name and data component interpretation. This version of
  * the struct uses Postprocessors.
  */
-template <int dim, typename VectorType>
-struct OutputStructPostprocessor
-{
+template <int dim, typename VectorType> struct OutputStructPostprocessor {
   /**
    * @brief Constructor for when data is in data_postprocessor.
    *
@@ -29,15 +27,12 @@ struct OutputStructPostprocessor
    *
    */
   OutputStructPostprocessor(
-    const DoFHandler<dim>                        &dof_handler,
-    const VectorType                             &solution,
-    const std::shared_ptr<DataPostprocessor<dim>> data_postprocessor)
-    : dof_handler(dof_handler)
-    , solution(solution)
-    , data_postprocessor(data_postprocessor)
-  {}
-  const DoFHandler<dim>                        &dof_handler;
-  const VectorType                             &solution;
+      const DoFHandler<dim> &dof_handler, const VectorType &solution,
+      const std::shared_ptr<DataPostprocessor<dim>> data_postprocessor)
+      : dof_handler(dof_handler), solution(solution),
+        data_postprocessor(data_postprocessor) {}
+  const DoFHandler<dim> &dof_handler;
+  const VectorType &solution;
   const std::shared_ptr<DataPostprocessor<dim>> data_postprocessor;
 };
 
@@ -49,9 +44,7 @@ struct OutputStructPostprocessor
  * the struct uses the DoF handler, the present solution field, and the data
  * component interpretation vector.
  */
-template <int dim, typename VectorType>
-struct OutputStructSolution
-{
+template <int dim, typename VectorType> struct OutputStructSolution {
   /**
    * @brief Constructor for when data is not related to a data_postprocessor.
    *
@@ -62,21 +55,19 @@ struct OutputStructSolution
    * interpretation of the solution.
    */
   OutputStructSolution(
-    const DoFHandler<dim>          &dof_handler,
-    const VectorType               &solution,
-    const std::vector<std::string> &solution_names,
-    const std::vector<DataComponentInterpretation::DataComponentInterpretation>
-      &data_component_interpretation)
-    : dof_handler(dof_handler)
-    , solution(solution)
-    , solution_names(solution_names)
-    , data_component_interpretation(data_component_interpretation)
-  {}
-  const DoFHandler<dim>         &dof_handler;
-  const VectorType              &solution;
+      const DoFHandler<dim> &dof_handler, const VectorType &solution,
+      const std::vector<std::string> &solution_names,
+      const std::vector<
+          DataComponentInterpretation::DataComponentInterpretation>
+          &data_component_interpretation)
+      : dof_handler(dof_handler), solution(solution),
+        solution_names(solution_names),
+        data_component_interpretation(data_component_interpretation) {}
+  const DoFHandler<dim> &dof_handler;
+  const VectorType &solution;
   const std::vector<std::string> solution_names;
   const std::vector<DataComponentInterpretation::DataComponentInterpretation>
-    data_component_interpretation;
+      data_component_interpretation;
 };
 
 /**
@@ -86,8 +77,7 @@ struct OutputStructSolution
  * attributes such as name and data component interpretation. This version of
  * the struct uses a cell-based field parsed as a Vector and the solution name.
  */
-struct OutputStructCellVector
-{
+struct OutputStructCellVector {
   /**
    * @brief Constructor for when data is not related to a data_postprocessor.
    *
@@ -95,12 +85,10 @@ struct OutputStructCellVector
    * @param[in] solution_name String containing solution name.
    */
   OutputStructCellVector(const Vector<float> &solution,
-                         const std::string   &solution_name)
-    : solution(solution)
-    , solution_name(solution_name)
-  {}
+                         const std::string &solution_name)
+      : solution(solution), solution_name(solution_name) {}
   const Vector<float> solution;
-  const std::string   solution_name;
+  const std::string solution_name;
 };
 
 /**
@@ -111,9 +99,9 @@ struct OutputStructCellVector
  * OutputStruct.
  */
 template <int dim, typename VectorType>
-using OutputStruct = std::variant<OutputStructPostprocessor<dim, VectorType>,
-                                  OutputStructSolution<dim, VectorType>,
-                                  OutputStructCellVector>;
+using OutputStruct =
+    std::variant<OutputStructPostprocessor<dim, VectorType>,
+                 OutputStructSolution<dim, VectorType>, OutputStructCellVector>;
 
 /**
  * @brief Struct containing information about the table handlers to be
@@ -122,8 +110,7 @@ using OutputStruct = std::variant<OutputStructPostprocessor<dim, VectorType>,
  * checkpoint by the solver used, and a vector of references to strings
  * containing the names of the corresponding files.
  */
-struct OutputStructTableHandler
-{
+struct OutputStructTableHandler {
   /**
    * @brief Constructor
    *
@@ -131,11 +118,9 @@ struct OutputStructTableHandler
    * serialized/ deserialized.
    * @param[in] table_filename A string with the corresponding file name.
    */
-  OutputStructTableHandler(TableHandler      &table,
+  OutputStructTableHandler(TableHandler &table,
                            const std::string &table_filename)
-    : table(table)
-    , table_filename(table_filename)
-  {}
+      : table(table), table_filename(table_filename) {}
   /// Reference to the TableHandler object to be serialized/deserialized
   TableHandler &table;
   /// Name of the file associated with the TableHandler for input/output

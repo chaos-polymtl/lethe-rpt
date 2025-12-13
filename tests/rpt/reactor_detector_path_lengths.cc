@@ -16,9 +16,7 @@
 
 #include <vector>
 
-void
-test()
-{
+void test() {
   // Particle positions
   Point<3> P0 = {0, 0, 0};       // rho > r | h > 0
   Point<3> P1 = {0.5, 0, 0};     // rho > r | h = 0
@@ -31,10 +29,8 @@ test()
   RadioParticle<3> position3(P3, 2);
 
   const unsigned int n_particle = 4;
-  RadioParticle<3>   particle_positions[n_particle]{position0,
-                                                    position1,
-                                                    position2,
-                                                    position3};
+  RadioParticle<3> particle_positions[n_particle]{position0, position1,
+                                                  position2, position3};
 
   // Detector positions
   Parameters::DetectorParameters detector_param;
@@ -43,8 +39,8 @@ test()
   detector_param.dead_time.push_back(1);
   detector_param.activity.push_back(1);
   detector_param.attenuation_coefficient_reactor.push_back(1);
-  Point<3>    FP = {0.5, 0, 1};
-  Point<3>    MP = {1, 0, 1};
+  Point<3> FP = {0.5, 0, 1};
+  Point<3> MP = {1, 0, 1};
   Detector<3> detector(detector_param, 0, FP, MP);
 
   // Other parameters
@@ -56,66 +52,57 @@ test()
   double n_alpha[3] = {0.1, 0.75, 0.5};
   double n_theta[3] = {0.1, 0.75, 0};
 
-  for (unsigned int i_particle = 0; i_particle < n_particle; i_particle++)
-    {
-      for (unsigned int i_n = 0; i_n < 3; i_n++)
-        {
-          ParticleDetectorInteractions<3> particle_detector_interactions(
-            particle_positions[i_particle], detector, rpt_param);
+  for (unsigned int i_particle = 0; i_particle < n_particle; i_particle++) {
+    for (unsigned int i_n = 0; i_n < 3; i_n++) {
+      ParticleDetectorInteractions<3> particle_detector_interactions(
+          particle_positions[i_particle], detector, rpt_param);
 
-          double detector_path_length =
-            particle_detector_interactions.get_detector_path_length(
-              n_alpha[i_n], n_theta[i_n]);
-          double reactor_path_length =
-            particle_detector_interactions.get_reactor_path_length(
-              n_alpha[i_n], n_theta[i_n]);
+      double detector_path_length =
+          particle_detector_interactions.get_detector_path_length(n_alpha[i_n],
+                                                                  n_theta[i_n]);
+      double reactor_path_length =
+          particle_detector_interactions.get_reactor_path_length(n_alpha[i_n],
+                                                                 n_theta[i_n]);
 
-          deallog << "Particle position " << i_particle
-                  << " : detector path length = " << detector_path_length
-                  << std::endl;
-          deallog << "                      reactor path length =  "
-                  << reactor_path_length << std::endl;
-          deallog << "                      n_alpha = " << n_alpha[i_n]
-                  << std::endl;
-          deallog << "                      n_theta = " << n_theta[i_n]
-                  << std::endl;
-        }
+      deallog << "Particle position " << i_particle
+              << " : detector path length = " << detector_path_length
+              << std::endl;
+      deallog << "                      reactor path length =  "
+              << reactor_path_length << std::endl;
+      deallog << "                      n_alpha = " << n_alpha[i_n]
+              << std::endl;
+      deallog << "                      n_theta = " << n_theta[i_n]
+              << std::endl;
     }
+  }
 }
 
-int
-main(int argc, char **argv)
-{
-  try
-    {
-      initlog();
-      test();
-    }
-  catch (std::exception &exc)
-    {
-      std::cerr << std::endl
-                << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      std::cerr << "Exception on processing: " << std::endl
-                << exc.what() << std::endl
-                << "Aborting!" << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      return 1;
-    }
-  catch (...)
-    {
-      std::cerr << std::endl
-                << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      std::cerr << "Unknown exception!" << std::endl
-                << "Aborting!" << std::endl
-                << "----------------------------------------------------"
-                << std::endl;
-      return 1;
-    }
+int main(int argc, char **argv) {
+  try {
+    initlog();
+    test();
+  } catch (std::exception &exc) {
+    std::cerr << std::endl
+              << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    std::cerr << "Exception on processing: " << std::endl
+              << exc.what() << std::endl
+              << "Aborting!" << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    return 1;
+  } catch (...) {
+    std::cerr << std::endl
+              << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    std::cerr << "Unknown exception!" << std::endl
+              << "Aborting!" << std::endl
+              << "----------------------------------------------------"
+              << std::endl;
+    return 1;
+  }
 
   return 0;
 }

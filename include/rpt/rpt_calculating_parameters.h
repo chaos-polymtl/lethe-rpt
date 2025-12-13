@@ -15,24 +15,19 @@
 
 #include <rpt/parameters_rpt.h>
 
-class RPTCalculatingParameters
-{
+class RPTCalculatingParameters {
 public:
-  RPTCalculatingParameters()
-  {}
+  RPTCalculatingParameters() {}
 
-  void
-  declare(ParameterHandler &prm);
+  void declare(ParameterHandler &prm);
 
-  void
-  parse(ParameterHandler &prm);
+  void parse(ParameterHandler &prm);
 
-  Parameters::RPTParameters                  rpt_param;
-  Parameters::RPTTuningParameters            tuning_param;
-  Parameters::DetectorParameters             detector_param;
-  Parameters::RPTReconstructionParameters    reconstruction_param;
+  Parameters::RPTParameters rpt_param;
+  Parameters::RPTTuningParameters tuning_param;
+  Parameters::DetectorParameters detector_param;
+  Parameters::RPTReconstructionParameters reconstruction_param;
   Parameters::RPTFEMReconstructionParameters fem_reconstruction_param;
 };
-
 
 #endif // LETHE_RPT_CALCULATING_PARAMETERS_H
